@@ -13,7 +13,6 @@ if keyword_set(rgbthresh) then begin
       maxval=rgbthresh[1]-rgbthresh[0] 
    endelse
 endif else begin
-  ; GV failsafe against NANs, just in case
    maxval=max(coco_data_rgb, /NAN)
 endelse
 return, round(255D*coco_data_rgb/maxval)

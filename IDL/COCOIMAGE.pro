@@ -12,8 +12,6 @@ endif else begin
    nx=sz[1]
    ny=sz[2]
 endelse
-; GV: cocoplot() already handles whether rgbthresh and/or threshmethod are set,
-; so no need to do it here
 w = WINDOW(DIMENSIONS=[nx,ny], BUFFER=keyword_set(quiet))
 temp_image=image(COCOPLOT(coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=threshmethod), $
   IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)

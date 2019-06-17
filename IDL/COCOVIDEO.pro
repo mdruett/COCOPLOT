@@ -7,13 +7,11 @@ PRO COCOVIDEO, coco_datacube, filter, filepath, fps, startstop=startstop, rgbthr
 ; frames per second (FPS)
 ; keyword start and stop indices for time dimension
 ; generates a CoCo video
-; GV size() is faster and used in the old else clause anyway
-; removed nl definition that wasn't used
 sz = size(coco_datacube)
 nx = sz[1]
 ny = sz[2]
 nt = sz[4]
-if (n_elements(dims) eq 2) then begin ; GV now an override of nx,ny if supplied
+if (n_elements(dims) eq 2) then begin 
    nx=dims[0]
    ny=dims[1]
 endif 
@@ -23,10 +21,6 @@ video_stream_name =video_object_name.addvideostream(nx, ny, fps)
 IF KEYWORD_SET(loud) THEN BEGIN
    w=WINDOW(DIMENSIONS=[nx,ny])
    FOR i_loop=startstop[0],startstop[1] DO BEGIN
-      ; GV COCOPLOT() handles rgbthresh/threshmethod setting
-      ; Also removed REFORM() as coco_datacube[*,*,*,i_loop] will already be a
-      ; 3D array (trailing dimension automatically cut off by IDL if it has only
-      ; 1 element)
       my_image=COCOSHOW(COCOPLOT(coco_datacube[*,*,*,i_loop], filter, rgbthresh=rgbthresh, threshmethod=threshmethod), $
         current=1, dims=[nx, ny])
       timestamp = video_object_name.put(video_stream_name, my_image)

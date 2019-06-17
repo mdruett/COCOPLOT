@@ -4,7 +4,7 @@ function COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, f
 ; Takes an rgb integer array 
 ; displays (unless quiet) and returns and image
 ; can specify image dimensions as a two element array with keyword dims
-if (n_elements(dims) eq 2) then begin   ; GV see earlier keyword_set() comment
+if (n_elements(dims) eq 2) then begin   
    nx=dims[0]
    ny=dims[1]
 endif else begin
