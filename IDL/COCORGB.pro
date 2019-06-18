@@ -15,9 +15,9 @@ if keyword_set(rgbthresh) then begin
 	  end
    'numeric': datarange=rgbthresh
    'percentile': datarange=cgPercentiles(coco_datacube, PERCENTILES=rgbthresh)
-   else: print, "threshmethod not recognised. Should be 'fraction', 'numeric' or 'percentile'."
+   else: message, "threshmethod not recognised. Should be 'fraction', 'numeric' or 'percentile'.", /info
    endcase
-   if (min(finite(datarange)) eq 0) then print, "NAN or INFINTE data detected in requested range."
+   if (min(finite(datarange)) eq 0) then message, "NAN or INFINTE data detected in requested range.", /info
    iw=where(coco_datacube gt datarange[1], count)
    if (count ne 0) then coco_datacube[iw]=datarange[1]
    iw=where(coco_datacube lt datarange[0], count)
