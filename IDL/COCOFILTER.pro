@@ -34,7 +34,7 @@ function COCOFILTER, wavelengths, filtertype=filtertype, r=r, g=g, b=b
 ;                            distribution functions used in the rgb filters, if not given
 ;                            then the means default to the begining, mid-point and 
 ;                            end wavelengths, with 1.96 sd between each filter
-;
+;                 Defaults to 'normal'.
 ;	  R:  Scalar or 2-element array specifying the position, band boundaries or
 ;       mean and standard deviation of the red filter.
 ;	  G:  Scalar or 2-element array specifying the position, band boundaries or
@@ -63,6 +63,7 @@ function COCOFILTER, wavelengths, filtertype=filtertype, r=r, g=g, b=b
       wavelengths_filt=indgen(wavelengths)
 	  nlambda=wavelengths
    endelse
+   if (n_elements(filtertype) ne 1) then filtertype = 'normal'  
    case filtertype of
    'single': begin
       filter=make_array(nlambda,3,/double,value=0)
