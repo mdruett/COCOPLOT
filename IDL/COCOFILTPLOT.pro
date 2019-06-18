@@ -37,11 +37,14 @@ function COCOFILTPLOT, profile, filter, wavelengths=wavelengths, color=color, xt
    convprof[*,2]=normprofile * reform(normfilter[*,2])
 
     myplot=plot(wavelengths,normprofile, xtitle=xtitle, ytitle=ytitle, title=title, thick=thick, color=rgb_int, sym='o', sym_filled=1, buffer=buffer)
-    myplot=plot(wavelengths,reform(normfilter[*,0]), xtitle=xtitle, ytitle=ytitle, title=title, thick=thick, color=[255,0,0], sym='o', sym_filled=1, linestyle='--', /current, /overplot)
-    myplot=plot(wavelengths,reform(normfilter[*,1]), xtitle=xtitle, ytitle=ytitle, title=title, thick=thick, color=[0,255,0], sym='o', sym_filled=1, linestyle='--', /current, /overplot)
-    myplot=plot(wavelengths,reform(normfilter[*,2]), xtitle=xtitle, ytitle=ytitle, title=title, thick=thick, color=[0,0,255], sym='o', sym_filled=1, linestyle='--', /current, /overplot)
-    myplot=plot(wavelengths,reform(convprof[*,0]), xtitle=xtitle, ytitle=ytitle, title=title, thick=thick, color=[255,0,0], sym='o', sym_filled=1, linestyle='-', /current, /overplot)
-    myplot=plot(wavelengths,reform(convprof[*,1]), xtitle=xtitle, ytitle=ytitle, title=title, thick=thick, color=[0,255,0], sym='o', sym_filled=1, linestyle='-', /current, /overplot)
-    myplot=plot(wavelengths,reform(convprof[*,2]), xtitle=xtitle, ytitle=ytitle, title=title, thick=thick, color=[0,0,255], sym='o', sym_filled=1, linestyle='-', /current, /overplot)
-return, myplot
+    for i=0,2 do begin
+      myplot=plot(wavelengths,reform(normfilter[*,i]), xtitle=xtitle, $
+        ytitle=ytitle, title=title, thick=thick, color=shift([255,0,0],i), sym='o', $
+        sym_filled=1, linestyle='--', /current, /overplot)
+      myplot=plot(wavelengths,reform(convprof[*,i]), xtitle=xtitle, $
+        ytitle=ytitle, title=title, thick=thick, color=shift([255,0,0],i), sym='o', $
+        sym_filled=1, linestyle='-', /current, /overplot)
+    endfor
+
+    return, myplot
 end
