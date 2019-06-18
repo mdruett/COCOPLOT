@@ -1,12 +1,48 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 PRO COCOVIDEO, coco_datacube, filter, filepath, fps, startstop=startstop, rgbthresh=rgbthresh, threshmethod=threshmethod, loud=loud, dims=dims
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; takes a 4D coco_datacube: (x, y, lambda, t)
-; 3 RGB filters over the lambda values
-; a filepath inc filename and ending
-; frames per second (FPS)
-; keyword start and stop indices for time dimension
-; generates a CoCo video
+;+
+; NAME:
+;	  COCOVIDEO
+;
+; PURPOSE:
+;	  Generate and save an animation of COCOPLOT images
+;
+; CATEGORY:
+;	  COCOPLOT visualisation
+;
+; CALLING SEQUENCE:
+;	  Result = COCOVIDEO(coco_data_rgb_int)
+;
+; INPUTS:
+;	  coco_datacube:  Input 4D data cube of dimensions [nx, ny, nWavelengths, nt]
+;   filter:         Filter of dimensions [nWavelengths, 3] 
+;   filepath:       Output path and filename.
+;   fps:            Frames per second
+;
+; KEYWORD PARAMETERS:
+;   startstop:    Start and stop indices for time dimension. Defaults to
+;                 [0,nt-1]
+;	  rgbthresh:    Flag to apply saturation thresholding. Defaults to not set.
+;   threshmethod: Scalar string specifying the Saturation thresholding method.
+;                 Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
+;   loud:         Display the video. Defaults to not set.
+;   dims:         image dimensions for display. Defaults to [nx, ny] of
+;                 input coco_datacube.
+;
+; OUTPUTS:
+;	  Save a series of COCOPLOT images as an animation.
+;
+; RESTRICTIONS:
+;   Requires the following procedures and functions:
+;     Functions:  IDLFFVIDEOWRITE(), COCOPLOT(), COCOIMAGE(), COCOSHOW()
+;
+; EXAMPLE:
+;   TBD
+;
+; MODIFICATION HISTORY:
+; 	Written by:	Malcolm Druett, May 2019
+;-
   sz = size(coco_datacube)
   nx = sz[1]
   ny = sz[2]

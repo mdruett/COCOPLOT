@@ -1,8 +1,42 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 function COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=threshmethod
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Takes a datacube and three filters
-; Collapses the datacube to an [nx, ny, 3] RGB-style array of floats
+;+
+; NAME:
+;	  COCORGB
+;
+; PURPOSE:
+;	  Collapse a 3D datacube to a single RGB image.
+;
+; CATEGORY:
+;	  COCOPLOT core
+;
+; CALLING SEQUENCE:
+; 
+;	  Result = COCORGB(coco_datacube_in, filter) 
+;
+; INPUTS:
+;	  coco_datacube:  Input data cube of dimensions [nx, ny, nWavelengths]
+;   filter:         Filter of dimensions [nWavelengths, 3] 
+;
+; KEYWORD PARAMETERS:
+;	  rgbthresh:      Flag to apply saturation thresholding. Defaults to not set.
+;   threshmethod:   Scalar string specifying the Saturation thresholding method.
+;                   Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
+;
+; OUTPUTS:
+;	  3D array of dimensions [nx, ny, 3] 
+;
+; RESTRICTIONS:
+;   Requires the following procedures and functions:
+;     Functions: cgPercentiles()  [coyote IDL library]
+;
+; EXAMPLE:
+;   TBD
+;
+; MODIFICATION HISTORY:
+; 	Written by:	Malcolm Druett, May 2019
+;-
 coco_datacube=coco_datacube_in
 dims=size(coco_datacube)
 ; Thresholding: saturation at max and zero at min values

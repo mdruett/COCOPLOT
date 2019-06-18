@@ -1,9 +1,47 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 function COCOIMAGE, coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=threshmethod, quiet=quiet, dims=dims, filepath=filepath, name=name
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Takes an rgb integer array 
-; displays (unless quiet) and returns and image
-; can specify image dimensions as a two element array with keyword dims
+;+
+; NAME:
+;	  COCOIMAGE
+;
+; PURPOSE:
+;	  Return and/or display and/or save a COCOPLOT image.
+;
+; CATEGORY:
+;	  COCOPLOT visualisation
+;
+; CALLING SEQUENCE:
+;	  Result = COCOIMAGE(coco_datacube, filter)
+;
+; INPUTS:
+;	  coco_datacube:  Input data cube of dimensions [nx, ny, nWavelengths]
+;   filter:         Filter of dimensions [nWavelengths, 3] 
+;
+; KEYWORD PARAMETERS:
+;	  rgbthresh:    Flag to apply saturation thresholding. Defaults to not set.
+;   threshmethod: Scalar string specifying the Saturation thresholding method.
+;                 Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
+;   quiet:        Do not pop-up display image. Defaults to not set.
+;   dims:         image dimensions for display. Defaults to [nx, ny] of
+;                 input coco_datacube.
+;   filepath:     Output path.
+;   name:         Output file name.
+;
+; OUTPUTS:
+;	  Return and/or display and/or save a COCOPLOT image.
+;
+; RESTRICTIONS:
+;   Requires the following procedures and functions:
+;     Procedures: WRITE_PNG
+;     Functions: COCOPLOT(), IMAGE(), WINDOW()
+;
+; EXAMPLE:
+;   TBD
+;
+; MODIFICATION HISTORY:
+; 	Written by:	Malcolm Druett, May 2019
+;-
   if (n_elements(dims) eq 2) then begin 
      nx=dims[0]
      ny=dims[1]

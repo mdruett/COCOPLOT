@@ -1,9 +1,47 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 function COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, filepath=filepath, name=name
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Takes an rgb integer array 
-; displays (unless quiet) and returns and image
-; can specify image dimensions as a two element array with keyword dims
+;+
+; NAME:
+;	  COCOSHOW
+;
+; PURPOSE:
+;	  Return and/or display and/or save a COCOPLOT image.
+;
+; CATEGORY:
+;	  COCOPLOT visualisation
+;
+; CALLING SEQUENCE:
+;	  Result = COCOSHOW(coco_data_rgb_int)
+;
+; INPUTS:
+;	  coco_data_rgb_int: 3D COCOPLOT RGB image of dimensions [nx, ny, 3]
+;
+; KEYWORD PARAMETERS:
+;	  rgbthresh:    Flag to apply saturation thresholding. Defaults to not set.
+;   threshmethod: Scalar string specifying the Saturation thresholding method.
+;                 Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
+;   quiet:        Do not pop-up display image. Defaults to not set.
+;   current:      Flag to plot in current window. Defaults to not set.
+;   dims:         image dimensions for display. Defaults to [nx, ny] of
+;                 input coco_datacube.
+;   filepath:     Output path.
+;   name:         Output file name.
+;
+; OUTPUTS:
+;	  Return and/or display and/or save a COCOPLOT image.
+;
+; RESTRICTIONS:
+;   Requires the following procedures and functions:
+;     Procedures: WRITE_PNG
+;     Functions:  IMAGE(), WINDOW()
+;
+; EXAMPLE:
+;   TBD
+;
+; MODIFICATION HISTORY:
+; 	Written by:	Malcolm Druett, May 2019
+;-
   if (n_elements(dims) eq 2) then begin   
      nx=dims[0]
      ny=dims[1]
