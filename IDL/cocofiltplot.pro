@@ -65,6 +65,7 @@ function COCOFILTPLOT, profile, filter, wavelengths=wavelengths, color=color, xt
    convprof[*,2]=normprofile * reform(normfilter[*,2])
 
     myplot=plot(wavelengths,normprofile, xtitle=xtitle, ytitle=ytitle, title=title, thick=thick, color=rgb_int, sym='o', sym_filled=1, buffer=buffer)
+    myplot.xstyle = 1
     for i=0,2 do begin
       myplot=plot(wavelengths,reform(normfilter[*,i]), xtitle=xtitle, $
         ytitle=ytitle, title=title, thick=thick, color=shift([255,0,0],i), sym='o', $
