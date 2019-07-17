@@ -6,115 +6,133 @@ import astropy.io.fits as f
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-def cocofilter(wavelengths, filtername, pos_rgb, plot=0):
+def cocofilter(wavelengths, filtername, rgb_pos ='default', plot=0):
     '''
-    Make filters for cocoplot
-    INPUT:
+        Make filters for cocoplot
+        INPUT:
         wavelengths     : a set of wavelengths or an np.arange() array if spacing is equidistant.
         filtername      : name of desired filter type. Chose from.
-
-                        'single' :  single wavelength points
-                                    uses keyword pos_rgb[r,g,b]
-                                    specify which wavength points wanted
-                                    with r,g,b
-                                    
-                        'band'   :  bands of wavelength points
-                                    uses keyword pos_rgb[r,g,b]
-                                    specify which wavength points are wanted
-                                    to start the bands with r,g,b
-                                    Give a two number list for each color
-                                    to indicate the begining and end wavelength
-                                    note that the end wavelength is not included!
-                                    e.g. [[2, 3], [3, 4], [6, 7]]
-                                    
-                        'normal'    :  exponential filters, like the cones of the eye
-                                    uses keyword pos_rgb[r,g,b]
-                                    specify which wavength points are wanted
-                                    to start the bands with r,g,b
-                                    Give a two number list for each color
-                                    to indicate the mean and std of each Gaussian.
-                                    e.g. [[wavelength[index], std], [5, 3], [11, 3]]
-                                    
-        pos_rgb         : input list with desired filter locations.
+        
+        'single' :  single wavelength points uses keyword rgb_pos[r,g,b]
+        r,g,b should be array elements not array values!
+        default values are [n,n/2,0] for an array of length n
+        
+        
+        'band'   :  bands of wavelength points uses keyword rgb_pos[r,g,b]
+        specify which wavength points are wanted to start the bands with r,g,b
+        Give a two number list for each color to indicate the begining and end wavelength. These should be array elenents and not array values!
+        note that the end wavelength is not included!
+        e.g. [[0, 3], [3, 4], [6, 7]]
+        
+        'normal' :  exponential filters, like the cones of the eye
+        uses keyword rgb_pos[r,g,b], this takes the array values not elements!
+        Give a two number list for each color
+        to indicate the mean and std of each Gaussian.
+        e.g. [[wavelength[index], std], [5, 3], [11, 3]]
+        
+        rgb_pos         : input list with desired filter locations. See filtername keyword for default values
         plot            : plots filters. Default = 0
-    
-    OUTPUT:
+        
+        OUTPUT:
         filter          : 3 channel cube with length (wavelengths, 3) with applied filter
         
-        Based on coco.pro:COCOFILTERS by M. Druett, Python version by A.G.M. Pietrow
-    
-    EXAMPLE:
+        HISTORY:
+        Based on coco.pro:COCOFILTERS by M. Druett, Python version by A.G.M. Pietrow, May 2019
+        Added default values and minor updates, A Pietrow, Jul 2019
+        
+        EXAMPLE:
         wavelengths = np.arange(10)
         cocofilter(wavelengths, 'band', [[2,4], [4,8], [9,9]])
         
         >>>array([  [ 0.  ,  0.  ,  0.  ],
-                    [ 0.  ,  0.  ,  0.  ],
-                    [ 0.5 ,  0.  ,  0.  ],
-                    [ 0.5 ,  0.  ,  0.  ],
-                    [ 0.  ,  0.25,  0.  ],
-                    [ 0.  ,  0.25,  0.  ],
-                    [ 0.  ,  0.25,  0.  ],
-                    [ 0.  ,  0.25,  0.  ],
-                    [ 0.  ,  0.  ,  0.  ],
-                    [ 0.  ,  0.  ,  1.  ]])
-    '''
+        [ 0.  ,  0.  ,  0.  ],
+        [ 0.5 ,  0.  ,  0.  ],
+        [ 0.5 ,  0.  ,  0.  ],
+        [ 0.  ,  0.25,  0.  ],
+        [ 0.  ,  0.25,  0.  ],
+        [ 0.  ,  0.25,  0.  ],
+        [ 0.  ,  0.25,  0.  ],
+        [ 0.  ,  0.  ,  0.  ],
+        [ 0.  ,  0.  ,  1.  ]])
+        '''
     
+    #make empty filter of correct length
     nL = len(wavelengths)
+    w = wavelengths
     filter = np.zeros([nL,3])
     
+    #chose type of filter
     if filtername == 'single':
-        if len(pos_rgb) <> 3:
-            raise ValueError("pos_rgb should have 3 values!")
-        filter[pos_rgb[0],0] = 1.
-        filter[pos_rgb[1],1] = 1.
-        filter[pos_rgb[2],2] = 1.
+        if rgb_pos == 'default':
+            print('Applying "single" filter. No positions were given for rgb_pos, assuming default values of R={0}, G={1}, B={2}.'.format(nL-1,nL//2, 0))
+            rgb_pos = [nL-1,nL//2,0]
+        
+        if len(rgb_pos) <> 3:
+            raise ValueError("rgb_pos should have 3 values!")
+        
+        filter[rgb_pos[0],0] = 1.
+        filter[rgb_pos[1],1] = 1.
+        filter[rgb_pos[2],2] = 1.
+        print('Applying "single" filter for R={0}, G={1}, B={2}'.format(rgb_pos[0],rgb_pos[1],rgb_pos[2]))
 
     elif filtername == 'band':
-        if len(pos_rgb) <> 3:
-            raise ValueError("pos_rgb should have 3 values!")
-        try:
-            len(pos_rgb[0]) <> 2
-        except TypeError:
-            raise TypeError("Check pos_rgb, it should be im the shape of [[a,b],[c,d],[e,f]]")
-
-        if len(pos_rgb[0]) <> 2 or len(pos_rgb[1]) <> 2 or len(pos_rgb[2]) <> 2:
-            raise ValueError("pos_rgb should have 2 values for each color band.")
-
+        if rgb_pos == 'default':
+            print('Applying "band" filter. No positions were given for rgb_pos, assuming default values of R=[{0},{1}], G=[{2},{3}], B=[{4},{5}].'.format(0, int(np.floor(nL//3)), int(np.ceil(nL//3)), int(np.floor(2*nL//3)), int(np.ceil(2*nL//3)), nL))
+            
+            rgb_pos = [[0, int(np.floor(nL//3.))],[int(np.ceil(nL//3.)), int(np.floor(2.*nL//3))],[int(np.ceil(2.*nL/3)), nL]]
+        
+        if len(rgb_pos) <> 3:
+            raise ValueError("rgb_pos should have 3 values!")
+        
+        if len(rgb_pos[0]) <> 2 or len(rgb_pos[1]) <> 2 or len(rgb_pos[2]) <> 2:
+            raise TypeError("Check rgb_pos, it should be im the shape of [[a,b],[c,d],[e,f]]")
+        
         for i in range(3):
-            if (pos_rgb[i][1] - pos_rgb[i][0]) < 0:
-                raise ValueError("invalid range.")
+            if (rgb_pos[i][1] - rgb_pos[i][0]) < 0:
+                raise ValueError("Value Error.")
             
-            if pos_rgb[i][0] == pos_rgb[i][1]: #check if bin is broader than 1
-                filter[pos_rgb[i][0], i] = 1./(pos_rgb[i][1] - pos_rgb[i][0] + 1)
+            if rgb_pos[i][0] == rgb_pos[i][1]: #check if bin is broader than 1
+                filter[rgb_pos[i][0], i] = 1./(rgb_pos[i][1] - rgb_pos[i][0] + 1)
             else:
-                filter[pos_rgb[i][0]:pos_rgb[i][1], i] = 1./(pos_rgb[i][1] - pos_rgb[i][0])
-            
+                filter[rgb_pos[i][0]:rgb_pos[i][1], i] = 1./(rgb_pos[i][1] - rgb_pos[i][0])
+
     elif filtername == 'normal':
-        if len(pos_rgb) <> 3:
-            raise ValueError("pos_rgb should have 3 values!")
+        if rgb_pos == 'default':
+            mR = w[0]
+            sR = sG = sB = 1.92
+            mG = (w[-1] + w[0])/2.
+            mB = w[-1]
+            print('Applying "normal" filter. No positions were given for rgb_pos, assuming default values of R=[{0},{1}], G=[{2},{3}], B=[{4},{5}].'.format(mR,sR,mG,sG,mB,sB))
+                
+            rgb_pos = [[mR,sR],[mG,sG],[mB,sB]]
+            
+        if len(rgb_pos) <> 3:
+            raise ValueError("rgb_pos should have 3 values!")
         try:
-            len(pos_rgb[0]) <> 2
+            len(rgb_pos[0]) <> 2
         except TypeError:
-            raise TypeError("Check pos_rgb, it should be im the shape of [[a,b],[c,d],[e,f]]")
+            raise TypeError("Check rgb_pos, it should be im the shape of [[a,b],[c,d],[e,f]]")
 
         #mean, sigma
         for i in range(3):
-            std = np.float(pos_rgb[i][1])
-            mn  = np.float(pos_rgb[i][0])
+            std = np.float(rgb_pos[i][1])
+            mn  = np.float(rgb_pos[i][0])
             c = 1./(std * np.sqrt(2*np.pi))
             
             num = np.arange(len(filter[:,0]))
             num = wavelengths
-            
+                
             filter[:,i] =   (c*  np.e**(-0.5 * ( ( num - mn)/std )**2 ) )
-            
+
     else:
         raise ValueError("filtername not recognised. Check help(cocofilter) for available filter types.")
-
+        
     if plot:
-        plt.plot(filter[:,0], color='r')
-        plt.plot(filter[:,1], color='g')
-        plt.plot(filter[:,2], color='b')
+        plt.plot(wavelengths, filter[:,0], color='r', label='red')
+        plt.plot(wavelengths, filter[:,1], color='g', label='green')
+        plt.plot(wavelengths, filter[:,2], color='b', label='blue')
+        plt.scatter(wavelengths, np.zeros_like(wavelengths), color='black', label='data')
+        plt.legend()
         plt.show()
 
     return filter
@@ -135,7 +153,7 @@ def cocoRGB(datacube, filters, threshold=0, thresmethod='percentile'):
     OUTPUT:
         data_rgb    : 3d cube of size [x,y,3] to make images.
         
-        Based on coco.pro:COCORGB by M. Druett, Python version by A.G.M. Pietrow
+        Based on coco.pro:COCORGB by M. Druett, Python version by A.G.M. Pietrow, may 2019
     '''
     #datacbe = 3d, numerical, filters have len n
     if len(datacube.shape) < 3 or  len(datacube.shape) > 4:
@@ -282,52 +300,12 @@ def flip4d(data):
 def cocopol(data):
     '''
         removes all NAN and negative values from dataset.
-        '''
+    '''
     data[np.isnan(data)] = 0
     data = data - data.min()
     return data
 
-def cbarimg(Ticks=['Right Enhanced', 'Central Enhanded', 'Left Enhanced'], size=(0.5,6), show=0):
-    '''
-        Makes RGBR colorbar whith proper ticks.
-        INPUT:
-        Ticks   :   List of 3 values to describe what the 3 colors stand for.
-        size    :   Size of the bar in inch
-        show    :   Shows the colorbar. Default=0
-        '''
-    Ticks = np.append(Ticks, Ticks[0])
-    a = np.array([[0,1]])
-    plt.figure(figsize=size)
-    plt.imshow(a, cmap="hsv")
-    plt.gca().set_visible(False)
-    cax = plt.axes([0.1, 0.2, 0.8, 0.6])
-    cbar = plt.colorbar(cax=cax, ticks=[0,0.3,0.65,1] )
-    cbar.ax.set_yticklabels(Ticks)
-    plt.autoscale()
-    plt.savefig('cbar.png',bbox_inches='tight')
-    if show:
-        plt.show()
-    cbarimg = img.open('cbar.png')
-    return cbarimg
-
-#def cocoimage(data_int, name, cbarimg):
-    '''
-    Makes a composite image of COCO and a colorbar.
-    INPUT:
-        cocoimg :   PIL.Image of COCO data. Made with coco()
-        name    :   name under which file should be saved
-        cbarimg :   PIL.Image of colorbar. Made with cbarimg()
-    '''
-#    imx, imy = cocoimg.size
-#    cx, cy = cbarimg.size
-#    bg = img.new('RGB', (imx+20+cx,imy), (255,255,255))
-#    bg.paste(cocoimg)
-#    bg.paste(cbarimg, (imx + 20, (imy-cy)/2))
-#    bg.show()
-#    bg.save(name)
-#    plt.close()
-
-def plotfilt(line,filter,color=True, xlabel='Wavelengths', ylabel='Arbitrary Units', title=''):
+def cocofiltplot(line,filter,color=True, xlabel='Wavelengths', ylabel='Arbitrary Units', title=''):
     '''
     Convolve profile with filters to see result.
     INPUT:
