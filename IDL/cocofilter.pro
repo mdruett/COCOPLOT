@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-function COCOFILTER, wavelengths, filtertype=filtertype, r=r, g=g, b=b
+function COCOFILTER, wavelengths, FILTERTYPE=filtertype, R=r, G=g, B=b
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -15,32 +15,35 @@ function COCOFILTER, wavelengths, filtertype=filtertype, r=r, g=g, b=b
 ;   Result = COCOFILTER(wavelengths)
 ;
 ; INPUTS:
-;	  Wavelengths:  1D-array with wavelength values
+;	  Wavelengths:  1D-array (integer, float or byte) with wavelength or time values
 ;
 ; KEYWORD PARAMETERS:
-;	  Filtertype:	  Scalar string specifying the type of filter. One of three
+;	  FILTERTYPE:	  Scalar string specifying the type of filter. One of three
 ;                 values is accepted:
-;                 'single' : single wavelength points
-;                            uses keywords r=r, g, b with integers
-;                            specify which wavength points wanted 
-;                            for each filter
-;                 'band'  : bands of wavelength points
-;                            uses keyword r=[r1,r2], g, b
-;                            specify which wavength points are wanted 
-;                            to start the bands with r1, and finish with r2 etc
+;                 'single'  : single points.
+;                             Uses keywords R, G and B, specifying the
+;                             indices in Wavelengths to use for each filter.
+;                 'band'    : bands of points.
+;                             Uses keyword R, G and B, specifying with 2-element
+;                             arrays the lower and upper indices in Wavelengths for
+;                             each filter.
 ;                 'normal'  : normal distribution filters, like the cones of the eye
-;                            uses keyword r=[r1,r2], g, b
-;                            specify the means (r1) and sd devs (r2) of the normal 
-;                            distribution functions used in the rgb filters, if not given
-;                            then the means default to the begining, mid-point and 
-;                            end wavelengths, with 1.96 sd between each filter
+;                             Uses keyword R, G and B, specifying with 2-element
+;                             arrays the means (first element) and standard
+;                             deviation (second element) of the normal 
+;                             distribution functions used in the rgb filters.
 ;                 Defaults to 'normal'.
 ;	  R:  Scalar or 2-element array specifying the position, band boundaries or
-;       mean and standard deviation of the red filter.
+;       mean and standard deviation of the red filter. Defaults to: 
+;       - first, middle and last index in Wavelengths, in case of FILTERTYPE='band'
+;       - lower and upper indices bounding the first, middle and last third of
+;         the Wavelengths range, in case of FILTERTYPE='band'
+;       - means at the first, mid-point and last value in Wavelengths, and 1.96
+;         standard deviation, in case of FILTERTYPE='normal'
 ;	  G:  Scalar or 2-element array specifying the position, band boundaries or
-;       mean and standard deviation of the green filter.
+;       mean and standard deviation of the green filter. Defaults as for R.
 ;	  B:  Scalar or 2-element array specifying the position, band boundaries or
-;       mean and standard deviation of the blue filter.
+;       mean and standard deviation of the blue filter. Defaults as for R.
 ;
 ; OUTPUTS:
 ;	  Filter (2-dimensional array of dimensions [nWavelengths, 3]) for
