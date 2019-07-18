@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-function COCOFILTER, wavelengths, FILTERTYPE=filtertype, R=r, G=g, B=b
+function COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -12,20 +12,20 @@ function COCOFILTER, wavelengths, FILTERTYPE=filtertype, R=r, G=g, B=b
 ;   COCOPLOT core
 ;
 ; CALLING SEQUENCE:
-;   Result = COCOFILTER(wavelengths)
+;   Result = COCOFILTER(Array)
 ;
 ; INPUTS:
-;	  Wavelengths:  1D-array (integer, float or byte) with wavelength or time values
+;	  Array:  1D-array (integer, float or byte) with wavelength or time values
 ;
 ; KEYWORD PARAMETERS:
 ;	  FILTERTYPE:	  Scalar string specifying the type of filter. One of three
 ;                 values is accepted:
 ;                 'single'  : single points.
 ;                             Uses keywords R, G and B, specifying the
-;                             indices in Wavelengths to use for each filter.
+;                             indices in Array to use for each filter.
 ;                 'band'    : bands of points.
 ;                             Uses keyword R, G and B, specifying with 2-element
-;                             arrays the lower and upper indices in Wavelengths for
+;                             arrays the lower and upper indices in Array for
 ;                             each filter.
 ;                 'normal'  : normal distribution filters, like the cones of the eye
 ;                             Uses keyword R, G and B, specifying with 2-element
@@ -35,10 +35,10 @@ function COCOFILTER, wavelengths, FILTERTYPE=filtertype, R=r, G=g, B=b
 ;                 Defaults to 'normal'.
 ;	  R:  Scalar or 2-element array specifying the position, band boundaries or
 ;       mean and standard deviation of the red filter. Defaults to: 
-;       - first, middle and last index in Wavelengths, in case of FILTERTYPE='band'
+;       - first, middle and last index in Array, in case of FILTERTYPE='band'
 ;       - lower and upper indices bounding the first, middle and last third of
-;         the Wavelengths range, in case of FILTERTYPE='band'
-;       - means at the first, mid-point and last value in Wavelengths, and 1.96
+;         the Array range, in case of FILTERTYPE='band'
+;       - means at the first, mid-point and last value in Array, and 1.96
 ;         standard deviation, in case of FILTERTYPE='normal'
 ;	  G:  Scalar or 2-element array specifying the position, band boundaries or
 ;       mean and standard deviation of the green filter. Defaults as for R.
@@ -46,7 +46,7 @@ function COCOFILTER, wavelengths, FILTERTYPE=filtertype, R=r, G=g, B=b
 ;       mean and standard deviation of the blue filter. Defaults as for R.
 ;
 ; OUTPUTS:
-;	  Filter (2-dimensional array of dimensions [nWavelengths, 3]) for
+;	  Filter (2-dimensional array of dimensions [nArray, 3]) for
 ;   multiplication with the data cube.
 ;
 ; RESTRICTIONS:
@@ -59,12 +59,12 @@ function COCOFILTER, wavelengths, FILTERTYPE=filtertype, R=r, G=g, B=b
 ; MODIFICATION HISTORY:
 ; 	Written by:	Malcolm Druett, May 2019
 ;-
-   nlambda=n_elements(wavelengths)    
+   nlambda=n_elements(Array)    
    if (nlambda ne 1) then begin
-      wavelengths_filt=wavelengths
+      array_filt=Array
    endif else begin
-      wavelengths_filt=indgen(wavelengths)
-	  nlambda=wavelengths
+      array_filt=indgen(Array)
+	  nlambda=Array
    endelse
    if (n_elements(filtertype) ne 1) then filtertype = 'normal'  
    case filtertype of
@@ -88,31 +88,31 @@ function COCOFILTER, wavelengths, FILTERTYPE=filtertype, R=r, G=g, B=b
 	  end
    'normal': begin
      ; normal distribution "eyelike" filters"
-     wavelengths_filt = double(wavelengths_filt) 
+     array_filt = double(array_filt) 
      if (n_elements(b) eq 2) then begin   
 	    prof_sigma=double(b[1])
 	    prof_mean=double(b[0])
      endif else begin
-        prof_sigma=(wavelengths_filt[nlambda-1]-wavelengths_filt[0])/(2.0D*1.96D)
-        prof_mean=wavelengths_filt[0]
+        prof_sigma=(array_filt[nlambda-1]-array_filt[0])/(2.0D*1.96D)
+        prof_mean=array_filt[0]
 	 endelse
-     filter_b=COCOFILTNORM(wavelengths_filt, prof_mean, prof_sigma)
+     filter_b=COCOFILTNORM(array_filt, prof_mean, prof_sigma)
      if (n_elements(g) eq 2) then begin
 	    prof_sigma=double(g[1])
 	    prof_mean=double(g[0])
      endif else begin
-        prof_mean=(wavelengths_filt[nlambda-1]+wavelengths_filt[0])/2.0D
-        prof_sigma=(wavelengths_filt[nlambda-1]-wavelengths_filt[0])/(2.0D*1.96D)
+        prof_mean=(array_filt[nlambda-1]+array_filt[0])/2.0D
+        prof_sigma=(array_filt[nlambda-1]-array_filt[0])/(2.0D*1.96D)
 	 endelse
-     filter_g=COCOFILTNORM(wavelengths_filt, prof_mean, prof_sigma)
+     filter_g=COCOFILTNORM(array_filt, prof_mean, prof_sigma)
      if (n_elements(r) eq 2) then begin 
 	    prof_sigma=double(r[1])
 	    prof_mean=double(r[0])
      endif else begin
-        prof_mean=wavelengths_filt[nlambda-1]
-        prof_sigma=(wavelengths_filt[nlambda-1]-wavelengths_filt[0])/(2.0D*1.96D)
+        prof_mean=array_filt[nlambda-1]
+        prof_sigma=(array_filt[nlambda-1]-array_filt[0])/(2.0D*1.96D)
 	 endelse
-     filter_r=COCOFILTNORM(wavelengths_filt, prof_mean, prof_sigma)  
+     filter_r=COCOFILTNORM(array_filt, prof_mean, prof_sigma)  
      filter=[[filter_r], [filter_g], [filter_b]]
 	 end
    endcase
