@@ -59,62 +59,62 @@ function COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
 ; MODIFICATION HISTORY:
 ; 	Written by:	Malcolm Druett, May 2019
 ;-
-   nlambda=n_elements(Array)    
-   if (nlambda ne 1) then begin
-      array_filt=Array
-   endif else begin
-      array_filt=indgen(Array)
-	  nlambda=Array
-   endelse
-   if (n_elements(filtertype) ne 1) then filtertype = 'normal'  
-   case filtertype of
-   'single': begin
-      filter=make_array(nlambda,3,/double,value=0)
-      if (n_elements(r) eq 1) then filter[r,0]=1D else filter[nlambda-1,0] =1D
-      if (n_elements(g) eq 1) then filter[g,1]=1D else filter[round((nlambda-1)/2),1] =1D
-      if (n_elements(b) eq 1) then filter[b,2]=1D else filter[0,2] =1D
-	  end
-   'band': begin
-      filter=make_array(nlambda,3,/double,value=0)
-      filt_bits=make_array(3,2,/double)
-	  nl=double(nlambda-1)
-      if (n_elements(r) eq 2) then filt_bits[0,*]=r else filt_bits[0,*]=[0,floor((nl)/3D)]
-      if (n_elements(g) eq 2) then filt_bits[1,*]=g else filt_bits[1,*]=[ceil((nl)/3D),floor((2D*(nl))/3D)]
-      if (n_elements(b) eq 2) then filt_bits[2,*]=b else filt_bits[2,*]=[ceil((2D*(nl))/3D),nlambda-1]
-      filt_int=1D/double(filt_bits[*,1]-filt_bits[*,0]+1)   
-	  for i_filt=0,2 do begin
-         for i_filt2=filt_bits[i_filt,0],filt_bits[i_filt,1] do filter[i_filt2,i_filt]=filt_int[i_filt]
-      endfor
-	  end
-   'normal': begin
-     ; normal distribution "eyelike" filters"
-     array_filt = double(array_filt) 
-     if (n_elements(b) eq 2) then begin   
-	    prof_sigma=double(b[1])
-	    prof_mean=double(b[0])
-     endif else begin
-        prof_sigma=(array_filt[nlambda-1]-array_filt[0])/(2.0D*1.96D)
-        prof_mean=array_filt[0]
-	 endelse
-     filter_b=COCOFILTNORM(array_filt, prof_mean, prof_sigma)
-     if (n_elements(g) eq 2) then begin
-	    prof_sigma=double(g[1])
-	    prof_mean=double(g[0])
-     endif else begin
-        prof_mean=(array_filt[nlambda-1]+array_filt[0])/2.0D
-        prof_sigma=(array_filt[nlambda-1]-array_filt[0])/(2.0D*1.96D)
-	 endelse
-     filter_g=COCOFILTNORM(array_filt, prof_mean, prof_sigma)
-     if (n_elements(r) eq 2) then begin 
-	    prof_sigma=double(r[1])
-	    prof_mean=double(r[0])
-     endif else begin
-        prof_mean=array_filt[nlambda-1]
-        prof_sigma=(array_filt[nlambda-1]-array_filt[0])/(2.0D*1.96D)
-	 endelse
-     filter_r=COCOFILTNORM(array_filt, prof_mean, prof_sigma)  
-     filter=[[filter_r], [filter_g], [filter_b]]
-	 end
-   endcase
-return, filter
+  nlambda=n_elements(Array)    
+  if (nlambda ne 1) then begin
+     array_filt=Array
+  endif else begin
+     array_filt=indgen(Array)
+	   nlambda=Array
+  endelse
+  if (n_elements(filtertype) ne 1) then filtertype = 'normal'  
+  case filtertype of
+    'single': begin
+                filter=make_array(nlambda,3,/double,value=0)
+                if (n_elements(r) eq 1) then filter[r,0]=1D else filter[nlambda-1,0] =1D
+                if (n_elements(g) eq 1) then filter[g,1]=1D else filter[round((nlambda-1)/2),1] =1D
+                if (n_elements(b) eq 1) then filter[b,2]=1D else filter[0,2] =1D
+	            end
+    'band':   begin
+                filter=make_array(nlambda,3,/double,value=0)
+                filt_bits=make_array(3,2,/double)
+	              nl=double(nlambda-1)
+                if (n_elements(r) eq 2) then filt_bits[0,*]=r else filt_bits[0,*]=[0,floor((nl)/3D)]
+                if (n_elements(g) eq 2) then filt_bits[1,*]=g else filt_bits[1,*]=[ceil((nl)/3D),floor((2D*(nl))/3D)]
+                if (n_elements(b) eq 2) then filt_bits[2,*]=b else filt_bits[2,*]=[ceil((2D*(nl))/3D),nlambda-1]
+                filt_int=1D/double(filt_bits[*,1]-filt_bits[*,0]+1)   
+	              for i_filt=0,2 do begin
+                   for i_filt2=filt_bits[i_filt,0],filt_bits[i_filt,1] do filter[i_filt2,i_filt]=filt_int[i_filt]
+                endfor
+	            end
+    'normal': begin
+                ; normal distribution "eyelike" filters"
+                array_filt = double(array_filt) 
+                if (n_elements(b) eq 2) then begin   
+	               prof_sigma=double(b[1])
+	               prof_mean=double(b[0])
+                endif else begin
+                   prof_sigma=(array_filt[nlambda-1]-array_filt[0])/(2.0D*1.96D)
+                   prof_mean=array_filt[0]
+	              endelse
+                filter_b=COCOFILTNORM(array_filt, prof_mean, prof_sigma)
+                if (n_elements(g) eq 2) then begin
+	               prof_sigma=double(g[1])
+	               prof_mean=double(g[0])
+                endif else begin
+                   prof_mean=(array_filt[nlambda-1]+array_filt[0])/2.0D
+                   prof_sigma=(array_filt[nlambda-1]-array_filt[0])/(2.0D*1.96D)
+                endelse
+                filter_g=COCOFILTNORM(array_filt, prof_mean, prof_sigma)
+                if (n_elements(r) eq 2) then begin 
+	               prof_sigma=double(r[1])
+	               prof_mean=double(r[0])
+                endif else begin
+                   prof_mean=array_filt[nlambda-1]
+                   prof_sigma=(array_filt[nlambda-1]-array_filt[0])/(2.0D*1.96D)
+                endelse
+                filter_r=COCOFILTNORM(array_filt, prof_mean, prof_sigma)  
+                filter=[[filter_r], [filter_g], [filter_b]]
+	            end
+  endcase
+  return, filter
 end
