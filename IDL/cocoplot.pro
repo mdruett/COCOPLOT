@@ -6,7 +6,7 @@ function COCOPLOT, coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=thre
 ;	  COCOPLOT
 ;
 ; PURPOSE:
-;	  Apply filter to 3D datacube and return COCOPLOT RGB image
+;	  Apply filter to 3D datacube and return COCOPLOT RGB integer array
 ;
 ; CATEGORY:
 ;	  COCOPLOT core
@@ -27,7 +27,7 @@ function COCOPLOT, coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=thre
 ;   have an effect inside COCOPLOT.
 ;
 ; OUTPUTS:
-;   3D RGB COCOPLOT image
+;   3D COCOPLOT RGB integer array of dimensions [nx, ny, 3]
 ;
 ; RESTRICTIONS:
 ;   Requires the following procedures and functions:

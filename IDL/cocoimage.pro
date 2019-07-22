@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-function COCOIMAGE, coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=threshmethod, quiet=quiet, dims=dims, filepath=filepath, name=name
+function COCOIMAGE, coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=threshmethod, quiet=quiet, dims=dims, filepath=filepath, name=name, current=current
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -50,7 +50,9 @@ function COCOIMAGE, coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=thr
      nx=sz[1]
      ny=sz[2]
   endelse
-  w = WINDOW(DIMENSIONS=[nx,ny], BUFFER=keyword_set(quiet))
+  if (not keyword_set(current)) then begin
+     w = WINDOW(DIMENSIONS=[nx,ny], BUFFER=keyword_set(quiet))
+  endif
   temp_image=image(COCOPLOT(coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=threshmethod), $
     IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)
   the_image=temp_image.CopyWindow()

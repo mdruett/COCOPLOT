@@ -6,7 +6,7 @@ function COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=th
 ;	  COCORGB
 ;
 ; PURPOSE:
-;	  Collapse a 3D datacube to a single RGB image.
+;	  Collapse a 3D datacube to a single 3D COCOPLOT RGB integer array of dimensions [nx, ny, 3]
 ;
 ; CATEGORY:
 ;	  COCOPLOT core
@@ -25,7 +25,7 @@ function COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=th
 ;                   Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
 ;
 ; OUTPUTS:
-;	  3D array of dimensions [nx, ny, 3] 
+;	  3D COCOPLOT RGB integer array of dimensions [nx, ny, 3]
 ;
 ; RESTRICTIONS:
 ;   Requires the following procedures and functions:
