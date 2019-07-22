@@ -78,9 +78,9 @@ function COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
                 filter=make_array(nArray,3,/double,value=0)
                 filt_bits=make_array(3,2,/double)
 	              nl=double(nArray-1)
-                if (n_elements(r) eq 2) then filt_bits[0,*]=r else filt_bits[0,*]=[0,floor((nl)/3D)]
+                if (n_elements(r) eq 2) then filt_bits[0,*]=r else filt_bits[0,*]=[ceil((2D*(nl))/3D),nArray-1]
                 if (n_elements(g) eq 2) then filt_bits[1,*]=g else filt_bits[1,*]=[ceil((nl)/3D),floor((2D*(nl))/3D)]
-                if (n_elements(b) eq 2) then filt_bits[2,*]=b else filt_bits[2,*]=[ceil((2D*(nl))/3D),nArray-1]
+                if (n_elements(b) eq 2) then filt_bits[2,*]=b else filt_bits[2,*]=[0,floor((nl)/3D)]
                 filt_int=1D/double(filt_bits[*,1]-filt_bits[*,0]+1)   
 	              for i_filt=0,2 do begin
                    for i_filt2=filt_bits[i_filt,0],filt_bits[i_filt,1] do filter[i_filt2,i_filt]=filt_int[i_filt]
