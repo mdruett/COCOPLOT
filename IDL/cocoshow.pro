@@ -15,7 +15,7 @@ function COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, f
 ;	  Result = COCOSHOW(coco_data_rgb_int)
 ;
 ; INPUTS:
-;	  coco_data_rgb_int: 3D COCOPLOT RGB image of dimensions [nx, ny, 3]
+;	  coco_data_rgb_int: 3D COCOPLOT RGB integer array of dimensions [nx, ny, 3]
 ;
 ; KEYWORD PARAMETERS:
 ;	  rgbthresh:    Flag to apply saturation thresholding. Defaults to not set.
