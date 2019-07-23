@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-function COCOFILTNORM, wavelengths, prof_mean, prof_sigma
+function COCOFILTNORM, spect_points, prof_mean, prof_sigma
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -12,10 +12,10 @@ function COCOFILTNORM, wavelengths, prof_mean, prof_sigma
 ;	  COCOPLOT core
 ;
 ; CALLING SEQUENCE:
-;	  Result = COCOFILTNORM(wavelengths, prof_mean, prof_sigma)
+;	  Result = COCOFILTNORM(spect_points, prof_mean, prof_sigma)
 ;
 ; INPUTS:
-;	  wavelengths:  1D-array of wavelengths.
+;   spect_points:  1D-array of spectral data points.
 ;   prof_mean:    Mean of the normal distribution. 
 ;   prof_sigma:   Standard devaition of the normal distribution.
 ;
@@ -29,9 +29,9 @@ function COCOFILTNORM, wavelengths, prof_mean, prof_sigma
 ; MODIFICATION HISTORY:
 ; 	Written by:	Malcolm Druett, May 2019
 ;-
-  nlambda=n_elements(wavelengths)
+  nlambda=n_elements(spect_points)
   unifprof=make_array(nlambda,/double,value=1)
-  filter_temp=exp(-(double(wavelengths)-prof_mean)^2/(2D*prof_sigma^2))
+  filter_temp=exp(-(double(spect_points)-prof_mean)^2/(2D*prof_sigma^2))
   filt_max=transpose(unifprof) # filter_temp
   filt_norm=1D/filt_max[0]
   filter_temp=filt_norm*filter_temp

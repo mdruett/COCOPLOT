@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-function COCOFILTPLOT, profile, filter, wavelengths=wavelengths, color=color, xtitle=xtitle, ytitle=ytitle, title=title, dimensions=dimensions, buffer=buffer, current=current, thick=thick, font_size=font_size, normfactor=normfactor
+function COCOFILTPLOT, profile, filter, spect_points=spect_points, color=color, xtitle=xtitle, ytitle=ytitle, title=title, dimensions=dimensions, buffer=buffer, current=current, thick=thick, font_size=font_size, normfactor=normfactor
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -19,7 +19,7 @@ function COCOFILTPLOT, profile, filter, wavelengths=wavelengths, color=color, xt
 ;   filter:  a set of rgb filters, length nl 
 ;
 ; KEYWORD PARAMETERS:
-;   wavelengths: A set of wavelength values for the x-axis
+;   spect_points: A set of spectral data point values for the x-axis
 ;   color:  If .true. the color of the profile will have the RGB hue
 ;           that the filter would give it, although the brightness may
 ;           be different depending on the scaling used. 
@@ -56,7 +56,7 @@ function COCOFILTPLOT, profile, filter, wavelengths=wavelengths, color=color, xt
 ;-
    profile = double(profile)
    filter = double(filter)
-   if (not keyword_set(wavelengths)) then wavelengths=indgen(n_elements(profile))
+   if (not keyword_set(spect_points)) then spect_points=indgen(n_elements(profile))
    if (not keyword_set(normfactor)) then normfactor=1.0
    ; setting colour of plot
    ; factor 0.8 to ensure line does not come out white!
@@ -74,13 +74,13 @@ function COCOFILTPLOT, profile, filter, wavelengths=wavelengths, color=color, xt
    convprof[*,1]=normprofile * reform(normfilter[*,1])
    convprof[*,2]=normprofile * reform(normfilter[*,2])
 
-    myplot=plot(wavelengths,normprofile, xtitle=xtitle, ytitle=ytitle, title=title, thick=thick, color=rgb_int, sym='o', sym_filled=1, buffer=buffer, font_size=font_size)
+    myplot=plot(spect_points,normprofile, xtitle=xtitle, ytitle=ytitle, title=title, thick=thick, color=rgb_int, sym='o', sym_filled=1, buffer=buffer, font_size=font_size)
     myplot.xstyle = 1
     for i=0,2 do begin
-      myplot=plot(wavelengths,reform(normfilter[*,i]), xtitle=xtitle, $
+      myplot=plot(spect_points,reform(normfilter[*,i]), xtitle=xtitle, $
         ytitle=ytitle, title=title, thick=thick, color=shift([255,0,0],i), sym='o', $
         sym_filled=1, linestyle='--', /current, /overplot)
-      myplot=plot(wavelengths,reform(convprof[*,i]), xtitle=xtitle, $
+      myplot=plot(spect_points,reform(convprof[*,i]), xtitle=xtitle, $
         ytitle=ytitle, title=title, thick=thick, color=shift([255,0,0],i), sym='o', $
         sym_filled=1, linestyle='-', /current, /overplot)
     endfor

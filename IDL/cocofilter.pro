@@ -15,7 +15,7 @@ function COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
 ;   Result = COCOFILTER(Array)
 ;
 ; INPUTS:
-;	  Array:  1D-array (integer, float or byte) with wavelength or time values
+;	  Array:  1D-array (integer, float or byte) with spectral or time values
 ;
 ; KEYWORD PARAMETERS:
 ;	  FILTERTYPE:	  Scalar string specifying the type of filter. One of three

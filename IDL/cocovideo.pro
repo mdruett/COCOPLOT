@@ -15,8 +15,8 @@ PRO COCOVIDEO, coco_datacube, filter, filepath, fps, startstop=startstop, rgbthr
 ;	  Result = COCOVIDEO(coco_data_rgb_int)
 ;
 ; INPUTS:
-;	  coco_datacube:  Input 4D data cube of dimensions [nx, ny, nWavelengths, nt]
-;   filter:         Filter of dimensions [nWavelengths, 3] 
+;	  coco_datacube:  Input 4D data cube of dimensions [nx, ny, nspect_points, nt]
+;   filter:         Filter of dimensions [nspect_points, 3] 
 ;   filepath:       Output path and filename.
 ;   fps:            Frames per second
 ;
