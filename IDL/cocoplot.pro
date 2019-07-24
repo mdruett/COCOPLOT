@@ -16,8 +16,8 @@ function COCOPLOT, coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=thre
 ;	Result = COCOPLOT(coco_datacube, filter)
 ;
 ; INPUTS:
-;	  coco_datacube:  Input data cube of dimensions [nx, ny, nWavelengths]
-;   filter:         Filter of dimensions [nWavelengths, 3] 
+;	  coco_datacube:  Input data cube of dimensions [nx, ny, nspect_points]
+;   filter:         Filter of dimensions [nspect_points, 3] 
 ;
 ; KEYWORD PARAMETERS:
 ;	  rgbthresh:      Flag to apply saturation thresholding. Defaults to not set.
