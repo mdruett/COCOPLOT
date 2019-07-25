@@ -179,21 +179,18 @@ def cocoRGB(datacube, filters, threshold=0, thresmethod='percentile'):
             raise TypeError("threshold should be given as a 2 element list. e.g. [0,110]")
         
         if thresmethod == 'numeric':
-            data_collapsed[np.where(data_collapsed > threshold[1])] = threshold[1]
-            data_collapsed[np.where(data_collapsed < threshold[0])] = threshold[0]
+            data_collapsed.clip(threshold[0], threshold[1])
         elif thresmethod == 'fraction':
             mx = np.max(datacube)
             mn = np.min(datacube)
             pmn = mn + threshold[0] * (mx - mn)
             pmx = mn + threshold[1] * (mx -mn)
-            data_collapsed[np.where(data_collapsed >= pmx)] = pmx
-            data_collapsed[np.where(data_collapsed <= pmn)] = pmn
+            data_collapsed.clip(pmn, pmx)
             data_collapsed -= pmn
         elif thresmethod == 'percentile':
             pmn = np.percentile(datacube,threshold[0])
             pmx = np.percentile(datacube,threshold[1])
-            data_collapsed[np.where(data_collapsed >= pmx)] = pmx
-            data_collapsed[np.where(data_collapsed <= pmn)] = pmn
+            data_collapsed.clip(pmn, pmx)
             data_collapsed -= pmn
         else:
             raise ValueError("thresmethod not recognised. Should be 'numeric', 'fraction' or 'percentile'.")
