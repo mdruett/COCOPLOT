@@ -143,7 +143,7 @@ def cocoRGB(datacube, filters, threshold=0, thresmethod='percentile'):
     Color Convolves a 3D cube with an RGB filter.
     INPUT:
         datacube    : 3D or 4D cube of shape [lambda,x,y] or [t,lambda,x,y]
-        filters     : output from cocofilters()
+        filters     : output from cocofilter()
         threshold   : 2 element array that saturates all values below and above the provided values.
         thresmethod : set method of thesholding. Default: 'numeric'
                       numeric  - allows to give a min and max value in counts
@@ -205,7 +205,7 @@ def cocoplot(datacube, filter, threshold=0, thresmethod='numeric', show=True, na
         
         INPUT:
         datacube    : 3D cube of shape [lambda,x,y]
-        filters     : output from cocofilters()
+        filters     : output from cocofilter()
         threshold   : 2 element array that saturates all values below and above the provided values.
         thresmethod : set method of thesholding. Default: 'numeric'
                       numeric  - allows to give a min and max value in counts
@@ -238,7 +238,7 @@ def cocovideo(datacube, filter, fps=3, threshold=0, thresmethod='numeric', show=
         
         INPUT:
         datacube    : 4D cube of shape [t,lambda,x,y]
-        filters     : output from cocofilters()
+        filters     : output from cocofilter()
         fps         : frames per second. Default:3
         threshold   : 2 element array that saturates all values below and above the provided values.
         thresmethod : set method of thesholding. Default: 'numeric'
