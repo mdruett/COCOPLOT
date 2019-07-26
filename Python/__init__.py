@@ -99,7 +99,7 @@ def cocofilter(wavelengths, filtername, rgb_pos ='default', plot=0):
     elif filtername == 'normal':
         if rgb_pos == 'default':
             mR = w[0]
-            sR = sG = sB = 1.92
+            sR = sG = sB = (w[-1]-w[0])/(2*1.92)
             mG = (w[-1] + w[0])/2.
             mB = w[-1]
             print('Applying "normal" filter. No positions were given for rgb_pos, assuming default values of R=[{0},{1}], G=[{2},{3}], B=[{4},{5}].'.format(mR,sR,mG,sG,mB,sB))
