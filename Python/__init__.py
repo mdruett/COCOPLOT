@@ -144,7 +144,7 @@ def cocoRGB(datacube, filters, threshold=0, thresmethod='percentile'):
     Color Convolves a 3D cube with an RGB filter.
     INPUT:
         datacube    : 3D or 4D cube of shape [lambda,x,y] or [t,lambda,x,y]
-        filters     : output from cocofilters()
+        filters     : output from cocofilter()
         threshold   : 2 element array that saturates all values below and above the provided values.
         thresmethod : set method of thesholding. Default: 'numeric'
                       numeric  - allows to give a min and max value in counts
@@ -180,21 +180,18 @@ def cocoRGB(datacube, filters, threshold=0, thresmethod='percentile'):
             raise TypeError("threshold should be given as a 2 element list. e.g. [0,110]")
         
         if thresmethod == 'numeric':
-            data_collapsed[np.where(data_collapsed > threshold[1])] = threshold[1]
-            data_collapsed[np.where(data_collapsed < threshold[0])] = threshold[0]
+            data_collapsed.clip(threshold[0], threshold[1])
         elif thresmethod == 'fraction':
             mx = np.max(datacube)
             mn = np.min(datacube)
             pmn = mn + threshold[0] * (mx - mn)
             pmx = mn + threshold[1] * (mx -mn)
-            data_collapsed[np.where(data_collapsed >= pmx)] = pmx
-            data_collapsed[np.where(data_collapsed <= pmn)] = pmn
+            data_collapsed.clip(pmn, pmx)
             data_collapsed -= pmn
         elif thresmethod == 'percentile':
             pmn = np.percentile(datacube,threshold[0])
             pmx = np.percentile(datacube,threshold[1])
-            data_collapsed[np.where(data_collapsed >= pmx)] = pmx
-            data_collapsed[np.where(data_collapsed <= pmn)] = pmn
+            data_collapsed.clip(pmn, pmx)
             data_collapsed -= pmn
         else:
             raise ValueError("thresmethod not recognised. Should be 'numeric', 'fraction' or 'percentile'.")
@@ -209,7 +206,7 @@ def cocoplot(datacube, filter, threshold=0, thresmethod='numeric', show=True, na
         
         INPUT:
         datacube    : 3D cube of shape [lambda,x,y]
-        filters     : output from cocofilters()
+        filters     : output from cocofilter()
         threshold   : 2 element array that saturates all values below and above the provided values.
         thresmethod : set method of thesholding. Default: 'numeric'
                       numeric  - allows to give a min and max value in counts
@@ -242,7 +239,7 @@ def cocovideo(datacube, filter, fps=3, threshold=0, thresmethod='numeric', show=
         
         INPUT:
         datacube    : 4D cube of shape [t,lambda,x,y]
-        filters     : output from cocofilters()
+        filters     : output from cocofilter()
         fps         : frames per second. Default:3
         threshold   : 2 element array that saturates all values below and above the provided values.
         thresmethod : set method of thesholding. Default: 'numeric'
