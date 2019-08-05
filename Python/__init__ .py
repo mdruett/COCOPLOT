@@ -200,6 +200,20 @@ def RGB(datacube, filters, threshold=0, thresmethod='percentile'):
     
     return data_collapsed
 
+def norm(data):
+    '''
+    Normalises data to value between 0 and 255.
+    
+    INPUT:
+        data        : datacube of shape [x,y,3], usually the output of the RGB function.
+    OUTPUT:
+        data_norm   : datacube of shape [x,y,3] normalised to values between 0 and 255
+        
+        Based on coco.pro:coconorm by M.Druett.
+    '''
+    return np.uint8(np.round(data*255./np.max(data)))
+
+
 def plot(datacube, filter, threshold=0, thresmethod='numeric', show=True, name=False, path=''):
     '''
     Color Convolves a 3D cube with an RGB filter and normalizes.
@@ -223,7 +237,7 @@ def plot(datacube, filter, threshold=0, thresmethod='numeric', show=True, name=F
     '''
     
     data_float = RGB(datacube, filter, threshold=threshold, thresmethod=thresmethod)
-    data_int   = np.uint8(np.round(data_float*255./np.max(data_float)))
+    data_int = norm(data_float)
     
     if show:
         plt.imshow(data_int, origin='lower')
