@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-PRO COCOVIDEO, coco_datacube, filter, filepath, fps, startstop=startstop, rgbthresh=rgbthresh, threshmethod=threshmethod, loud=loud, dims=dims
+PRO COCOVIDEO, coco_datacube, filter, fps, name, filepath=filepath, startstop=startstop, rgbthresh=rgbthresh, threshmethod=threshmethod, loud=loud, dims=dims
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -12,23 +12,24 @@ PRO COCOVIDEO, coco_datacube, filter, filepath, fps, startstop=startstop, rgbthr
 ;	  COCOPLOT visualisation
 ;
 ; CALLING SEQUENCE:
-;	  Result = COCOVIDEO(coco_data_rgb_int)
+;         COCOVIDEO, coco_datacube, filter, fps, name
 ;
 ; INPUTS:
-;	  coco_datacube:  Input 4D data cube of dimensions [nx, ny, nspect_points, nt]
+;   coco_datacube:  Input 4D data cube of dimensions [nx, ny, nspect_points, nt]
 ;   filter:         Filter of dimensions [nspect_points, 3] 
-;   filepath:       Output path and filename.
 ;   fps:            Frames per second
+;   name:           String containing Ooutput file name.
 ;
 ; KEYWORD PARAMETERS:
-;   startstop:    Start and stop indices for time dimension. Defaults to
-;                 [0,nt-1]
-;	  rgbthresh:    Flag to apply saturation thresholding. Defaults to not set.
-;   threshmethod: Scalar string specifying the Saturation thresholding method.
-;                 Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
-;   loud:         Display the video. Defaults to not set.
-;   dims:         image dimensions for display. Defaults to [nx, ny] of
-;                 input coco_datacube.
+;   filepath:       Output filepath prefixed to the "name" variable.
+;   startstop:      Start and stop indices for time dimension. Defaults to
+;                   [0,nt-1]
+;   rgbthresh:      Flag to apply saturation thresholding. Defaults to not set.
+;   threshmethod:   Scalar string specifying the Saturation thresholding method.
+;                   Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
+;   loud:           Display the video. Defaults to not set.
+;   dims:           Image dimensions for display. Defaults to [nx, ny] of
+;                   input coco_datacube.
 ;
 ; OUTPUTS:
 ;	  Save a series of COCOPLOT images as an animation.
@@ -47,26 +48,21 @@ PRO COCOVIDEO, coco_datacube, filter, filepath, fps, startstop=startstop, rgbthr
   nx = sz[1]
   ny = sz[2]
   nt = sz[4]
-  if (n_elements(dims) eq 2) then begin 
+  IF (n_elements(dims) EQ 2) THEN BEGIN 
      nx=dims[0]
      ny=dims[1]
-  endif 
+  ENDIF 
   IF KEYWORD_SET(startstop) THEN startstop=startstop ELSE startstop=[0,nt-1]
-  video_object_name = idlffvideowrite(filepath)
+  fileloc=name
+  IF (keyword_set(filepath)) THEN fileloc=filepath+name
+  video_object_name = idlffvideowrite(fileloc)
   video_stream_name =video_object_name.addvideostream(nx, ny, fps)
-  IF KEYWORD_SET(loud) THEN BEGIN
-     w=WINDOW(DIMENSIONS=[nx,ny])
-     FOR i_loop=startstop[0],startstop[1] DO BEGIN
-        my_image=COCOSHOW(COCOPLOT(coco_datacube[*,*,*,i_loop], filter, rgbthresh=rgbthresh, threshmethod=threshmethod), $
-          current=1, dims=[nx, ny])
+; Create video while showing images if loud keyword set
+  IF KEYWORD_SET(loud) THEN w=WINDOW(DIMENSIONS=[nx,ny]) ELSE w=WINDOW(DIMENSIONS=[nx,ny],/BUFFER)
+  FOR i_loop=startstop[0],startstop[1] DO BEGIN
+        my_rgb=COCOPLOT(coco_datacube[*,*,*,i_loop], filter, rgbthresh=rgbthresh, threshmethod=threshmethod, current=1, dims=[nx, ny])
+        my_image=w.copywindow()
         timestamp = video_object_name.put(video_stream_name, my_image)
-     ENDFOR
-  ENDIF ELSE BEGIN
-     FOR i_loop=startstop[0],startstop[1] DO BEGIN
-    	  my_image=COCOIMAGE(coco_datacube[*,*,*,i_loop], filter, rgbthresh=rgbthresh, threshmethod=threshmethod, quiet=1) 
-        timestamp = video_object_name.put(video_stream_name, my_image)
-     ENDFOR
-  ENDELSE
-  
+  ENDFOR
   obj_destroy, video_object_name
 END
