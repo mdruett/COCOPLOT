@@ -61,7 +61,7 @@ function COCOPLOT, coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=thre
 ; If not handed RGB array, then produce RGB array using COCORGB and COCONORM
    endif else begin
      data_float=COCORGB(coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=threshmethod)
-     data_int=COCONORM(data_float, rgbthresh=rgbthresh, threshmethod=threshmethod)
+     data_int=COCONORM(data_float)
   endelse
 ; Show/save image if requested
   cocoshow, data_int, quiet=quiet, current=current, dims=dims, name=name, filepath=filepath, filetype=filetype
