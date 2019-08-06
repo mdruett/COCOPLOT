@@ -60,11 +60,11 @@ FUNCTION COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
 ;   Written by:	Malcolm Druett, May 2019
 ;-
   nArray=N_ELEMENTS(array)
-  IF (nArray NE 1) THEN BEGIN
-    array_filt=Array
-  ENDIF ELSE BEGIN
+  IF (nArray GT 1) THEN $
+    array_filt=Array $
+  ELSE BEGIN
     array_filt=INDGEN(Array)
-    nArray=Array
+    nArray=N_ELEMENTS(array_filt)
   ENDELSE
   IF (N_ELEMENTS(filtertype) NE 1) THEN filtertype = 'normal'
   CASE filtertype OF
