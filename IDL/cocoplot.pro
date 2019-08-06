@@ -6,7 +6,7 @@ FUNCTION COCOPLOT, coco_datacube, filter=filter, rgbthresh=rgbthresh, threshmeth
 ;	  COCOPLOT
 ;
 ; PURPOSE:
-;	  Apply filter to 3D datacube and return COCOPLOT RGB integer array
+;	  Apply filter to 3D datacube and return COCOPLOT RGB integer array.
 ;
 ; CATEGORY:
 ;	  COCOPLOT core
@@ -17,7 +17,7 @@ FUNCTION COCOPLOT, coco_datacube, filter=filter, rgbthresh=rgbthresh, threshmeth
 ;
 ; INPUTS:
 ;   coco_datacube:  Input data cube of dimensions [nx, ny, nspect_points],
-;                   Or RGB cube [nx, ny, 3] if no filter is supplied
+;                   Or RGB cube [nx, ny, 3] if no filter is supplied.
 ;
 ; KEYWORD PARAMETERS:
 ;   filter:         Filter of dimensions [nspect_points, 3] specifying
@@ -29,7 +29,7 @@ FUNCTION COCOPLOT, coco_datacube, filter=filter, rgbthresh=rgbthresh, threshmeth
 ;   current:        Flag to plot in current window. Defaults to not set.
 ;   dims:           Image dimensions for display. Defaults to [nx, ny] of
 ;                   input coco_datacube.
-;   name:           String containing Ooutput file name, triggers save
+;   name:           String containing output file name, triggers save
 ;                   of image if present. Does noe require suffix.
 ;   filepath:       String containting filepath that will be added to name.
 ;   filetype:       String for output image file type. default = "png". Valid
@@ -50,7 +50,7 @@ FUNCTION COCOPLOT, coco_datacube, filter=filter, rgbthresh=rgbthresh, threshmeth
 ; MODIFICATION HISTORY:
 ; 	Written by:	Malcolm Druett, May 2019
 ;-
-; Check whether handed data or RGB array
+; Check whether handed data or RGB array.
   IF (NOT keyword_set(filter)) THEN BEGIN
      sz=size(coco_datacube)
      IF ((sz[0] EQ 3) && (sz[3] EQ 3)) THEN BEGIN
@@ -58,7 +58,7 @@ FUNCTION COCOPLOT, coco_datacube, filter=filter, rgbthresh=rgbthresh, threshmeth
      ENDIF ELSE BEGIN
         message, "No filter handed to COCOPLOT. Therefore expected 3D RGB cube with third dimension size 3, found respectively "+strcompress(string(sz[0]),/remove_all)+", and "+strcompress(string(sz[0]),/remove_all)
      ENDELSE
-; If not handed RGB array, then produce RGB array using COCORGB and COCONORM
+; If not handed RGB array, then produce RGB array using COCORGB and COCONORM.
    ENDIF ELSE BEGIN
      data_float=COCORGB(coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=threshmethod)
      data_int=COCONORM(data_float)

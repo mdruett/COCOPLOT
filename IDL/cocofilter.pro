@@ -6,7 +6,7 @@ FUNCTION COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
 ;	  COCOFILTER
 ;
 ; PURPOSE:
-;	  Generate COCOPLOT filters
+;	  Generate COCOPLOT filters.
 ;
 ; CATEGORY:
 ;   COCOPLOT core
@@ -15,19 +15,19 @@ FUNCTION COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
 ;   Result = COCOFILTER(Array)
 ;
 ; INPUTS:
-;	  Array:  1D-array (integer, float or byte) with spectral or time values
+;	  Array:  1D-array (integer, float or byte) with spectral or time values.
 ;
 ; KEYWORD PARAMETERS:
 ;	  FILTERTYPE:	  Scalar string specifying the type of filter. One of three
 ;                 values is accepted:
-;                 'single'  : single points.
+;                 'single'  : Single points.
 ;                             Uses keywords R, G and B, specifying the
 ;                             indices in Array to use for each filter.
-;                 'band'    : bands of points.
+;                 'band'    : Bands of points.
 ;                             Uses keyword R, G and B, specifying with 2-element
 ;                             arrays the lower and upper indices in Array for
 ;                             each filter.
-;                 'normal'  : normal distribution filters, like the cones of the eye
+;                 'normal'  : Normal distribution filters, like the cones of the eye
 ;                             Uses keyword R, G and B, specifying with 2-element
 ;                             arrays the means (first element) and standard
 ;                             deviation (second element) of the normal 
@@ -35,11 +35,11 @@ FUNCTION COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
 ;                 Defaults to 'normal'.
 ;	  R:  Scalar or 2-element array specifying the position, band boundaries or
 ;       mean and standard deviation of the red filter. Defaults to: 
-;       - first, middle and last index in Array, in case of FILTERTYPE='band'
+;       - first, middle and last index in Array, in case of FILTERTYPE='band'.
 ;       - lower and upper indices bounding the first, middle and last third of
-;         the Array range, in case of FILTERTYPE='band'
+;         the Array range, in case of FILTERTYPE='band'.
 ;       - means at the first, mid-point and last value in Array, and 1.96
-;         standard deviation, in case of FILTERTYPE='normal'
+;         standard deviation, in case of FILTERTYPE='normal'.
 ;	  G:  Scalar or 2-element array specifying the position, band boundaries or
 ;       mean and standard deviation of the green filter. Defaults as for R.
 ;	  B:  Scalar or 2-element array specifying the position, band boundaries or
