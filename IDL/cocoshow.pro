@@ -54,12 +54,9 @@ PRO COCOSHOW, coco_data_rgb_int, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=n
   ; displaying image.
   ; Set up options for correct display.
   IF (KEYWORD_SET(quiet)) THEN option1=1 ELSE option1=0
+  IF (N_ELEMENTS(DIMS) NE 2) THEN dims = (SIZE(coco_data_rgb_int))[1:2]
   ; save required, therefore display in buffer if not actually displaying.
   IF (N_ELEMENTS(NAME) EQ 1) THEN BEGIN
-    IF (N_ELEMENTS(DIMS) NE 2) THEN BEGIN
-      sz=size(coco_data_rgb_int)
-      dims = sz[1:2]
-    ENDIF
     IF (NOT KEYWORD_SET(current)) THEN BEGIN
       w=WINDOW(DIMENSIONS=dims,BUFFER=option)
     ENDIF
@@ -67,10 +64,6 @@ PRO COCOSHOW, coco_data_rgb_int, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=n
   ENDIF ELSE BEGIN
   ; No save required, show only if quiet not set.
     IF (option=0) THEN BEGIN
-      IF (N_ELEMENTS(DIMS) NE 2) THEN BEGIN
-        sz=SIZE(coco_data_rgb_int)
-        dims = sz[1:2]
-      ENDIF
       IF (NOT KEYWORD_SET(current)) THEN BEGIN
         w=WINDOW(DIMENSIONS=dims)
       ENDIF
