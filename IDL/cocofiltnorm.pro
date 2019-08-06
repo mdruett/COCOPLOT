@@ -21,7 +21,7 @@ FUNCTION COCOFILTNORM, spect_points, prof_mean, prof_sigma
 ;
 ; OUTPUTS:
 ;	  Normal distribution style filter (1-dimensional array of length
-;         nWavelengths). 
+;   nWavelengths). 
 ;
 ; EXAMPLE:
 ;   filter = COCOFILTNORM(FINDGEN(101)-50, 20., 10.)
