@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-FUNCTION COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=threshmethod
+FUNCTION COCORGB, coco_datacube_in, filter, RGBTHRESH=rgbthresh, THRESHMETHOD=threshmethod
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -19,8 +19,8 @@ FUNCTION COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=th
 ;   filter:         Filter of dimensions [nspect_points, 3].
 ;
 ; KEYWORD PARAMETERS:
-;   rgbthresh:      Flag to apply saturation thresholding. Defaults to not set.
-;   threshmethod:   Scalar string specifying the Saturation thresholding method.
+;   RGBTHRESH:      Flag to apply saturation thresholding. Defaults to not set.
+;   THRESHMETHOD:   Scalar string specifying the Saturation thresholding method.
 ;                   Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
 ;
 ; OUTPUTS:
