@@ -52,22 +52,16 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, FILEPATH=filepath, STARTSTOP=st
   ENDIF
 
   sz = SIZE(coco_datacube)
-  nx = sz[1]
-  ny = sz[2]
-  nt = sz[4]
-  IF (N_ELEMENTS(dims) EQ 2) THEN BEGIN 
-     nx=dims[0]
-     ny=dims[1]
-  ENDIF 
-  IF KEYWORD_SET(startstop) THEN startstop=startstop ELSE startstop=[0,nt-1]
+  IF (N_ELEMENTS(DIMS) NE 2) THEN dims = sz[1:2]
+  IF KEYWORD_SET(startstop) THEN startstop=startstop ELSE startstop=[0,sz[4]-1]
   fileloc=name
   IF (KEYWORD_SET(filepath)) THEN fileloc=filepath+name
   video_object_name = idlffvideowrite(fileloc)
-  video_stream_name =video_object_name.addvideostream(nx, ny, fps)
+  video_stream_name =video_object_name.addvideostream(dims[0], dims[1], fps)
   ; Create video while showing images if loud keyword set
-  IF KEYWORD_SET(loud) THEN w=WINDOW(DIMENSIONS=[nx,ny]) ELSE w=WINDOW(DIMENSIONS=[nx,ny],/BUFFER)
+  IF KEYWORD_SET(loud) THEN w=WINDOW(DIMENSIONS=dims) ELSE w=WINDOW(DIMENSIONS=dims,/BUFFER)
   FOR i_loop=startstop[0],startstop[1] DO BEGIN
-        my_rgb=COCOPLOT(coco_datacube[*,*,*,i_loop], filter, RGBTHRESH=rgbthresh, THRESHMETHOD=threshmethod, CURRENT=1, DIMS=[nx, ny])
+        my_rgb=COCOPLOT(coco_datacube[*,*,*,i_loop], filter, RGBTHRESH=rgbthresh, THRESHMETHOD=threshmethod, CURRENT=1, DIMS=dims)
         my_image=w.copywindow()
         timestamp = video_object_name.put(video_stream_name, my_image)
   ENDFOR
