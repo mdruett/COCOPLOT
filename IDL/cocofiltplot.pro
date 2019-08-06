@@ -24,8 +24,8 @@ FUNCTION COCOFILTPLOT, profile, filter, SPECT_POINTS=spect_points, COLOR=color, 
 ;           that the filter would give it, although the brightness may
 ;           be different depending on the scaling used.
 ;           Otherwise profile is black.
-;   XLABEL: Text on xlabel.
-;   YLABEL: Text on ylabel.
+;   XTITLE: Text on xlabel.
+;   YTITLE: Text on ylabel.
 ;   TITLE:  Title of plot. Not present by default.
 ;   DIMENSIONS: Specify the dimensions of the image generated.
 ;               No default set.
