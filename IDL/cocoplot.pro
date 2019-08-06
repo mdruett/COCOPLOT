@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-FUNCTION COCOPLOT, coco_datacube, FILTER=filter, RGBTHRESH=rgbthresh, THRESHMETHOD=threshmethod, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=name, FILEPATH=filepath, FILETYPE=filetype
+FUNCTION COCOPLOT, coco_datacube, filter, RGBTHRESH=rgbthresh, THRESHMETHOD=threshmethod, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=name, FILEPATH=filepath, FILETYPE=filetype
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -12,15 +12,17 @@ FUNCTION COCOPLOT, coco_datacube, FILTER=filter, RGBTHRESH=rgbthresh, THRESHMETH
 ;   COCOPLOT core
 ;
 ; CALLING SEQUENCE:
-;   Result = COCOPLOT(coco_datacube, filter=myfilter)
+;   Result = COCOPLOT(coco_datacube)
 ;
 ; INPUTS:
 ;   coco_datacube:  Input data cube of dimensions [nx, ny, nspect_points],
 ;                   Or RGB cube [nx, ny, 3] if no filter is supplied.
 ;
-; KEYWORD PARAMETERS:
-;   FILTER:         Filter of dimensions [nspect_points, 3] specifying
+; OPTION INPUTS:
+;   filter:         Filter of dimensions [nspect_points, 3] specifying
 ;                   values used to color collpase the datacube.
+;
+; KEYWORD PARAMETERS:
 ;   RGBTHRESH:      Flag to apply saturation thresholding. Defaults to not set.
 ;   THRESHMETHOD:   Scalar string specifying the Saturation thresholding method.
 ;                   Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
@@ -51,7 +53,7 @@ FUNCTION COCOPLOT, coco_datacube, FILTER=filter, RGBTHRESH=rgbthresh, THRESHMETH
 ;-
 
   IF (N_PARAMS() LT 1) THEN BEGIN
-    MESSAGE, 'Syntax: Result = COCOPLOT(coco_datacube [, FILTER=filter] '+$
+    MESSAGE, 'Syntax: Result = COCOPLOT(coco_datacube [, filter] '+$
       '[, /RGBTHRESH] [, THRESHMETHOD=threshmethod] [, /QUIET] '+$
       '[, /CURRENT] [, DIMS=dims] [, NAME=name] [, FILEPATH=filepath] '+$
       '[, FILETYPE=filetype])', /INFO
@@ -59,7 +61,7 @@ FUNCTION COCOPLOT, coco_datacube, FILTER=filter, RGBTHRESH=rgbthresh, THRESHMETH
   ENDIF
 
 ; Check whether handed data or RGB array.
-  IF (NOT KEYWORD_SET(filter)) THEN BEGIN
+  IF (N_ELEMENTS(filter) LT 1) THEN BEGIN
     sz=SIZE(coco_datacube)
     IF ((sz[0] EQ 3) && (sz[3] EQ 3)) THEN BEGIN
       data_int=coco_datacube
