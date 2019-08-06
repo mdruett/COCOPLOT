@@ -30,7 +30,7 @@ PRO COCOSHOW, coco_data_rgb_int, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=n
 ;                 "bmp","gif","jpeg","png","ppm","srf","tiff".
 ;
 ; OUTPUTS:
-;   Return and/or display and/or save a COCOPLOT image.
+;   Displayed and/or saved COCOPLOT image.
 ;
 ; RESTRICTIONS:
 ;   Requires the following procedures and functions:
