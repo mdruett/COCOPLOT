@@ -52,6 +52,10 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, FILEPATH=filepath, STARTSTOP=st
   ENDIF
 
   sz = SIZE(coco_datacube)
+  IF (sz[0] NE 4) THEN BEGIN
+    MESSAGE, 'ERROR: coco_datacube must be a 4D data cube of dimensions [nx, ny, nspect_points, nt]', /INFO
+    RETURN
+  ENDIF
   IF (N_ELEMENTS(DIMS) NE 2) THEN dims = sz[1:2]
   IF (N_ELEMENTS(STARTSTOP) NE 2) THEN startstop=[0,sz[4]-1]
   fileloc=name
