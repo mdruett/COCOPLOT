@@ -54,6 +54,15 @@ FUNCTION COCOFILTPLOT, profile, filter, SPECT_POINTS=spect_points, COLOR=color, 
 ;   Based on a function in COCOpy by A.G.M Pietrow
 ;   Written by:	Malcolm Druet, May 2019
 ;-
+  IF (N_PARAMS() LT 2) THEN BEGIN
+    MESSAGE, 'Syntax: Result = COCOFILTPLOT(profile, filter '+$
+      '[, SPECT_POINTS=spect_points] [, /COLOR], [, XTITLE=xtitle] '+$
+      '[, YTITLE=ytitle] [, TITLE=title] [DIMENSIONS=dimensions] '+$
+      '[, /BUFFER] [, /CURRENT] [, THICK=thick] [, FONT_SIZE=font_size] '+$
+      '[, NORMFACTOR=normfactor])', /INFO
+    RETURN, !NULL
+  ENDIF
+  
   profile = DOUBLE(profile)
   filter = DOUBLE(filter)
   IF (NOT KEYWORD_SET(spect_points)) THEN spect_points=INDGEN(N_ELEMENTS(profile))

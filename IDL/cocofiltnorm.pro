@@ -29,6 +29,13 @@ FUNCTION COCOFILTNORM, spect_points, prof_mean, prof_sigma
 ; MODIFICATION HISTORY:
 ;   Written by:	Malcolm Druett, May 2019
 ;-
+  
+  IF (N_PARAMS() LT 3) THEN BEGIN
+    MESSAGE, 'Syntax: Result = COCOFILTNORM(spect_points, prof_mean, '+$
+      'prof_sigma)', /INFO
+    RETURN, !NULL
+  ENDIF
+    
   nlambda=N_ELEMENTS(spect_points)
   unifprof=MAKE_ARRAY(nlambda,/DOUBLE,VALUE=1)
   filter_temp=EXP(-(DOUBLE(spect_points)-prof_mean)^2/(2D*prof_sigma^2))

@@ -31,6 +31,11 @@ FUNCTION COCONORM, coco_data_rgb
 ;   Written by:	Malcolm Druett, May 2019
 ;-
 
+  IF (N_PARAMS() LT 1) THEN BEGIN
+    MESSAGE, 'Syntax: Result = COCONORM(coco_data_rgb)', /INFO
+    RETURN, !NULL
+  ENDIF
+
 ; Remove any stray negative values
   iw=WHERE(coco_data_rgb LT 0, count)
   IF (count NE 0) THEN coco_data_rgb[iw]=0.0

@@ -36,6 +36,11 @@ FUNCTION COCORGB, coco_datacube_in, filter, RGBTHRESH=rgbthresh, THRESHMETHOD=th
 ; MODIFICATION HISTORY:
 ;   Written by: Malcolm Druett, May 2019
 ;-
+  IF (N_PARAMS() LT 2) THEN BEGIN
+    MESSAGE, 'Syntax: Result = COCORGB(coco_datacube_in, filter [, /RGBTHRESH] '+$
+      '[, THRESHMETHOD=threshmethod])', /INFO
+    RETURN, !NULL
+  ENDIF
   coco_datacube=coco_datacube_in
   dims=SIZE(coco_datacube)
   ; Thresholding: saturation at max and zero at min values

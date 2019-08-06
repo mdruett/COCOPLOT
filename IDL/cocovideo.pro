@@ -44,6 +44,13 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, FILEPATH=filepath, STARTSTOP=st
 ; MODIFICATION HISTORY:
 ;   Written by: Malcolm Druett, May 2019
 ;-
+  IF (N_PARAMS() LT 4) THEN BEGIN
+    MESSAGE, 'Syntax: COCOVIDEO, coco_datacube, filter, fps, name '+$
+      '[, FILEPATH=filepath] [, STARTSTOP=startstop] [, /RGBTHRESH] '+$
+      '[, THRESHMETHOD=threshmethod] [, /LOUD] [, DIMS=dims]', /INFO
+    RETURN
+  ENDIF
+
   sz = SIZE(coco_datacube)
   nx = sz[1]
   ny = sz[2]

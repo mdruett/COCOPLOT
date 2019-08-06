@@ -49,6 +49,15 @@ FUNCTION COCOPLOT, coco_datacube, FILTER=filter, RGBTHRESH=rgbthresh, THRESHMETH
 ; MODIFICATION HISTORY:
 ;   Written by:	Malcolm Druett, May 2019
 ;-
+
+  IF (N_PARAMS() LT 1) THEN BEGIN
+    MESSAGE, 'Syntax: Result = COCOPLOT(coco_datacube [, FILTER=filter] '+$
+      '[, /RGBTHRESH] [, THRESHMETHOD=threshmethod] [, /QUIET] '+$
+      '[, /CURRENT] [, DIMS=dims] [, NAME=name] [, FILEPATH=filepath] '+$
+      '[, FILETYPE=filetype])', /INFO
+    RETURN, !NULL
+  ENDIF
+
 ; Check whether handed data or RGB array.
   IF (NOT KEYWORD_SET(filter)) THEN BEGIN
     sz=SIZE(coco_datacube)

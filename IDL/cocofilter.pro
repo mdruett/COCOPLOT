@@ -59,6 +59,13 @@ FUNCTION COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
 ; MODIFICATION HISTORY:
 ;   Written by:	Malcolm Druett, May 2019
 ;-
+  
+  IF (N_PARAMS() LT 1) THEN BEGIN
+    MESSAGE, 'Syntax: Result = COCOFILTER(Array [, FILTERTYPE=filtertype] '+$
+      '[, R=r] [, G=g] [, B=b])', /INFO
+    RETURN, !NULL
+  ENDIF
+
   nArray=N_ELEMENTS(array)
   IF (nArray GT 1) THEN $
     array_filt=Array $

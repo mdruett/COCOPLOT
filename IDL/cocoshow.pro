@@ -44,6 +44,13 @@ PRO COCOSHOW, coco_data_rgb_int, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=n
 ;   Written by: Malcolm Druett, May 2019
 ;-
 
+  IF (N_PARAMS() LT 1) THEN BEGIN
+    MESSAGE, 'Syntax: COCOSHOW, coco_data_rgb_int [, /QUIET] [, /CURRENT] '+$
+      '[, DIMS=dims] [, NAME=name] [, FILEPATH=filepath] '+$
+      '[, FILETYPE=filetype]', /INFO
+    RETURN
+  ENDIF
+
   ; displaying image.
   ; Set up options for correct display.
   IF (KEYWORD_SET(quiet)) THEN option1=1 ELSE option1=0
