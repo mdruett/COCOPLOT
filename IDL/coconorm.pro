@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-function COCONORM, coco_data_rgb_in, rgbthresh=rgbthresh, threshmethod=threshmethod
+FUNCTION COCONORM, coco_data_rgb
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -15,13 +15,8 @@ function COCONORM, coco_data_rgb_in, rgbthresh=rgbthresh, threshmethod=threshmet
 ;   Result = COCONORM(data)
 ;
 ; INPUTS:
-;	  coco_data_rgb_in: Input RGB image of dimensions [nx, ny, 3]
+;	  coco_data_rgb: Input RGB float array of dimensions [nx, ny, 3]
 ;	
-; KEYWORD PARAMETERS:
-;	  rgbthresh:      Flag to apply saturation thresholding. Defaults to not set.
-;   threshmethod:   Scalar string specifying the Saturation thresholding method.
-;                   Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
-;
 ; OUTPUTS:
 ;	  RGB byte-array with integer elements, linearly scaled between 0 and 255.
 ;
@@ -35,16 +30,11 @@ function COCONORM, coco_data_rgb_in, rgbthresh=rgbthresh, threshmethod=threshmet
 ; MODIFICATION HISTORY:
 ; 	Written by:	Malcolm Druett, May 2019
 ;-
-  coco_data_rgb=coco_data_rgb_in
-  if keyword_set(rgbthresh) then begin
-     if (threshmethod eq 'fraction') then begin
-        datarange=cgPercentiles(coco_data_rgb, PERCENTILES=rgbthresh)
-  	  maxval=datarange[1]-datarange[0]
-     endif else begin
-        maxval=rgbthresh[1]-rgbthresh[0] 
-     endelse
-  endif else begin
-     maxval=max(coco_data_rgb, /NAN)
-  endelse
-  return, round(255D*coco_data_rgb/maxval)
-end
+
+;  Remove any stray negative values
+   iw=where(coco_data_rgb LT 0, count)
+   IF (count NE 0) THEN coco_data_rgb[iw]=0.0
+;  Linear normalisation
+   maxval=max(coco_data_rgb, /NAN)
+   RETURN, round(255D*coco_data_rgb/maxval)
+END
