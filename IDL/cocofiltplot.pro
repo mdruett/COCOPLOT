@@ -65,8 +65,8 @@ FUNCTION COCOFILTPLOT, profile, filter, SPECT_POINTS=spect_points, COLOR=color, 
   
   profile = DOUBLE(profile)
   filter = DOUBLE(filter)
-  IF (NOT KEYWORD_SET(spect_points)) THEN spect_points=INDGEN(N_ELEMENTS(profile))
-  IF (NOT KEYWORD_SET(normfactor)) THEN normfactor=1.0
+  IF (N_ELEMENTS(SPECT_POINTS) LT 1) THEN spect_points=INDGEN(N_ELEMENTS(profile))
+  IF (N_ELEMENTS(NORMFACTOR) NE 1) THEN normfactor=1.0
   ; setting colour of plot
   ; factor 0.8 to ensure line does not come out white!
   IF (NOT KEYWORD_SET(color)) THEN BEGIN
@@ -75,7 +75,7 @@ FUNCTION COCOFILTPLOT, profile, filter, SPECT_POINTS=spect_points, COLOR=color, 
   ENDIF ELSE BEGIN
      rgb_int=!null
   ENDELSE
-  IF (NOT KEYWORD_SET(thick)) THEN thick=2
+  IF (N_ELEMENTS(THICK) NE 1) THEN thick=2
   normprofile=normfactor*profile/MAX(profile)
   normfilter=filter/MAX(filter)
   convprof=filter
