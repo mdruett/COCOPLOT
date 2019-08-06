@@ -57,14 +57,6 @@ FUNCTION COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=th
     IF (count NE 0) THEN coco_datacube[iw]=datarange[0]
     coco_datacube=coco_datacube-datarange[0]
   ENDIF
-  ; convolve datacube with filters by slice
-  ; if you can do the whole cube at once, then change this
-  ; MD: done below, commented out out version for meantime
-  ; removed first overwrite in  reform, seemss to destroy datacube
-  ;for x=0,(dims[1]-1) do begin 
-  ;   slice=double(reform(coco_datacube[x,*,0:dims[3]-1]))
-  ;   coco_data_rgb[x,*,0:2] = slice # double(filter)
-  ;endfor
   coco_data_rgb=DBLARR(dims[1],dims[2],3)
   coco_data_rgb = REFORM($
           REFORM(coco_datacube, dims[1]*dims[2], dims[3]) # filter, $
