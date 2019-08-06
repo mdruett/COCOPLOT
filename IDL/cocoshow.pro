@@ -55,7 +55,7 @@ PRO COCOSHOW, coco_data_rgb_int, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=n
   ; Set up options for correct display.
   IF (KEYWORD_SET(quiet)) THEN option1=1 ELSE option1=0
   ; save required, therefore display in buffer if not actually displaying.
-  IF (KEYWORD_SET(name)) THEN BEGIN
+  IF (N_ELEMENTS(NAME) EQ 1) THEN BEGIN
     IF (N_ELEMENTS(dims) EQ 2) THEN BEGIN
       nx=dims[0]
       ny=dims[1]
