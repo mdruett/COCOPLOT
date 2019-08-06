@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-function COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=threshmethod
+FUNCTION COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=threshmethod
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -40,24 +40,24 @@ function COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=th
 coco_datacube=coco_datacube_in
 dims=size(coco_datacube)
 ; Thresholding: saturation at max and zero at min values
-if keyword_set(rgbthresh) then begin
-   case threshmethod of
-   'fraction': begin
+IF keyword_set(rgbthresh) THEN BEGIN
+   CASE threshmethod OF
+   'fraction': BEGIN
       datamin=min(coco_datacube, /NAN)
       datamax=max(coco_datacube, /NAN)
-	  datarange=datamin+rgbthresh*(datamax-datamin)
-	  end
+      datarange=datamin+rgbthresh*(datamax-datamin)
+      END
    'numeric': datarange=rgbthresh
    'percentile': datarange=cgPercentiles(coco_datacube, PERCENTILES=rgbthresh)
-   else: message, "threshmethod not recognised. Should be 'fraction', 'numeric' or 'percentile'.", /info
-   endcase
-   if (min(finite(datarange)) eq 0) then message, "NAN or INFINTE data detected in requested range.", /info
-   iw=where(coco_datacube gt datarange[1], count)
-   if (count ne 0) then coco_datacube[iw]=datarange[1]
-   iw=where(coco_datacube lt datarange[0], count)
-   if (count ne 0) then coco_datacube[iw]=datarange[0]
+   ELSE: message, "threshmethod not recognised. Should be 'fraction', 'numeric' or 'percentile'.", /info
+   ENDCASE
+   IF (min(finite(datarange)) EQ 0) THEN message, "NAN or INFINTE data detected in requested range.", /info
+   iw=where(coco_datacube GT datarange[1], count)
+   IF (count NE 0) THEN coco_datacube[iw]=datarange[1]
+   iw=where(coco_datacube LT datarange[0], count)
+   IF (count NE 0) THEN coco_datacube[iw]=datarange[0]
    coco_datacube=coco_datacube-datarange[0]
-endif
+ENDIF
 ; convolve datacube with filters by slice
 ; if you can do the whole cube at once, then change this
 ; MD: done below, commented out out version for meantime
@@ -70,5 +70,5 @@ coco_data_rgb=dblarr(dims[1],dims[2],3)
 coco_data_rgb = reform($
         reform(coco_datacube, dims[1]*dims[2], dims[3]) # filter, $
         dims[1], dims[2], 3)
-return, coco_data_rgb
-end
+RETURN, coco_data_rgb
+END

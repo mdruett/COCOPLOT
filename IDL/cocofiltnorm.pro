@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-function COCOFILTNORM, spect_points, prof_mean, prof_sigma
+FUNCTION COCOFILTNORM, spect_points, prof_mean, prof_sigma
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -35,5 +35,5 @@ function COCOFILTNORM, spect_points, prof_mean, prof_sigma
   filt_max=transpose(unifprof) # filter_temp
   filt_norm=1D/filt_max[0]
   filter_temp=filt_norm*filter_temp
-  return, filter_temp
-end
+  RETURN, filter_temp
+END

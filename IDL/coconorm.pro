@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-function COCONORM, coco_data_rgb
+FUNCTION COCONORM, coco_data_rgb
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -33,8 +33,8 @@ function COCONORM, coco_data_rgb
 
 ;  Remove any stray negative values
    iw=where(coco_data_rgb LT 0, count)
-   if (count ne 0) then coco_data_rgb[iw]=0.0
+   IF (count NE 0) THEN coco_data_rgb[iw]=0.0
 ;  Linear normalisation
    maxval=max(coco_data_rgb, /NAN)
-  return, round(255D*coco_data_rgb/maxval)
-end
+   RETURN, round(255D*coco_data_rgb/maxval)
+END

@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-function COCOPLOT, coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=threshmethod, rgb_in=rgb_in, quiet=quiet, current=current, dims=dims, name=name, filepath=filepath, filetype=filetype
+FUNCTION COCOPLOT, coco_datacube, filter=filter, rgbthresh=rgbthresh, threshmethod=threshmethod, quiet=quiet, current=current, dims=dims, name=name, filepath=filepath, filetype=filetype
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -13,18 +13,18 @@ function COCOPLOT, coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=thre
 ;
 ; CALLING SEQUENCE:
 ; 
-;	Result = COCOPLOT(coco_datacube, filter)
+;	Result = COCOPLOT(coco_datacube, filter=myfilter)
 ;
 ; INPUTS:
-;   coco_datacube:  Input data cube of dimensions [nx, ny, nspect_points]
-;   filter:         Filter of dimensions [nspect_points, 3] 
+;   coco_datacube:  Input data cube of dimensions [nx, ny, nspect_points],
+;                   Or RGB cube [nx, ny, 3] if no filter is supplied
 ;
 ; KEYWORD PARAMETERS:
+;   filter:         Filter of dimensions [nspect_points, 3] specifying
+;                   values used to color collpase the datacube. 
 ;   rgbthresh:      Flag to apply saturation thresholding. Defaults to not set.
 ;   threshmethod:   Scalar string specifying the Saturation thresholding method.
 ;                   Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
-;   rgb_in:         Include if you are handing an already color collapsed RGB
-;                   array of dinemsions [nx,ny,3] to the function.
 ;   quiet:          Do not pop-up display image. Defaults to not set.
 ;   current:        Flag to plot in current window. Defaults to not set.
 ;   dims:           Image dimensions for display. Defaults to [nx, ny] of
@@ -51,19 +51,19 @@ function COCOPLOT, coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=thre
 ; 	Written by:	Malcolm Druett, May 2019
 ;-
 ; Check whether handed data or RGB array
-  if (keyword_set(rgb_in)) then begin
+  IF (NOT keyword_set(filter)) THEN BEGIN
      sz=size(coco_datacube)
-     if ((sz[0] EQ 3) && (sz[3] EQ 3)) then begin
+     IF ((sz[0] EQ 3) && (sz[3] EQ 3)) THEN BEGIN
         data_int=coco_datacube
-     endif else begin
-        message, "RGB_IN keyword set: expected 3D cube with third dimension size 3, found respectively "+strcompress(string(sz[0]),/remove_all)+", and "+strcompress(string(sz[0]),/remove_all)
-     endelse
+     ENDIF ELSE BEGIN
+        message, "No filter handed to COCOPLOT. Therefore expected 3D RGB cube with third dimension size 3, found respectively "+strcompress(string(sz[0]),/remove_all)+", and "+strcompress(string(sz[0]),/remove_all)
+     ENDELSE
 ; If not handed RGB array, then produce RGB array using COCORGB and COCONORM
-   endif else begin
+   ENDIF ELSE BEGIN
      data_float=COCORGB(coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=threshmethod)
      data_int=COCONORM(data_float)
-  endelse
+  ENDELSE
 ; Show/save image if requested
   cocoshow, data_int, quiet=quiet, current=current, dims=dims, name=name, filepath=filepath, filetype=filetype
-  return, data_int
-end
+  RETURN, data_int
+END

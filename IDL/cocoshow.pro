@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-pro COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=name, filepath=filepath, filetype=filetype
+PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=name, filepath=filepath, filetype=filetype
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -46,51 +46,49 @@ pro COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
 
 ; displaying image
   ; Set up options for correct display
-  if (keyword_set(quiet)) then option1=1 else option1=0
-  if (keyword_set(name)) then option2=1 else option2=-1
-  option=option1*option2
-  case option of
-     0: begin
-     ; not quiet, therefore either display in a new or 
-     ; the current window without /buffer option.
-        if (n_elements(dims) eq 2) then begin   
+  IF (keyword_set(quiet)) THEN option1=1 ELSE option1=0
+  ; save required, therefore display in buffer if not actually displaying
+  IF (keyword_set(name)) THEN BEGIN
+     IF (n_elements(dims) EQ 2) THEN BEGIN   
+        nx=dims[0]
+        ny=dims[1]
+     ENDIF ELSE BEGIN
+        sz=size(coco_data_rgb_int)
+        nx=sz[1]
+        ny=sz[2]
+     ENDELSE
+     IF (NOT keyword_set(current)) THEN BEGIN
+        w=WINDOW(DIMENSIONS=[nx,ny],buffer=option)
+     ENDIF
+     temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)
+  ENDIF ELSE BEGIN
+  ; No save required, show only if quiet not set
+     IF (option=0) THEN BEGIN
+        IF (n_elements(dims) EQ 2) THEN BEGIN   
            nx=dims[0]
            ny=dims[1]
-        endif else begin
+        ENDIF ELSE BEGIN
            sz=size(coco_data_rgb_int)
            nx=sz[1]
            ny=sz[2]
-        endelse
-        if (not keyword_set(current)) then begin
+        ENDELSE
+        IF (NOT keyword_set(current)) THEN BEGIN
            w=WINDOW(DIMENSIONS=[nx,ny])
-        endif
+        ENDIF
         temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)
-     end
-     1: begin
-     ; quiet, but save required, therefore display in buffer
-        if (n_elements(dims) eq 2) then begin   
-           nx=dims[0]
-           ny=dims[1]
-        endif else begin
-           sz=size(coco_data_rgb_int)
-           nx=sz[1]
-           ny=sz[2]
-        endelse
-        if (not keyword_set(current)) then begin
-           w=WINDOW(DIMENSIONS=[nx,ny],/BUFFER)
-        endif
-        temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)
-     end
+     ENDIF ELSE BEGIN
+     ; quiet set and no save required, skip display
+        RETURN
+     ENDELSE
      ; no save or display required, so no image
-  endcase
-
-;saving image
-  if (keyword_set(name)) then begin
+  ENDELSE
+  ;saving image
+  IF (keyword_set(name)) THEN BEGIN
      the_image=temp_image.CopyWindow()
      fileloc=name
-        if (keyword_set(filepath)) then fileloc=filepath+name
-        if (not keyword_set(filetype)) then filetype="png"
+        IF (keyword_set(filepath)) THEN fileloc=filepath+name
+        IF (NOT keyword_set(filetype)) THEN filetype="png"
         fileloc=fileloc+"."+filetype
   	write_image, fileloc, filetype, the_image
-  endif
-end
+  ENDIF
+END

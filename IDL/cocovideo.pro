@@ -18,7 +18,7 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, filepath=filepath, startstop=st
 ;   coco_datacube:  Input 4D data cube of dimensions [nx, ny, nspect_points, nt]
 ;   filter:         Filter of dimensions [nspect_points, 3] 
 ;   fps:            Frames per second
-;   name:           String containing Ooutput file name.
+;   name:           String containing output file name.
 ;
 ; KEYWORD PARAMETERS:
 ;   filepath:       Output filepath prefixed to the "name" variable.
