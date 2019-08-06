@@ -91,11 +91,11 @@ PRO COCOSHOW, coco_data_rgb_int, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=n
   ENDELSE
   ;saving image.
   IF (N_ELEMENTS(NAME) EQ 1) THEN BEGIN
-     the_image=temp_image.CopyWindow()
-     fileloc=name
-        IF (N_ELEMENTS(FILEPATH) EQ 1) THEN fileloc=filepath+name
-        IF (N_ELEMENTS(FILETYPE) NE 1) THEN filetype="png"
-        fileloc=fileloc+"."+filetype
+    the_image=temp_image.CopyWindow()
+    fileloc=name
+    IF (N_ELEMENTS(FILEPATH) EQ 1) THEN fileloc=filepath+name
+    IF (N_ELEMENTS(FILETYPE) NE 1) THEN filetype="png"
+    fileloc=fileloc+"."+filetype
     WRITE_IMAGE, fileloc, filetype, the_image
   ENDIF
 END
