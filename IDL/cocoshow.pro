@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=name, filepath=filepath, filetype=filetype
+PRO COCOSHOW, coco_data_rgb_int, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=name, FILEPATH=filepath, FILETYPE=filetype
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -18,14 +18,14 @@ PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
 ;   coco_data_rgb_int: 3D COCOPLOT RGB integer array of dimensions [nx, ny, 3].
 ;
 ; KEYWORD PARAMETERS:
-;   quiet:        Do not pop-up display image. Defaults to not set.
-;   current:      Flag to plot in current window. Defaults to not set.
-;   dims:         Image dimensions for display. Defaults to [nx, ny] of
+;   QUIET:        Do not pop-up display image. Defaults to not set.
+;   CURRENT:      Flag to plot in current window. Defaults to not set.
+;   DIMS:         Image dimensions for display. Defaults to [nx, ny] of
 ;                 input coco_datacube.
-;   name:         String containing output file name, triggers save
+;   NAME:         String containing output file name, triggers save
 ;                 of image if present. Does noe require suffix.
-;   filepath:     String containting filepath that will be added to name.
-;   filetype:     String for output image file type. default = "png". Valid
+;   FILEPATH:     String containting filepath that will be added to name.
+;   FILETYPE:     String for output image file type. default = "png". Valid
 ;                 formats from IDL write image routine:
 ;                 "bmp","gif","jpeg","png","ppm","srf","tiff".
 ;

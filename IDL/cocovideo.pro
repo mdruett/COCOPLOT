@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-PRO COCOVIDEO, coco_datacube, filter, fps, name, filepath=filepath, startstop=startstop, rgbthresh=rgbthresh, threshmethod=threshmethod, loud=loud, dims=dims
+PRO COCOVIDEO, coco_datacube, filter, fps, name, FILEPATH=filepath, STARTSTOP=startstop, RGBTHRESH=rgbthresh, THRESHMETHOD=threshmethod, LOUD=loud, DIMS=dims
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -21,14 +21,14 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, filepath=filepath, startstop=st
 ;   name:           String containing output file name.
 ;
 ; KEYWORD PARAMETERS:
-;   filepath:       Output filepath prefixed to the "name" variable.
-;   startstop:      Start and stop indices for time dimension. Defaults to
+;   FILEPATH:       Output filepath prefixed to the "name" variable.
+;   STARTSTOP:      Start and stop indices for time dimension. Defaults to
 ;                   [0,nt-1].
-;   rgbthresh:      Flag to apply saturation thresholding. Defaults to not set.
-;   threshmethod:   Scalar string specifying the Saturation thresholding method.
+;   RGBTHRESH:      Flag to apply saturation thresholding. Defaults to not set.
+;   THRESHMETHOD:   Scalar string specifying the Saturation thresholding method.
 ;                   Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
-;   loud:           Display the video. Defaults to not set.
-;   dims:           Image dimensions for display. Defaults to [nx, ny] of
+;   LOUD:           Display the video. Defaults to not set.
+;   DIMS:           Image dimensions for display. Defaults to [nx, ny] of
 ;                   input coco_datacube.
 ;
 ; OUTPUTS:

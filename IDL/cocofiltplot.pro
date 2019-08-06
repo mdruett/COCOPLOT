@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-FUNCTION COCOFILTPLOT, profile, filter, spect_points=spect_points, color=color, xtitle=xtitle, ytitle=ytitle, title=title, dimensions=dimensions, buffer=buffer, current=current, thick=thick, font_size=font_size, normfactor=normfactor
+FUNCTION COCOFILTPLOT, profile, filter, SPECT_POINTS=spect_points, COLOR=color, XTITLE=xtitle, YTITLE=ytitle, TITLE=title, DIMENSIONS=dimensions, BUFFER=buffer, CURRENT=current, THICK=thick, FONT_SIZE=font_size, NORMFACTOR=normfactor
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -19,22 +19,22 @@ FUNCTION COCOFILTPLOT, profile, filter, spect_points=spect_points, color=color, 
 ;   filter:  A set of rgb filters, length nl.
 ;
 ; KEYWORD PARAMETERS:
-;   spect_points: A set of spectral data point values for the x-axis.
-;   color:  If .true. the color of the profile will have the RGB hue
+;   SPECT_POINTS: A set of spectral data point values for the x-axis.
+;   COLOR:  If .true. the color of the profile will have the RGB hue
 ;           that the filter would give it, although the brightness may
 ;           be different depending on the scaling used.
 ;           Otherwise profile is black.
-;   xlabel: Text on xlabel.
-;   ylabel: Text on ylabel.
-;   title:  Title of plot. Not present by default.
-;   dimensions: Specify the dimensions of the image generated.
+;   XLABEL: Text on xlabel.
+;   YLABEL: Text on ylabel.
+;   TITLE:  Title of plot. Not present by default.
+;   DIMENSIONS: Specify the dimensions of the image generated.
 ;               No default set.
-;   buffer: Places the image in a display buffer, rather than
+;   BUFFER: Places the image in a display buffer, rather than
 ;           displaying it on-screen.
-;   current: Places the image in the most recently opened graphics window.
-;   thick: Integer sepecifying the thicknesses of the lines used
-;   font_size: Integer specifying the font size used. No default set.
-;   normfactor: Real number from 0 to 1 that may be used to separate
+;   CURRENT: Places the image in the most recently opened graphics window.
+;   THICK: Integer sepecifying the thicknesses of the lines used
+;   FONT_SIZE: Integer specifying the font size used. No default set.
+;   NORMFACTOR: Real number from 0 to 1 that may be used to separate
 ;               the heights of the normalised plots of the filters and
 ;               the line profiles. Defaults to 1.0.
 ;

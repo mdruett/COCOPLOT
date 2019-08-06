@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-FUNCTION COCOPLOT, coco_datacube, filter=filter, rgbthresh=rgbthresh, threshmethod=threshmethod, quiet=quiet, current=current, dims=dims, name=name, filepath=filepath, filetype=filetype
+FUNCTION COCOPLOT, coco_datacube, FILTER=filter, RGBTHRESH=rgbthresh, THRESHMETHOD=threshmethod, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=name, FILEPATH=filepath, FILETYPE=filetype
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
@@ -19,19 +19,19 @@ FUNCTION COCOPLOT, coco_datacube, filter=filter, rgbthresh=rgbthresh, threshmeth
 ;                   Or RGB cube [nx, ny, 3] if no filter is supplied.
 ;
 ; KEYWORD PARAMETERS:
-;   filter:         Filter of dimensions [nspect_points, 3] specifying
+;   FILTER:         Filter of dimensions [nspect_points, 3] specifying
 ;                   values used to color collpase the datacube.
-;   rgbthresh:      Flag to apply saturation thresholding. Defaults to not set.
-;   threshmethod:   Scalar string specifying the Saturation thresholding method.
+;   RGBTHRESH:      Flag to apply saturation thresholding. Defaults to not set.
+;   THRESHMETHOD:   Scalar string specifying the Saturation thresholding method.
 ;                   Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
-;   quiet:          Do not pop-up display image. Defaults to not set.
-;   current:        Flag to plot in current window. Defaults to not set.
-;   dims:           Image dimensions for display. Defaults to [nx, ny] of
+;   QUIET:          Do not pop-up display image. Defaults to not set.
+;   CURRENT:        Flag to plot in current window. Defaults to not set.
+;   DIMS:           Image dimensions for display. Defaults to [nx, ny] of
 ;                   input coco_datacube.
-;   name:           String containing output file name, triggers save
+;   NAME:           String containing output file name, triggers save
 ;                   of image if present. Does noe require suffix.
-;   filepath:       String containting filepath that will be added to name.
-;   filetype:       String for output image file type. default = "png". Valid
+;   FILEPATH:       String containting filepath that will be added to name.
+;   FILETYPE:       String for output image file type. default = "png". Valid
 ;                   formats from IDL write image routine:
 ;                   "bmp","gif","jpeg","png","ppm","srf","tiff".
 ;
