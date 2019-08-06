@@ -72,6 +72,7 @@ FUNCTION COCOPLOT, coco_datacube, FILTER=filter, RGBTHRESH=rgbthresh, THRESHMETH
      data_int=COCONORM(data_float)
   ENDELSE
 ; Show/save image if requested
-  cocoshow, data_int, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=name, FILEPATH=filepath, FILETYPE=filetype
+  IF NOT KEYWORD_SET(QUIET) THEN $
+    COCOSHOW, data_int, CURRENT=current, DIMS=dims, NAME=name, FILEPATH=filepath, FILETYPE=filetype
   RETURN, data_int
 END
