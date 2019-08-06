@@ -53,7 +53,7 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, FILEPATH=filepath, STARTSTOP=st
 
   sz = SIZE(coco_datacube)
   IF (N_ELEMENTS(DIMS) NE 2) THEN dims = sz[1:2]
-  IF KEYWORD_SET(startstop) THEN startstop=startstop ELSE startstop=[0,sz[4]-1]
+  IF (N_ELEMENTS(STARTSTOP) NE 2) THEN startstop=[0,sz[4]-1]
   fileloc=name
   IF (KEYWORD_SET(filepath)) THEN fileloc=filepath+name
   video_object_name = idlffvideowrite(fileloc)
