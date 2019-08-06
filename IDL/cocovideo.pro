@@ -55,7 +55,7 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, FILEPATH=filepath, STARTSTOP=st
   IF (N_ELEMENTS(DIMS) NE 2) THEN dims = sz[1:2]
   IF (N_ELEMENTS(STARTSTOP) NE 2) THEN startstop=[0,sz[4]-1]
   fileloc=name
-  IF (KEYWORD_SET(filepath)) THEN fileloc=filepath+name
+  IF (N_ELEMENTS(FILEPATH) EQ 1) THEN fileloc=filepath+name
   video_object_name = idlffvideowrite(fileloc)
   video_stream_name =video_object_name.addvideostream(dims[0], dims[1], fps)
   ; Create video while showing images if loud keyword set
