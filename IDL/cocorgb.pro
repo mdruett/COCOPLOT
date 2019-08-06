@@ -37,23 +37,23 @@ FUNCTION COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=th
 ;   Written by: Malcolm Druett, May 2019
 ;-
   coco_datacube=coco_datacube_in
-  dims=size(coco_datacube)
+  dims=SIZE(coco_datacube)
   ; Thresholding: saturation at max and zero at min values
-  IF keyword_set(rgbthresh) THEN BEGIN
+  IF KEYWORD_SET(rgbthresh) THEN BEGIN
     CASE threshmethod OF
       'fraction': BEGIN
-                    datamin=min(coco_datacube, /NAN)
-                    datamax=max(coco_datacube, /NAN)
+                    datamin=MIN(coco_datacube, /NAN)
+                    datamax=MAX(coco_datacube, /NAN)
                     datarange=datamin+rgbthresh*(datamax-datamin)
                   END
       'numeric':  datarange=rgbthresh
       'percentile': datarange=cgPercentiles(coco_datacube, PERCENTILES=rgbthresh)
-      ELSE: message, "threshmethod not recognised. Should be 'fraction', 'numeric' or 'percentile'.", /info
+      ELSE: MESSAGE, "threshmethod not recognised. Should be 'fraction', 'numeric' or 'percentile'.", /INFO
     ENDCASE
-    IF (min(finite(datarange)) EQ 0) THEN message, "NAN or INFINTE data detected in requested range.", /info
-    iw=where(coco_datacube GT datarange[1], count)
+    IF (MIN(FINITE(datarange)) EQ 0) THEN MESSAGE, "NAN or INFINTE data detected in requested range.", /INFO
+    iw=WHERE(coco_datacube GT datarange[1], count)
     IF (count NE 0) THEN coco_datacube[iw]=datarange[1]
-    iw=where(coco_datacube LT datarange[0], count)
+    iw=WHERE(coco_datacube LT datarange[0], count)
     IF (count NE 0) THEN coco_datacube[iw]=datarange[0]
     coco_datacube=coco_datacube-datarange[0]
   ENDIF
@@ -65,9 +65,9 @@ FUNCTION COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=th
   ;   slice=double(reform(coco_datacube[x,*,0:dims[3]-1]))
   ;   coco_data_rgb[x,*,0:2] = slice # double(filter)
   ;endfor
-  coco_data_rgb=dblarr(dims[1],dims[2],3)
-  coco_data_rgb = reform($
-          reform(coco_datacube, dims[1]*dims[2], dims[3]) # filter, $
+  coco_data_rgb=DBLARR(dims[1],dims[2],3)
+  coco_data_rgb = REFORM($
+          REFORM(coco_datacube, dims[1]*dims[2], dims[3]) # filter, $
           dims[1], dims[2], 3)
   RETURN, coco_data_rgb
 END

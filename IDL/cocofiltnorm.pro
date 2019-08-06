@@ -29,10 +29,10 @@ FUNCTION COCOFILTNORM, spect_points, prof_mean, prof_sigma
 ; MODIFICATION HISTORY:
 ;   Written by:	Malcolm Druett, May 2019
 ;-
-  nlambda=n_elements(spect_points)
-  unifprof=make_array(nlambda,/double,value=1)
-  filter_temp=exp(-(double(spect_points)-prof_mean)^2/(2D*prof_sigma^2))
-  filt_max=transpose(unifprof) # filter_temp
+  nlambda=N_ELEMENTS(spect_points)
+  unifprof=MAKE_ARRAY(nlambda,/DOUBLE,VALUE=1)
+  filter_temp=EXP(-(DOUBLE(spect_points)-prof_mean)^2/(2D*prof_sigma^2))
+  filt_max=TRANSPOSE(unifprof) # filter_temp
   filt_norm=1D/filt_max[0]
   filter_temp=filt_norm*filter_temp
   RETURN, filter_temp

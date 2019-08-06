@@ -50,19 +50,19 @@ FUNCTION COCOPLOT, coco_datacube, filter=filter, rgbthresh=rgbthresh, threshmeth
 ;   Written by:	Malcolm Druett, May 2019
 ;-
 ; Check whether handed data or RGB array.
-  IF (NOT keyword_set(filter)) THEN BEGIN
-    sz=size(coco_datacube)
+  IF (NOT KEYWORD_SET(filter)) THEN BEGIN
+    sz=SIZE(coco_datacube)
     IF ((sz[0] EQ 3) && (sz[3] EQ 3)) THEN BEGIN
       data_int=coco_datacube
     ENDIF ELSE BEGIN
-      message, "No filter handed to COCOPLOT. Therefore expected 3D RGB cube with third dimension size 3, found respectively "+strcompress(string(sz[0]),/remove_all)+", and "+strcompress(string(sz[0]),/remove_all)
+      MESSAGE, "No filter handed to COCOPLOT. Therefore expected 3D RGB cube with third dimension size 3, found respectively "+STRCOMPRESS(STRING(sz[0]),/REMOVE_ALL)+", and "+STRCOMPRESS(STRING(sz[0]),/REMOVE_ALL)
     ENDELSE
   ; If not handed RGB array, then produce RGB array using COCORGB and COCONORM.
   ENDIF ELSE BEGIN
-     data_float=COCORGB(coco_datacube, filter, rgbthresh=rgbthresh, threshmethod=threshmethod)
+     data_float=COCORGB(coco_datacube, filter, RGBTHRESH=rgbthresh, THRESHMETHOD=threshmethod)
      data_int=COCONORM(data_float)
   ENDELSE
 ; Show/save image if requested
-  cocoshow, data_int, quiet=quiet, current=current, dims=dims, name=name, filepath=filepath, filetype=filetype
+  cocoshow, data_int, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=name, FILEPATH=filepath, FILETYPE=filetype
   RETURN, data_int
 END

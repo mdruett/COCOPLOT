@@ -46,10 +46,10 @@ PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
 
   ; displaying image.
   ; Set up options for correct display.
-  IF (keyword_set(quiet)) THEN option1=1 ELSE option1=0
+  IF (KEYWORD_SET(quiet)) THEN option1=1 ELSE option1=0
   ; save required, therefore display in buffer if not actually displaying.
-  IF (keyword_set(name)) THEN BEGIN
-    IF (n_elements(dims) EQ 2) THEN BEGIN
+  IF (KEYWORD_SET(name)) THEN BEGIN
+    IF (N_ELEMENTS(dims) EQ 2) THEN BEGIN
       nx=dims[0]
       ny=dims[1]
     ENDIF ELSE BEGIN
@@ -57,25 +57,25 @@ PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
       nx=sz[1]
       ny=sz[2]
     ENDELSE
-    IF (NOT keyword_set(current)) THEN BEGIN
-      w=WINDOW(DIMENSIONS=[nx,ny],buffer=option)
+    IF (NOT KEYWORD_SET(current)) THEN BEGIN
+      w=WINDOW(DIMENSIONS=[nx,ny],BUFFER=option)
     ENDIF
-    temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)
+    temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/CURRENT)
   ENDIF ELSE BEGIN
   ; No save required, show only if quiet not set.
     IF (option=0) THEN BEGIN
-      IF (n_elements(dims) EQ 2) THEN BEGIN
+      IF (N_ELEMENTS(dims) EQ 2) THEN BEGIN
         nx=dims[0]
         ny=dims[1]
       ENDIF ELSE BEGIN
-        sz=size(coco_data_rgb_int)
+        sz=SIZE(coco_data_rgb_int)
         nx=sz[1]
         ny=sz[2]
       ENDELSE
-      IF (NOT keyword_set(current)) THEN BEGIN
+      IF (NOT KEYWORD_SET(current)) THEN BEGIN
         w=WINDOW(DIMENSIONS=[nx,ny])
       ENDIF
-      temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)
+      temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/CURRENT)
     ENDIF ELSE BEGIN
      ; quiet set and no save required, skip display.
         RETURN
@@ -83,12 +83,12 @@ PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
      ; no save or display required, so no image.
   ENDELSE
   ;saving image.
-  IF (keyword_set(name)) THEN BEGIN
+  IF (KEYWORD_SET(name)) THEN BEGIN
      the_image=temp_image.CopyWindow()
      fileloc=name
-        IF (keyword_set(filepath)) THEN fileloc=filepath+name
-        IF (NOT keyword_set(filetype)) THEN filetype="png"
+        IF (KEYWORD_SET(filepath)) THEN fileloc=filepath+name
+        IF (NOT KEYWORD_SET(filetype)) THEN filetype="png"
         fileloc=fileloc+"."+filetype
-    write_image, fileloc, filetype, the_image
+    WRITE_IMAGE, fileloc, filetype, the_image
   ENDIF
 END

@@ -44,25 +44,25 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, filepath=filepath, startstop=st
 ; MODIFICATION HISTORY:
 ;   Written by: Malcolm Druett, May 2019
 ;-
-  sz = size(coco_datacube)
+  sz = SIZE(coco_datacube)
   nx = sz[1]
   ny = sz[2]
   nt = sz[4]
-  IF (n_elements(dims) EQ 2) THEN BEGIN 
+  IF (N_ELEMENTS(dims) EQ 2) THEN BEGIN 
      nx=dims[0]
      ny=dims[1]
   ENDIF 
   IF KEYWORD_SET(startstop) THEN startstop=startstop ELSE startstop=[0,nt-1]
   fileloc=name
-  IF (keyword_set(filepath)) THEN fileloc=filepath+name
+  IF (KEYWORD_SET(filepath)) THEN fileloc=filepath+name
   video_object_name = idlffvideowrite(fileloc)
   video_stream_name =video_object_name.addvideostream(nx, ny, fps)
   ; Create video while showing images if loud keyword set
   IF KEYWORD_SET(loud) THEN w=WINDOW(DIMENSIONS=[nx,ny]) ELSE w=WINDOW(DIMENSIONS=[nx,ny],/BUFFER)
   FOR i_loop=startstop[0],startstop[1] DO BEGIN
-        my_rgb=COCOPLOT(coco_datacube[*,*,*,i_loop], filter, rgbthresh=rgbthresh, threshmethod=threshmethod, current=1, dims=[nx, ny])
+        my_rgb=COCOPLOT(coco_datacube[*,*,*,i_loop], filter, RGBTHRESH=rgbthresh, THRESHMETHOD=threshmethod, CURRENT=1, DIMS=[nx, ny])
         my_image=w.copywindow()
         timestamp = video_object_name.put(video_stream_name, my_image)
   ENDFOR
-  obj_destroy, video_object_name
+  OBJ_DESTROY, video_object_name
 END

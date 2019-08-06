@@ -54,35 +54,35 @@ FUNCTION COCOFILTPLOT, profile, filter, spect_points=spect_points, color=color, 
 ;   Based on a function in COCOpy by A.G.M Pietrow
 ;   Written by:	Malcolm Druet, May 2019
 ;-
-   profile = double(profile)
-   filter = double(filter)
-   IF (NOT keyword_set(spect_points)) THEN spect_points=indgen(n_elements(profile))
-   IF (NOT keyword_set(normfactor)) THEN normfactor=1.0
+   profile = DOUBLE(profile)
+   filter = DOUBLE(filter)
+   IF (NOT KEYWORD_SET(spect_points)) THEN spect_points=INDGEN(N_ELEMENTS(profile))
+   IF (NOT KEYWORD_SET(normfactor)) THEN normfactor=1.0
    ; setting colour of plot
    ; factor 0.8 to ensure line does not come out white!
-   IF (NOT keyword_set(color)) THEN BEGIN
+   IF (NOT KEYWORD_SET(color)) THEN BEGIN
       rgb_value = profile # filter
-      rgb_int = reform(round(0.8*rgb_value*255/max(rgb_value)))
+      rgb_int = REFORM(ROUND(0.8*rgb_value*255/MAX(rgb_value)))
    ENDIF ELSE BEGIN
       rgb_int=!null
    ENDELSE
-   IF (NOT keyword_set(thick)) THEN thick=2
-   normprofile=normfactor*profile/max(profile)
-   normfilter=filter/max(filter)
+   IF (NOT KEYWORD_SET(thick)) THEN thick=2
+   normprofile=normfactor*profile/MAX(profile)
+   normfilter=filter/MAX(filter)
    convprof=filter
-   convprof[*,0]=normprofile * reform(normfilter[*,0])
-   convprof[*,1]=normprofile * reform(normfilter[*,1])
-   convprof[*,2]=normprofile * reform(normfilter[*,2])
+   convprof[*,0]=normprofile * REFORM(normfilter[*,0])
+   convprof[*,1]=normprofile * REFORM(normfilter[*,1])
+   convprof[*,2]=normprofile * REFORM(normfilter[*,2])
 
-    myplot=plot(spect_points,normprofile, xtitle=xtitle, ytitle=ytitle, title=title, thick=thick, color=rgb_int, sym='o', sym_filled=1, buffer=buffer, font_size=font_size)
+    myplot=PLOT(spect_points,normprofile, XTITLE=xtitle, YTITLE=ytitle, TITLE=title, THICK=thick, COLOR=rgb_int, SYM='o', SYM_FILLED=1, BUFFER=buffer, FONT_SIZE=font_size)
     myplot.xstyle = 1
     FOR i=0,2 DO BEGIN
-      myplot=plot(spect_points,reform(normfilter[*,i]), xtitle=xtitle, $
-        ytitle=ytitle, title=title, thick=thick, color=shift([255,0,0],i), sym='o', $
-        sym_filled=1, linestyle='--', /current, /overplot)
-      myplot=plot(spect_points,reform(convprof[*,i]), xtitle=xtitle, $
-        ytitle=ytitle, title=title, thick=thick, color=shift([255,0,0],i), sym='o', $
-        sym_filled=1, linestyle='-', /current, /overplot)
+      myplot=PLOT(spect_points,REFORM(normfilter[*,i]), XTITLE=xtitle, $
+        YTITLE=ytitle, TITLE=title, THICK=thick, COLOR=SHIFT([255,0,0],i), sym='o', $
+        SYM_FILLED=1, LINESTYLE='--', /CURRENT, /OVERPLOT)
+      myplot=PLOT(spect_points,REFORM(convprof[*,i]), xtitle=xtitle, $
+        YTITLE=ytitle, TITLE=title, THICK=thick, COLOR=SHIFT([255,0,0],i), sym='o', $
+        SYM_FILLED=1, LINESTYLE='-', /CURRENT, /OVERPLOT)
     ENDFOR
 
     RETURN, myplot
