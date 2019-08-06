@@ -31,10 +31,10 @@ FUNCTION COCONORM, coco_data_rgb
 ;   Written by:	Malcolm Druett, May 2019
 ;-
 
-;  Remove any stray negative values
-   iw=WHERE(coco_data_rgb LT 0, count)
-   IF (count NE 0) THEN coco_data_rgb[iw]=0.0
-;  Linear normalisation
-   maxval=MAX(coco_data_rgb, /NAN)
-   RETURN, ROUND(255D*coco_data_rgb/maxval)
+; Remove any stray negative values
+  iw=WHERE(coco_data_rgb LT 0, count)
+  IF (count NE 0) THEN coco_data_rgb[iw]=0.0
+; Linear normalisation
+  maxval=MAX(coco_data_rgb, /NAN)
+  RETURN, ROUND(255D*coco_data_rgb/maxval)
 END
