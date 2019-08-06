@@ -6,7 +6,7 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, filepath=filepath, startstop=st
 ;	  COCOVIDEO
 ;
 ; PURPOSE:
-;	  Generate and save an animation of COCOPLOT images
+;	  Generate and save an animation of COCOPLOT images.
 ;
 ; CATEGORY:
 ;	  COCOPLOT visualisation
@@ -15,15 +15,15 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, filepath=filepath, startstop=st
 ;         COCOVIDEO, coco_datacube, filter, fps, name
 ;
 ; INPUTS:
-;   coco_datacube:  Input 4D data cube of dimensions [nx, ny, nspect_points, nt]
-;   filter:         Filter of dimensions [nspect_points, 3] 
-;   fps:            Frames per second
+;   coco_datacube:  Input 4D data cube of dimensions [nx, ny, nspect_points, nt].
+;   filter:         Filter of dimensions [nspect_points, 3].
+;   fps:            Frames per second.
 ;   name:           String containing output file name.
 ;
 ; KEYWORD PARAMETERS:
 ;   filepath:       Output filepath prefixed to the "name" variable.
 ;   startstop:      Start and stop indices for time dimension. Defaults to
-;                   [0,nt-1]
+;                   [0,nt-1].
 ;   rgbthresh:      Flag to apply saturation thresholding. Defaults to not set.
 ;   threshmethod:   Scalar string specifying the Saturation thresholding method.
 ;                   Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.

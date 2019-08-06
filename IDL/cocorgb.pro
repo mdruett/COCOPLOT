@@ -6,7 +6,7 @@ FUNCTION COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=th
 ;	  COCORGB
 ;
 ; PURPOSE:
-;	  Collapse a 3D datacube to a single 3D COCOPLOT RGB integer array of dimensions [nx, ny, 3]
+;	  Collapse a 3D datacube to a single 3D COCOPLOT RGB integer array of dimensions [nx, ny, 3].
 ;
 ; CATEGORY:
 ;	  COCOPLOT core
@@ -16,13 +16,13 @@ FUNCTION COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=th
 ;	  Result = COCORGB(coco_datacube_in, filter) 
 ;
 ; INPUTS:
-;	  coco_datacube:  Input data cube of dimensions [nx, ny, nspect_points]
-;   filter:         Filter of dimensions [nspect_points, 3] 
+;	  coco_datacube:  Input data cube of dimensions [nx, ny, nspect_points].
+;         filter:         Filter of dimensions [nspect_points, 3]. 
 ;
 ; KEYWORD PARAMETERS:
 ;	  rgbthresh:      Flag to apply saturation thresholding. Defaults to not set.
-;   threshmethod:   Scalar string specifying the Saturation thresholding method.
-;                   Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
+;         threshmethod:   Scalar string specifying the Saturation thresholding method.
+;                         Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
 ;
 ; OUTPUTS:
 ;	  3D COCOPLOT RGB integer array of dimensions [nx, ny, 3]

@@ -6,7 +6,7 @@ FUNCTION COCOFILTNORM, spect_points, prof_mean, prof_sigma
 ;	  COCOFILTNORM
 ;
 ; PURPOSE:
-;   Generate normal distribution style filters
+;   Generate normal distribution style filters.
 ;
 ; CATEGORY:
 ;	  COCOPLOT core
@@ -15,13 +15,13 @@ FUNCTION COCOFILTNORM, spect_points, prof_mean, prof_sigma
 ;	  Result = COCOFILTNORM(spect_points, prof_mean, prof_sigma)
 ;
 ; INPUTS:
-;   spect_points:  1D-array of spectral data points.
+;   spect_points: 1D-array of spectral data points.
 ;   prof_mean:    Mean of the normal distribution. 
 ;   prof_sigma:   Standard devaition of the normal distribution.
 ;
 ; OUTPUTS:
 ;	  Normal distribution style filter (1-dimensional array of length
-;   nWavelengths). 
+;         nWavelengths). 
 ;
 ; EXAMPLE:
 ;   filter = COCOFILTNORM(FINDGEN(101)-50, 20., 10.)

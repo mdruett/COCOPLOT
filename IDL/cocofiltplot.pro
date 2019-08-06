@@ -6,7 +6,7 @@ FUNCTION COCOFILTPLOT, profile, filter, spect_points=spect_points, color=color, 
 ;	  COCOFILTPLOT
 ;
 ; PURPOSE:
-;	  Display a plot of the profiles and filters
+;	  Display a plot of the profiles and filters.
 ;
 ; CATEGORY:
 ;	  COCOPLOT visualisation
@@ -15,26 +15,26 @@ FUNCTION COCOFILTPLOT, profile, filter, spect_points=spect_points, color=color, 
 ;	  Result = COCOFILTPLOT()
 ;
 ; INPUTS:
-;   profile: a 1D line profile, length nl
-;   filter:  a set of rgb filters, length nl 
+;   profile: A 1D line profile, length nl.
+;   filter:  A set of rgb filters, length nl. 
 ;
 ; KEYWORD PARAMETERS:
-;   spect_points: A set of spectral data point values for the x-axis
+;   spect_points: A set of spectral data point values for the x-axis.
 ;   color:  If .true. the color of the profile will have the RGB hue
 ;           that the filter would give it, although the brightness may
 ;           be different depending on the scaling used. 
 ;           Otherwise profile is black.
 ;   xlabel: Text on xlabel.
 ;   ylabel: Text on ylabel.
-;   title:  Title of plot. Not present by default 
+;   title:  Title of plot. Not present by default.
 ;   dimensions: Specify the dimensions of the image generated.
-;               No default set
+;               No default set.
 ;   buffer: Places the image in a display buffer, rather than
-;           displaying it on-screen
+;           displaying it on-screen.
 ;   current: Places the image in the most recently opened graphics window.
 ;   thick: Integer sepecifying the thicknesses of the lines used
 ;   font_size: Integer specifying the font size used. No default set.
-;   normfactor: real number from 0 to 1 that may be used to separate
+;   normfactor: Real number from 0 to 1 that may be used to separate
 ;               the heights of the normalised plots of the filters and
 ;               the line profiles. Defaults to 1.0.
 ;

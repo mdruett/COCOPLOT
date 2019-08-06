@@ -6,7 +6,7 @@ PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
 ;	  COCOSHOW
 ;
 ; PURPOSE:
-;	  Display and/or save a COCOPLOT image
+;	  Display and/or save a COCOPLOT image.
 ;
 ; CATEGORY:
 ;	  COCOPLOT visualisation
@@ -15,7 +15,7 @@ PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
 ;	  COCOSHOW, coco_data_rgb_int
 ;
 ; INPUTS:
-;	  coco_data_rgb_int: 3D COCOPLOT RGB integer array of dimensions [nx, ny, 3]
+;	  coco_data_rgb_int: 3D COCOPLOT RGB integer array of dimensions [nx, ny, 3].
 ;
 ; KEYWORD PARAMETERS:
 ;   quiet:        Do not pop-up display image. Defaults to not set.
@@ -44,10 +44,10 @@ PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
 ; 	Written by:	Malcolm Druett, May 2019
 ;-
 
-; displaying image
-  ; Set up options for correct display
+; displaying image.
+  ; Set up options for correct display.
   IF (keyword_set(quiet)) THEN option1=1 ELSE option1=0
-  ; save required, therefore display in buffer if not actually displaying
+  ; save required, therefore display in buffer if not actually displaying.
   IF (keyword_set(name)) THEN BEGIN
      IF (n_elements(dims) EQ 2) THEN BEGIN   
         nx=dims[0]
@@ -62,7 +62,7 @@ PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
      ENDIF
      temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)
   ENDIF ELSE BEGIN
-  ; No save required, show only if quiet not set
+  ; No save required, show only if quiet not set.
      IF (option=0) THEN BEGIN
         IF (n_elements(dims) EQ 2) THEN BEGIN   
            nx=dims[0]
@@ -77,12 +77,12 @@ PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
         ENDIF
         temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)
      ENDIF ELSE BEGIN
-     ; quiet set and no save required, skip display
+     ; quiet set and no save required, skip display.
         RETURN
      ENDELSE
-     ; no save or display required, so no image
+     ; no save or display required, so no image.
   ENDELSE
-  ;saving image
+  ;saving image.
   IF (keyword_set(name)) THEN BEGIN
      the_image=temp_image.CopyWindow()
      fileloc=name
