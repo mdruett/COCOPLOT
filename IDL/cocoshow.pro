@@ -51,36 +51,21 @@ PRO COCOSHOW, coco_data_rgb_int, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=n
     RETURN
   ENDIF
 
-  ; displaying image.
-  ; Set up options for correct display.
-  IF (KEYWORD_SET(quiet)) THEN option1=1 ELSE option1=0
   IF (N_ELEMENTS(DIMS) NE 2) THEN dims = (SIZE(coco_data_rgb_int))[1:2]
-  ; save required, therefore display in buffer if not actually displaying.
-  IF (N_ELEMENTS(NAME) EQ 1) THEN BEGIN
-    IF (NOT KEYWORD_SET(current)) THEN BEGIN
-      w=WINDOW(DIMENSIONS=dims,BUFFER=option)
+
+  ; Create image if save or display requested 
+  IF (N_ELEMENTS(NAME) EQ 1) OR (NOT KEYWORD_SET(QUIET)) THEN BEGIN
+    IF NOT KEYWORD_SET(CURRENT) THEN $
+      w = WINDOW(DIMENSIONS=dims, BUFFER=KEYWORD_SET(QUIET))
+    temp_image = IMAGE(coco_data_rgb_int, IMAGE_DIMENSIONS=dims, POSITION=[0.0,0.0,1.0,1.0], /CURRENT)
+    ; Save image if output filename supplied
+    IF (N_ELEMENTS(NAME) EQ 1) THEN BEGIN
+      the_image=temp_image.CopyWindow()
+      fileloc=name
+      IF (N_ELEMENTS(FILEPATH) EQ 1) THEN fileloc=filepath+name
+      IF (N_ELEMENTS(FILETYPE) NE 1) THEN filetype="png"
+      fileloc=fileloc+"."+filetype
+      WRITE_IMAGE, fileloc, filetype, the_image
     ENDIF
-    temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=dims, POSITION=[0.0,0.0,1.0,1.0],/CURRENT)
-  ENDIF ELSE BEGIN
-  ; No save required, show only if quiet not set.
-    IF (option=0) THEN BEGIN
-      IF (NOT KEYWORD_SET(current)) THEN BEGIN
-        w=WINDOW(DIMENSIONS=dims)
-      ENDIF
-      temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=dims, POSITION=[0.0,0.0,1.0,1.0],/CURRENT)
-    ENDIF ELSE BEGIN
-     ; quiet set and no save required, skip display.
-        RETURN
-    ENDELSE
-     ; no save or display required, so no image.
-  ENDELSE
-  ;saving image.
-  IF (N_ELEMENTS(NAME) EQ 1) THEN BEGIN
-    the_image=temp_image.CopyWindow()
-    fileloc=name
-    IF (N_ELEMENTS(FILEPATH) EQ 1) THEN fileloc=filepath+name
-    IF (N_ELEMENTS(FILETYPE) NE 1) THEN filetype="png"
-    fileloc=fileloc+"."+filetype
-    WRITE_IMAGE, fileloc, filetype, the_image
   ENDIF
 END
