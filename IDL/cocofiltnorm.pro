@@ -3,7 +3,7 @@ FUNCTION COCOFILTNORM, spect_points, prof_mean, prof_sigma
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
-;	  COCOFILTNORM
+;   COCOFILTNORM
 ;
 ; PURPOSE:
 ;   Generate normal distribution style filters.
@@ -27,7 +27,7 @@ FUNCTION COCOFILTNORM, spect_points, prof_mean, prof_sigma
 ;   filter = COCOFILTNORM(FINDGEN(101)-50, 20., 10.)
 ;
 ; MODIFICATION HISTORY:
-; 	Written by:	Malcolm Druett, May 2019
+;   Written by:	Malcolm Druett, May 2019
 ;-
   nlambda=n_elements(spect_points)
   unifprof=make_array(nlambda,/double,value=1)
