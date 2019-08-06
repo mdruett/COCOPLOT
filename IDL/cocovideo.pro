@@ -59,7 +59,7 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, FILEPATH=filepath, STARTSTOP=st
   video_object_name = idlffvideowrite(fileloc)
   video_stream_name =video_object_name.addvideostream(dims[0], dims[1], fps)
   ; Create video while showing images if loud keyword set
-  IF KEYWORD_SET(loud) THEN w=WINDOW(DIMENSIONS=dims) ELSE w=WINDOW(DIMENSIONS=dims,/BUFFER)
+  w = WINDOW(DIMENSIONS=dims, BUFFER=(NOT KEYWORD_SET(LOUD)))
   FOR i_loop=startstop[0],startstop[1] DO BEGIN
         my_rgb=COCOPLOT(coco_datacube[*,*,*,i_loop], filter, RGBTHRESH=rgbthresh, THRESHMETHOD=threshmethod, CURRENT=1, DIMS=dims)
         my_image=w.copywindow()
