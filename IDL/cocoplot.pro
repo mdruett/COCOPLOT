@@ -64,7 +64,7 @@ FUNCTION COCOPLOT, coco_datacube, FILTER=filter, RGBTHRESH=rgbthresh, THRESHMETH
     IF ((sz[0] EQ 3) && (sz[3] EQ 3)) THEN BEGIN
       data_int=coco_datacube
     ENDIF ELSE BEGIN
-      MESSAGE, "No filter handed to COCOPLOT. Therefore expected 3D RGB cube with third dimension size 3, found respectively "+STRCOMPRESS(STRING(sz[0]),/REMOVE_ALL)+", and "+STRCOMPRESS(STRING(sz[0]),/REMOVE_ALL)
+      MESSAGE, "No filter handed to COCOPLOT. Therefore expected 3D RGB cube with third dimension size 3, found respectively "+STRCOMPRESS(STRING(sz[0]),/REMOVE_ALL)+", and "+STRCOMPRESS(STRING(sz[0]),/REMOVE_ALL), /INFO
     ENDELSE
   ; If not handed RGB array, then produce RGB array using COCORGB and COCONORM.
   ENDIF ELSE BEGIN
