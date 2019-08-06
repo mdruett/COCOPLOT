@@ -3,16 +3,16 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, filepath=filepath, startstop=st
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
-;	  COCOVIDEO
+;   COCOVIDEO
 ;
 ; PURPOSE:
-;	  Generate and save an animation of COCOPLOT images.
+;   Generate and save an animation of COCOPLOT images.
 ;
 ; CATEGORY:
-;	  COCOPLOT visualisation
+;   COCOPLOT visualisation
 ;
 ; CALLING SEQUENCE:
-;         COCOVIDEO, coco_datacube, filter, fps, name
+;   COCOVIDEO, coco_datacube, filter, fps, name
 ;
 ; INPUTS:
 ;   coco_datacube:  Input 4D data cube of dimensions [nx, ny, nspect_points, nt].
@@ -32,7 +32,7 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, filepath=filepath, startstop=st
 ;                   input coco_datacube.
 ;
 ; OUTPUTS:
-;	  Save a series of COCOPLOT images as an animation.
+;   Save a series of COCOPLOT images as an animation.
 ;
 ; RESTRICTIONS:
 ;   Requires the following procedures and functions:
@@ -42,7 +42,7 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, filepath=filepath, startstop=st
 ;   TBD
 ;
 ; MODIFICATION HISTORY:
-; 	Written by:	Malcolm Druett, May 2019
+;   Written by: Malcolm Druett, May 2019
 ;-
   sz = size(coco_datacube)
   nx = sz[1]
@@ -57,7 +57,7 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, filepath=filepath, startstop=st
   IF (keyword_set(filepath)) THEN fileloc=filepath+name
   video_object_name = idlffvideowrite(fileloc)
   video_stream_name =video_object_name.addvideostream(nx, ny, fps)
-; Create video while showing images if loud keyword set
+  ; Create video while showing images if loud keyword set
   IF KEYWORD_SET(loud) THEN w=WINDOW(DIMENSIONS=[nx,ny]) ELSE w=WINDOW(DIMENSIONS=[nx,ny],/BUFFER)
   FOR i_loop=startstop[0],startstop[1] DO BEGIN
         my_rgb=COCOPLOT(coco_datacube[*,*,*,i_loop], filter, rgbthresh=rgbthresh, threshmethod=threshmethod, current=1, dims=[nx, ny])

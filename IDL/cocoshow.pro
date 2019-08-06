@@ -3,19 +3,19 @@ PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
-;	  COCOSHOW
+;   COCOSHOW
 ;
 ; PURPOSE:
-;	  Display and/or save a COCOPLOT image.
+;   Display and/or save a COCOPLOT image.
 ;
 ; CATEGORY:
-;	  COCOPLOT visualisation
+;   COCOPLOT visualisation
 ;
 ; CALLING SEQUENCE:
-;	  COCOSHOW, coco_data_rgb_int
+;   COCOSHOW, coco_data_rgb_int
 ;
 ; INPUTS:
-;	  coco_data_rgb_int: 3D COCOPLOT RGB integer array of dimensions [nx, ny, 3].
+;   coco_data_rgb_int: 3D COCOPLOT RGB integer array of dimensions [nx, ny, 3].
 ;
 ; KEYWORD PARAMETERS:
 ;   quiet:        Do not pop-up display image. Defaults to not set.
@@ -30,7 +30,7 @@ PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
 ;                 "bmp","gif","jpeg","png","ppm","srf","tiff".
 ;
 ; OUTPUTS:
-;	  Return and/or display and/or save a COCOPLOT image.
+;   Return and/or display and/or save a COCOPLOT image.
 ;
 ; RESTRICTIONS:
 ;   Requires the following procedures and functions:
@@ -41,45 +41,45 @@ PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
 ;   TBD
 ;
 ; MODIFICATION HISTORY:
-; 	Written by:	Malcolm Druett, May 2019
+;   Written by: Malcolm Druett, May 2019
 ;-
 
-; displaying image.
+  ; displaying image.
   ; Set up options for correct display.
   IF (keyword_set(quiet)) THEN option1=1 ELSE option1=0
   ; save required, therefore display in buffer if not actually displaying.
   IF (keyword_set(name)) THEN BEGIN
-     IF (n_elements(dims) EQ 2) THEN BEGIN   
+    IF (n_elements(dims) EQ 2) THEN BEGIN
+      nx=dims[0]
+      ny=dims[1]
+    ENDIF ELSE BEGIN
+      sz=size(coco_data_rgb_int)
+      nx=sz[1]
+      ny=sz[2]
+    ENDELSE
+    IF (NOT keyword_set(current)) THEN BEGIN
+      w=WINDOW(DIMENSIONS=[nx,ny],buffer=option)
+    ENDIF
+    temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)
+  ENDIF ELSE BEGIN
+  ; No save required, show only if quiet not set.
+    IF (option=0) THEN BEGIN
+      IF (n_elements(dims) EQ 2) THEN BEGIN
         nx=dims[0]
         ny=dims[1]
-     ENDIF ELSE BEGIN
+      ENDIF ELSE BEGIN
         sz=size(coco_data_rgb_int)
         nx=sz[1]
         ny=sz[2]
-     ENDELSE
-     IF (NOT keyword_set(current)) THEN BEGIN
-        w=WINDOW(DIMENSIONS=[nx,ny],buffer=option)
-     ENDIF
-     temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)
-  ENDIF ELSE BEGIN
-  ; No save required, show only if quiet not set.
-     IF (option=0) THEN BEGIN
-        IF (n_elements(dims) EQ 2) THEN BEGIN   
-           nx=dims[0]
-           ny=dims[1]
-        ENDIF ELSE BEGIN
-           sz=size(coco_data_rgb_int)
-           nx=sz[1]
-           ny=sz[2]
-        ENDELSE
-        IF (NOT keyword_set(current)) THEN BEGIN
-           w=WINDOW(DIMENSIONS=[nx,ny])
-        ENDIF
-        temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)
-     ENDIF ELSE BEGIN
+      ENDELSE
+      IF (NOT keyword_set(current)) THEN BEGIN
+        w=WINDOW(DIMENSIONS=[nx,ny])
+      ENDIF
+      temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)
+    ENDIF ELSE BEGIN
      ; quiet set and no save required, skip display.
         RETURN
-     ENDELSE
+    ENDELSE
      ; no save or display required, so no image.
   ENDELSE
   ;saving image.
@@ -89,6 +89,6 @@ PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
         IF (keyword_set(filepath)) THEN fileloc=filepath+name
         IF (NOT keyword_set(filetype)) THEN filetype="png"
         fileloc=fileloc+"."+filetype
-  	write_image, fileloc, filetype, the_image
+    write_image, fileloc, filetype, the_image
   ENDIF
 END

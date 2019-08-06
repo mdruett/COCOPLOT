@@ -3,26 +3,26 @@ FUNCTION COCOFILTPLOT, profile, filter, spect_points=spect_points, color=color, 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
-;	  COCOFILTPLOT
+;   COCOFILTPLOT
 ;
 ; PURPOSE:
-;	  Display a plot of the profiles and filters.
+;   Display a plot of the profiles and filters.
 ;
 ; CATEGORY:
-;	  COCOPLOT visualisation
+;   COCOPLOT visualisation
 ;
 ; CALLING SEQUENCE:
-;	  Result = COCOFILTPLOT()
+;   Result = COCOFILTPLOT()
 ;
 ; INPUTS:
 ;   profile: A 1D line profile, length nl.
-;   filter:  A set of rgb filters, length nl. 
+;   filter:  A set of rgb filters, length nl.
 ;
 ; KEYWORD PARAMETERS:
 ;   spect_points: A set of spectral data point values for the x-axis.
 ;   color:  If .true. the color of the profile will have the RGB hue
 ;           that the filter would give it, although the brightness may
-;           be different depending on the scaling used. 
+;           be different depending on the scaling used.
 ;           Otherwise profile is black.
 ;   xlabel: Text on xlabel.
 ;   ylabel: Text on ylabel.
@@ -39,7 +39,7 @@ FUNCTION COCOFILTPLOT, profile, filter, spect_points=spect_points, color=color, 
 ;               the line profiles. Defaults to 1.0.
 ;
 ; OUTPUTS:
-;	  Display a plot with input profile and filters overplotted.
+;   Display a plot with input profile and filters overplotted.
 ;
 ; RESTRICTIONS:
 ;   Requires the following procedures and functions:
@@ -52,7 +52,7 @@ FUNCTION COCOFILTPLOT, profile, filter, spect_points=spect_points, color=color, 
 ;
 ; MODIFICATION HISTORY:
 ;   Based on a function in COCOpy by A.G.M Pietrow
-; 	Written by:	Malcolm Druet, May 2019
+;   Written by:	Malcolm Druet, May 2019
 ;-
    profile = double(profile)
    filter = double(filter)
@@ -62,7 +62,7 @@ FUNCTION COCOFILTPLOT, profile, filter, spect_points=spect_points, color=color, 
    ; factor 0.8 to ensure line does not come out white!
    IF (NOT keyword_set(color)) THEN BEGIN
       rgb_value = profile # filter
-	  rgb_int = reform(round(0.8*rgb_value*255/max(rgb_value)))
+      rgb_int = reform(round(0.8*rgb_value*255/max(rgb_value)))
    ENDIF ELSE BEGIN
       rgb_int=!null
    ENDELSE

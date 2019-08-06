@@ -3,22 +3,22 @@ FUNCTION COCONORM, coco_data_rgb
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
-;	  COCONORM
+;   COCONORM
 ;
 ; PURPOSE:
 ;   Apply saturation threshold to COCOPLOT RGB image.
-;	  
+;
 ; CATEGORY:
-;	  COCOPLOT core
+;   COCOPLOT core
 ;
 ; CALLING SEQUENCE:
 ;   Result = COCONORM(data)
 ;
 ; INPUTS:
-;	  coco_data_rgb: Input RGB float array of dimensions [nx, ny, 3].
-;	
+;   coco_data_rgb: Input RGB float array of dimensions [nx, ny, 3].
+;
 ; OUTPUTS:
-;	  RGB byte-array with integer elements, linearly scaled between 0 and 255.
+;   RGB byte-array with integer elements, linearly scaled between 0 and 255.
 ;
 ; RESTRICTIONS:
 ;   Requires the following procedures and functions:
@@ -28,7 +28,7 @@ FUNCTION COCONORM, coco_data_rgb
 ;   TBD
 ;
 ; MODIFICATION HISTORY:
-; 	Written by:	Malcolm Druett, May 2019
+;   Written by:	Malcolm Druett, May 2019
 ;-
 
 ;  Remove any stray negative values
