@@ -20,7 +20,7 @@ FUNCTION COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=th
 ;         filter:         Filter of dimensions [nspect_points, 3]. 
 ;
 ; KEYWORD PARAMETERS:
-;	  rgbthresh:      Flag to apply saturation thresholding. Defaults to not set.
+;	  rgbthresh:      Saturation thresholding values. Defaults to min-max.
 ;         threshmethod:   Scalar string specifying the Saturation thresholding method.
 ;                         Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
 ;
@@ -40,7 +40,7 @@ FUNCTION COCORGB, coco_datacube_in, filter, rgbthresh=rgbthresh, threshmethod=th
 coco_datacube=coco_datacube_in
 dims=size(coco_datacube)
 ; Thresholding: saturation at max and zero at min values
-IF keyword_set(rgbthresh) THEN BEGIN
+IF (N_ELEMENTS(rgbthresh) GT 0) THEN BEGIN
    CASE threshmethod OF
    'fraction': BEGIN
       datamin=min(coco_datacube, /NAN)

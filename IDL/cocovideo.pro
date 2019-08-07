@@ -24,7 +24,7 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, filepath=filepath, startstop=st
 ;   filepath:       Output filepath prefixed to the "name" variable.
 ;   startstop:      Start and stop indices for time dimension. Defaults to
 ;                   [0,nt-1].
-;   rgbthresh:      Flag to apply saturation thresholding. Defaults to not set.
+;   rgbthresh:      Saturation thresholding values. Defaults to min-max.
 ;   threshmethod:   Scalar string specifying the Saturation thresholding method.
 ;                   Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
 ;   loud:           Display the video. Defaults to not set.
