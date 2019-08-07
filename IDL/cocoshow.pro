@@ -1,36 +1,36 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=name, filepath=filepath, filetype=filetype
+PRO COCOSHOW, coco_data_rgb_int, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=name, FILEPATH=filepath, FILETYPE=filetype
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
-;	  COCOSHOW
+;   COCOSHOW
 ;
 ; PURPOSE:
-;	  Display and/or save a COCOPLOT image.
+;   Display and/or save a COCOPLOT image.
 ;
 ; CATEGORY:
-;	  COCOPLOT visualisation
+;   COCOPLOT visualisation
 ;
 ; CALLING SEQUENCE:
-;	  COCOSHOW, coco_data_rgb_int
+;   COCOSHOW, coco_data_rgb_int
 ;
 ; INPUTS:
-;	  coco_data_rgb_int: 3D COCOPLOT RGB integer array of dimensions [nx, ny, 3].
+;   coco_data_rgb_int: 3D COCOPLOT RGB integer array of dimensions [nx, ny, 3].
 ;
 ; KEYWORD PARAMETERS:
-;   quiet:        Do not pop-up display image. Defaults to not set.
-;   current:      Flag to plot in current window. Defaults to not set.
-;   dims:         Image dimensions for display. Defaults to [nx, ny] of
+;   QUIET:        Do not pop-up display image. Defaults to not set.
+;   CURRENT:      Flag to plot in current window. Defaults to not set.
+;   DIMS:         Image dimensions for display. Defaults to [nx, ny] of
 ;                 input coco_datacube.
-;   name:         String containing output file name, triggers save
+;   NAME:         String containing output file name, triggers save
 ;                 of image if present. Does noe require suffix.
-;   filepath:     String containting filepath that will be added to name.
-;   filetype:     String for output image file type. default = "png". Valid
+;   FILEPATH:     String containting filepath that will be added to name.
+;   FILETYPE:     String for output image file type. default = "png". Valid
 ;                 formats from IDL write image routine:
 ;                 "bmp","gif","jpeg","png","ppm","srf","tiff".
 ;
 ; OUTPUTS:
-;	  Return and/or display and/or save a COCOPLOT image.
+;   Displayed and/or saved COCOPLOT image.
 ;
 ; RESTRICTIONS:
 ;   Requires the following procedures and functions:
@@ -41,54 +41,31 @@ PRO COCOSHOW, coco_data_rgb_int, quiet=quiet, current=current, dims=dims, name=n
 ;   TBD
 ;
 ; MODIFICATION HISTORY:
-; 	Written by:	Malcolm Druett, May 2019
+;   Written by: Malcolm Druett & Gregal Vissers, May-August 2019
 ;-
 
-; displaying image.
-  ; Set up options for correct display.
-  IF (keyword_set(quiet)) THEN option1=1 ELSE option1=0
-  ; save required, therefore display in buffer if not actually displaying.
-  IF (keyword_set(name)) THEN BEGIN
-     IF (n_elements(dims) EQ 2) THEN BEGIN   
-        nx=dims[0]
-        ny=dims[1]
-     ENDIF ELSE BEGIN
-        sz=size(coco_data_rgb_int)
-        nx=sz[1]
-        ny=sz[2]
-     ENDELSE
-     IF (NOT keyword_set(current)) THEN BEGIN
-        w=WINDOW(DIMENSIONS=[nx,ny],buffer=option)
-     ENDIF
-     temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)
-  ENDIF ELSE BEGIN
-  ; No save required, show only if quiet not set.
-     IF (option=0) THEN BEGIN
-        IF (n_elements(dims) EQ 2) THEN BEGIN   
-           nx=dims[0]
-           ny=dims[1]
-        ENDIF ELSE BEGIN
-           sz=size(coco_data_rgb_int)
-           nx=sz[1]
-           ny=sz[2]
-        ENDELSE
-        IF (NOT keyword_set(current)) THEN BEGIN
-           w=WINDOW(DIMENSIONS=[nx,ny])
-        ENDIF
-        temp_image=image(coco_data_rgb_int, IMAGE_DIMENSIONS=[nx,ny], POSITION=[0.0,0.0,1.0,1.0],/current)
-     ENDIF ELSE BEGIN
-     ; quiet set and no save required, skip display.
-        RETURN
-     ENDELSE
-     ; no save or display required, so no image.
-  ENDELSE
-  ;saving image.
-  IF (keyword_set(name)) THEN BEGIN
-     the_image=temp_image.CopyWindow()
-     fileloc=name
-        IF (keyword_set(filepath)) THEN fileloc=filepath+name
-        IF (NOT keyword_set(filetype)) THEN filetype="png"
-        fileloc=fileloc+"."+filetype
-  	write_image, fileloc, filetype, the_image
+  IF (N_PARAMS() LT 1) THEN BEGIN
+    MESSAGE, 'Syntax: COCOSHOW, coco_data_rgb_int [, /QUIET] [, /CURRENT] '+$
+      '[, DIMS=dims] [, NAME=name] [, FILEPATH=filepath] '+$
+      '[, FILETYPE=filetype]', /INFO
+    RETURN
+  ENDIF
+
+  IF (N_ELEMENTS(DIMS) NE 2) THEN dims = (SIZE(coco_data_rgb_int))[1:2]
+
+  ; Create image if save or display requested 
+  IF (N_ELEMENTS(NAME) EQ 1) OR (NOT KEYWORD_SET(QUIET)) THEN BEGIN
+    IF NOT KEYWORD_SET(CURRENT) THEN $
+      w = WINDOW(DIMENSIONS=dims, BUFFER=KEYWORD_SET(QUIET))
+    temp_image = IMAGE(coco_data_rgb_int, IMAGE_DIMENSIONS=dims, POSITION=[0.0,0.0,1.0,1.0], /CURRENT)
+    ; Save image if output filename supplied
+    IF (N_ELEMENTS(NAME) EQ 1) THEN BEGIN
+      the_image=temp_image.CopyWindow()
+      fileloc=name
+      IF (N_ELEMENTS(FILEPATH) EQ 1) THEN fileloc=filepath+name
+      IF (N_ELEMENTS(FILETYPE) NE 1) THEN filetype="png"
+      fileloc=fileloc+"."+filetype
+      WRITE_IMAGE, fileloc, filetype, the_image
+    ENDIF
   ENDIF
 END

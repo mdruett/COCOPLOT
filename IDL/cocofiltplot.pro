@@ -1,45 +1,45 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-FUNCTION COCOFILTPLOT, profile, filter, spect_points=spect_points, color=color, xtitle=xtitle, ytitle=ytitle, title=title, dimensions=dimensions, buffer=buffer, current=current, thick=thick, font_size=font_size, normfactor=normfactor
+FUNCTION COCOFILTPLOT, profile, filter, SPECT_POINTS=spect_points, COLOR=color, XTITLE=xtitle, YTITLE=ytitle, TITLE=title, DIMENSIONS=dimensions, BUFFER=buffer, CURRENT=current, THICK=thick, FONT_SIZE=font_size, NORMFACTOR=normfactor
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;+
 ; NAME:
-;	  COCOFILTPLOT
+;   COCOFILTPLOT
 ;
 ; PURPOSE:
-;	  Display a plot of the profiles and filters.
+;   Display a plot of the profiles and filters.
 ;
 ; CATEGORY:
-;	  COCOPLOT visualisation
+;   COCOPLOT visualisation
 ;
 ; CALLING SEQUENCE:
-;	  Result = COCOFILTPLOT()
+;   Result = COCOFILTPLOT()
 ;
 ; INPUTS:
 ;   profile: A 1D line profile, length nl.
-;   filter:  A set of rgb filters, length nl. 
+;   filter:  A set of rgb filters, length nl.
 ;
 ; KEYWORD PARAMETERS:
-;   spect_points: A set of spectral data point values for the x-axis.
-;   color:  If .true. the color of the profile will have the RGB hue
+;   SPECT_POINTS: A set of spectral data point values for the x-axis.
+;   COLOR:  If .true. the color of the profile will have the RGB hue
 ;           that the filter would give it, although the brightness may
-;           be different depending on the scaling used. 
+;           be different depending on the scaling used.
 ;           Otherwise profile is black.
-;   xlabel: Text on xlabel.
-;   ylabel: Text on ylabel.
-;   title:  Title of plot. Not present by default.
-;   dimensions: Specify the dimensions of the image generated.
+;   XTITLE: Text on xlabel.
+;   YTITLE: Text on ylabel.
+;   TITLE:  Title of plot. Not present by default.
+;   DIMENSIONS: Specify the dimensions of the image generated.
 ;               No default set.
-;   buffer: Places the image in a display buffer, rather than
+;   BUFFER: Places the image in a display buffer, rather than
 ;           displaying it on-screen.
-;   current: Places the image in the most recently opened graphics window.
-;   thick: Integer sepecifying the thicknesses of the lines used
-;   font_size: Integer specifying the font size used. No default set.
-;   normfactor: Real number from 0 to 1 that may be used to separate
+;   CURRENT: Places the image in the most recently opened graphics window.
+;   THICK: Integer sepecifying the thicknesses of the lines used
+;   FONT_SIZE: Integer specifying the font size used. No default set.
+;   NORMFACTOR: Real number from 0 to 1 that may be used to separate
 ;               the heights of the normalised plots of the filters and
 ;               the line profiles. Defaults to 1.0.
 ;
 ; OUTPUTS:
-;	  Display a plot with input profile and filters overplotted.
+;   Display a plot with input profile and filters overplotted.
 ;
 ; RESTRICTIONS:
 ;   Requires the following procedures and functions:
@@ -52,38 +52,47 @@ FUNCTION COCOFILTPLOT, profile, filter, spect_points=spect_points, color=color, 
 ;
 ; MODIFICATION HISTORY:
 ;   Based on a function in COCOpy by A.G.M Pietrow
-; 	Written by:	Malcolm Druet, May 2019
+;   Written by: Malcolm Druett & Gregal Vissers, May-August 2019
 ;-
-   profile = double(profile)
-   filter = double(filter)
-   IF (NOT keyword_set(spect_points)) THEN spect_points=indgen(n_elements(profile))
-   IF (NOT keyword_set(normfactor)) THEN normfactor=1.0
-   ; setting colour of plot
-   ; factor 0.8 to ensure line does not come out white!
-   IF (NOT keyword_set(color)) THEN BEGIN
-      rgb_value = profile # filter
-	  rgb_int = reform(round(0.8*rgb_value*255/max(rgb_value)))
-   ENDIF ELSE BEGIN
-      rgb_int=!null
-   ENDELSE
-   IF (NOT keyword_set(thick)) THEN thick=2
-   normprofile=normfactor*profile/max(profile)
-   normfilter=filter/max(filter)
-   convprof=filter
-   convprof[*,0]=normprofile * reform(normfilter[*,0])
-   convprof[*,1]=normprofile * reform(normfilter[*,1])
-   convprof[*,2]=normprofile * reform(normfilter[*,2])
+  IF (N_PARAMS() LT 2) THEN BEGIN
+    MESSAGE, 'Syntax: Result = COCOFILTPLOT(profile, filter '+$
+      '[, SPECT_POINTS=spect_points] [, /COLOR], [, XTITLE=xtitle] '+$
+      '[, YTITLE=ytitle] [, TITLE=title] [DIMENSIONS=dimensions] '+$
+      '[, /BUFFER] [, /CURRENT] [, THICK=thick] [, FONT_SIZE=font_size] '+$
+      '[, NORMFACTOR=normfactor])', /INFO
+    RETURN, !NULL
+  ENDIF
+  
+  profile = DOUBLE(profile)
+  filter = DOUBLE(filter)
+  IF (N_ELEMENTS(SPECT_POINTS) LT 1) THEN spect_points=INDGEN(N_ELEMENTS(profile))
+  IF (N_ELEMENTS(NORMFACTOR) NE 1) THEN normfactor=1.0
+  ; setting colour of plot
+  ; factor 0.8 to ensure line does not come out white!
+  IF (NOT KEYWORD_SET(color)) THEN BEGIN
+     rgb_value = profile # filter
+     rgb_int = REFORM(ROUND(0.8*rgb_value*255/MAX(rgb_value)))
+  ENDIF ELSE BEGIN
+     rgb_int=!null
+  ENDELSE
+  IF (N_ELEMENTS(THICK) NE 1) THEN thick=2
+  normprofile=normfactor*profile/MAX(profile)
+  normfilter=filter/MAX(filter)
+  convprof=filter
+  convprof[*,0]=normprofile * REFORM(normfilter[*,0])
+  convprof[*,1]=normprofile * REFORM(normfilter[*,1])
+  convprof[*,2]=normprofile * REFORM(normfilter[*,2])
 
-    myplot=plot(spect_points,normprofile, xtitle=xtitle, ytitle=ytitle, title=title, thick=thick, color=rgb_int, sym='o', sym_filled=1, buffer=buffer, font_size=font_size)
-    myplot.xstyle = 1
-    FOR i=0,2 DO BEGIN
-      myplot=plot(spect_points,reform(normfilter[*,i]), xtitle=xtitle, $
-        ytitle=ytitle, title=title, thick=thick, color=shift([255,0,0],i), sym='o', $
-        sym_filled=1, linestyle='--', /current, /overplot)
-      myplot=plot(spect_points,reform(convprof[*,i]), xtitle=xtitle, $
-        ytitle=ytitle, title=title, thick=thick, color=shift([255,0,0],i), sym='o', $
-        sym_filled=1, linestyle='-', /current, /overplot)
-    ENDFOR
+  myplot=PLOT(spect_points,normprofile, XTITLE=xtitle, YTITLE=ytitle, TITLE=title, THICK=thick, COLOR=rgb_int, SYM='o', SYM_FILLED=1, BUFFER=buffer, FONT_SIZE=font_size)
+  myplot.xstyle = 1
+  FOR i=0,2 DO BEGIN
+    myplot=PLOT(spect_points,REFORM(normfilter[*,i]), XTITLE=xtitle, $
+      YTITLE=ytitle, TITLE=title, THICK=thick, COLOR=SHIFT([255,0,0],i), sym='o', $
+      SYM_FILLED=1, LINESTYLE='--', /CURRENT, /OVERPLOT)
+    myplot=PLOT(spect_points,REFORM(convprof[*,i]), xtitle=xtitle, $
+      YTITLE=ytitle, TITLE=title, THICK=thick, COLOR=SHIFT([255,0,0],i), sym='o', $
+      SYM_FILLED=1, LINESTYLE='-', /CURRENT, /OVERPLOT)
+  ENDFOR
 
-    RETURN, myplot
+  RETURN, myplot
 END
