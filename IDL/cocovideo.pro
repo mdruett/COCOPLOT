@@ -42,7 +42,7 @@ PRO COCOVIDEO, coco_datacube, filter, fps, name, FILEPATH=filepath, STARTSTOP=st
 ;   TBD
 ;
 ; MODIFICATION HISTORY:
-;   Written by: Malcolm Druett, May 2019
+;   Written by: Malcolm Druett & Gregal Vissers, May-August 2019
 ;-
   IF (N_PARAMS() LT 4) THEN BEGIN
     MESSAGE, 'Syntax: COCOVIDEO, coco_datacube, filter, fps, name '+$

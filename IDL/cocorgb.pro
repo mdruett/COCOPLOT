@@ -34,7 +34,7 @@ FUNCTION COCORGB, coco_datacube_in, filter, RGBTHRESH=rgbthresh, THRESHMETHOD=th
 ;   TBD
 ;
 ; MODIFICATION HISTORY:
-;   Written by: Malcolm Druett, May 2019
+;   Written by: Malcolm Druett & Gregal Vissers, May-August 2019
 ;-
 
   IF (N_PARAMS() LT 2) THEN BEGIN

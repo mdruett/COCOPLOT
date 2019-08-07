@@ -41,7 +41,7 @@ PRO COCOSHOW, coco_data_rgb_int, QUIET=quiet, CURRENT=current, DIMS=dims, NAME=n
 ;   TBD
 ;
 ; MODIFICATION HISTORY:
-;   Written by: Malcolm Druett, May 2019
+;   Written by: Malcolm Druett & Gregal Vissers, May-August 2019
 ;-
 
   IF (N_PARAMS() LT 1) THEN BEGIN

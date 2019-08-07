@@ -57,7 +57,7 @@ FUNCTION COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
 ;   filter = COCOFILTER(FINDGEN(101)-50, filtertype='band')
 ;
 ; MODIFICATION HISTORY:
-;   Written by:	Malcolm Druett, May 2019
+;   Written by: Malcolm Druett & Gregal Vissers, May-August 2019
 ;-
   
   IF (N_PARAMS() LT 1) THEN BEGIN

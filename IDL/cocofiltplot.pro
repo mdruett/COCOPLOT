@@ -52,7 +52,7 @@ FUNCTION COCOFILTPLOT, profile, filter, SPECT_POINTS=spect_points, COLOR=color, 
 ;
 ; MODIFICATION HISTORY:
 ;   Based on a function in COCOpy by A.G.M Pietrow
-;   Written by:	Malcolm Druet, May 2019
+;   Written by: Malcolm Druett & Gregal Vissers, May-August 2019
 ;-
   IF (N_PARAMS() LT 2) THEN BEGIN
     MESSAGE, 'Syntax: Result = COCOFILTPLOT(profile, filter '+$
