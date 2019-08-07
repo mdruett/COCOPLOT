@@ -18,12 +18,12 @@ FUNCTION COCOPLOT, coco_datacube, filter, RGBTHRESH=rgbthresh, THRESHMETHOD=thre
 ;   coco_datacube:  Input data cube of dimensions [nx, ny, nspect_points],
 ;                   Or RGB cube [nx, ny, 3] if no filter is supplied.
 ;
-; OPTION INPUTS:
+; OPTIONAL INPUTS:
 ;   filter:         Filter of dimensions [nspect_points, 3] specifying
 ;                   values used to color collpase the datacube.
 ;
 ; KEYWORD PARAMETERS:
-;   RGBTHRESH:      Flag to apply saturation thresholding. Defaults to not set.
+;   RGBTHRESH:      Saturation thresholding values. Defaults to min-max.
 ;   THRESHMETHOD:   Scalar string specifying the Saturation thresholding method.
 ;                   Can be 'fraction', 'numeric' or 'percentile'. Defaults to not set.
 ;   QUIET:          Do not pop-up display image. Defaults to not set.
