@@ -67,18 +67,16 @@ FUNCTION COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
   ENDIF
 
   ; Process inputs
-  nArray=N_ELEMENTS(array)
-  IF (nArray GT 1) THEN $
-    array_filt=Array $
-  ELSE BEGIN
-    array_filt=INDGEN(Array)
-    nArray=N_ELEMENTS(array_filt)
-  ENDELSE
+  nArray = N_ELEMENTS(array)
+  IF (nArray EQ 1) THEN BEGIN
+    Array = INDGEN(Array)
+    nArray = N_ELEMENTS(Array)
+  ENDIF
   IF (N_ELEMENTS(filtertype) NE 1) THEN filtertype = 'normal'
 
   ; Get filter defaults and create filters
   default = COCOFILTER_DEFAULTS(Array, FILTERTYPE=filtertype)
-  filter = DBLARR(nArray,3)   ; Output filter definition, overridden for 'normal'
+  filter = DBLARR(nArray,3)   ; Output filter definition; gets overridden for 'normal'
   IF ( ((N_ELEMENTS(R) NE 2) AND (filtertype NE 'single')) OR $
         (N_ELEMENTS(R) LT 1)) THEN r = default.r
   IF ( ((N_ELEMENTS(G) NE 2) AND (filtertype NE 'single')) OR $
@@ -102,9 +100,9 @@ FUNCTION COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
                   FOR i_filt2=filt_bits[i_filt,0],filt_bits[i_filt,1] DO filter[i_filt2,i_filt]=filt_int[i_filt]
                 ENDFOR
               END
-    'normal': filter = [ [COCOFILTNORM(array_filt, r[0], r[1])], $
-                         [COCOFILTNORM(array_filt, g[0], g[1])], $
-                         [COCOFILTNORM(array_filt, b[0], b[1])] ]
+    'normal': filter = [ [COCOFILTNORM(Array, r[0], r[1])], $
+                         [COCOFILTNORM(Array, g[0], g[1])], $
+                         [COCOFILTNORM(Array, b[0], b[1])] ]
 
   ENDCASE
   RETURN, filter
