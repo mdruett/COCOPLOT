@@ -81,18 +81,18 @@ FUNCTION COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
 
   CASE filtertype OF
     'single': BEGIN
-                filter=MAKE_ARRAY(nArray,3,/DOUBLE,VALUE=0)
+                filter = DBLARR(nArray,3)
                 IF (N_ELEMENTS(r) EQ 1) THEN filter[r,0]=1D ELSE filter[default.r,0] =1D
                 IF (N_ELEMENTS(g) EQ 1) THEN filter[g,1]=1D ELSE filter[default.g,1] =1D
                 IF (N_ELEMENTS(b) EQ 1) THEN filter[b,2]=1D ELSE filter[default.b,2] =1D
               END
     'band':   BEGIN
-                filter=MAKE_ARRAY(nArray,3,/DOUBLE,VALUE=0)
-                filt_bits=MAKE_ARRAY(3,2,/DOUBLE)
+                filter = DBLARR(nArray,3)
+                filt_bits = DBLARR(3,2)
                 IF (N_ELEMENTS(r) EQ 2) THEN filt_bits[0,*]=r ELSE filt_bits[0,*]=default.r
                 IF (N_ELEMENTS(g) EQ 2) THEN filt_bits[1,*]=g ELSE filt_bits[1,*]=default.g
                 IF (N_ELEMENTS(b) EQ 2) THEN filt_bits[2,*]=b ELSE filt_bits[2,*]=default.b
-                filt_int=1D/double(filt_bits[*,1]-filt_bits[*,0]+1)
+                filt_int=1D/DOUBLE(filt_bits[*,1]-filt_bits[*,0]+1)
                 FOR i_filt=0,2 DO BEGIN
                   FOR i_filt2=filt_bits[i_filt,0],filt_bits[i_filt,1] DO filter[i_filt2,i_filt]=filt_int[i_filt]
                 ENDFOR
