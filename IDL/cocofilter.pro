@@ -79,37 +79,33 @@ FUNCTION COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
   ; Get filter defaults and create filters
   default = COCOFILTER_DEFAULTS(Array, FILTERTYPE=filtertype)
   filter = DBLARR(nArray,3)   ; Output filter definition, overridden for 'normal'
+  IF ( ((N_ELEMENTS(R) NE 2) AND (filtertype NE 'single')) OR $
+        (N_ELEMENTS(R) LT 1)) THEN r = default.r
+  IF ( ((N_ELEMENTS(G) NE 2) AND (filtertype NE 'single')) OR $
+        (N_ELEMENTS(G) LT 1)) THEN g = default.g
+  IF ( ((N_ELEMENTS(B) NE 2) AND (filtertype NE 'single')) OR $
+        (N_ELEMENTS(B) LT 1)) THEN b = default.b
 
   CASE filtertype OF
     'single': BEGIN
-                IF (N_ELEMENTS(r) LT 1) THEN r = default.r
-                IF (N_ELEMENTS(g) LT 1) THEN g = default.g
-                IF (N_ELEMENTS(b) LT 1) THEN b = default.b
-                filter[r,0] = 1D  & filter[g,1] = 1D  & filter[b,2] = 1D
-
+                filter[r,0] = 1D  
+                filter[g,1] = 1D  
+                filter[b,2] = 1D
               END
     'band':   BEGIN
                 filt_bits = DBLARR(3,2)
-                IF (N_ELEMENTS(r) NE 2) THEN r = default.r
-                IF (N_ELEMENTS(g) NE 2) THEN g = default.g
-                IF (N_ELEMENTS(b) NE 2) THEN b = default.b
-                filt_bits[0,*] = r  & filt_bits[1,*] = g  & filt_bits[2,*] = b 
-
+                filt_bits[0,*] = r  
+                filt_bits[1,*] = g  
+                filt_bits[2,*] = b 
                 filt_int=1D/DOUBLE(filt_bits[*,1]-filt_bits[*,0]+1)
                 FOR i_filt=0,2 DO BEGIN
                   FOR i_filt2=filt_bits[i_filt,0],filt_bits[i_filt,1] DO filter[i_filt2,i_filt]=filt_int[i_filt]
                 ENDFOR
               END
-    'normal': BEGIN
-                ; normal distribution "eyelike" filters"
-                IF (N_ELEMENTS(r) NE 2) THEN r = default.r
-                IF (N_ELEMENTS(g) NE 2) THEN g = default.g
-                IF (N_ELEMENTS(b) NE 2) THEN b = default.b
-                filter = [ [COCOFILTNORM(array_filt, r[0], r[1])], $
-                           [COCOFILTNORM(array_filt, g[0], g[1])], $
-                           [COCOFILTNORM(array_filt, b[0], b[1])] ]
+    'normal': filter = [ [COCOFILTNORM(array_filt, r[0], r[1])], $
+                         [COCOFILTNORM(array_filt, g[0], g[1])], $
+                         [COCOFILTNORM(array_filt, b[0], b[1])] ]
 
-              END
   ENDCASE
   RETURN, filter
 END
