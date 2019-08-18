@@ -66,6 +66,7 @@ FUNCTION COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
     RETURN, !NULL
   ENDIF
 
+  ; Process inputs
   nArray=N_ELEMENTS(array)
   IF (nArray GT 1) THEN $
     array_filt=Array $
@@ -74,6 +75,10 @@ FUNCTION COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
     nArray=N_ELEMENTS(array_filt)
   ENDELSE
   IF (N_ELEMENTS(filtertype) NE 1) THEN filtertype = 'normal'
+
+  ; Get filter defaults and create filters
+  default = COCOFILTER_DEFAULTS(Array, FILTERTYPE=filtertype)
+
   CASE filtertype OF
     'single': BEGIN
                 filter=MAKE_ARRAY(nArray,3,/DOUBLE,VALUE=0)
