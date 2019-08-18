@@ -78,20 +78,23 @@ FUNCTION COCOFILTER, Array, FILTERTYPE=filtertype, R=r, G=g, B=b
 
   ; Get filter defaults and create filters
   default = COCOFILTER_DEFAULTS(Array, FILTERTYPE=filtertype)
+  filter = DBLARR(nArray,3)   ; Output filter definition, overridden for 'normal'
 
   CASE filtertype OF
     'single': BEGIN
-                filter = DBLARR(nArray,3)
-                IF (N_ELEMENTS(r) EQ 1) THEN filter[r,0]=1D ELSE filter[default.r,0] =1D
-                IF (N_ELEMENTS(g) EQ 1) THEN filter[g,1]=1D ELSE filter[default.g,1] =1D
-                IF (N_ELEMENTS(b) EQ 1) THEN filter[b,2]=1D ELSE filter[default.b,2] =1D
+                IF (N_ELEMENTS(r) LT 1) THEN r = default.r
+                IF (N_ELEMENTS(g) LT 1) THEN g = default.g
+                IF (N_ELEMENTS(b) LT 1) THEN b = default.b
+                filter[r,0] = 1D  & filter[g,1] = 1D  & filter[b,2] = 1D
+
               END
     'band':   BEGIN
-                filter = DBLARR(nArray,3)
                 filt_bits = DBLARR(3,2)
-                IF (N_ELEMENTS(r) EQ 2) THEN filt_bits[0,*]=r ELSE filt_bits[0,*]=default.r
-                IF (N_ELEMENTS(g) EQ 2) THEN filt_bits[1,*]=g ELSE filt_bits[1,*]=default.g
-                IF (N_ELEMENTS(b) EQ 2) THEN filt_bits[2,*]=b ELSE filt_bits[2,*]=default.b
+                IF (N_ELEMENTS(r) NE 2) THEN r = default.r
+                IF (N_ELEMENTS(g) NE 2) THEN g = default.g
+                IF (N_ELEMENTS(b) NE 2) THEN b = default.b
+                filt_bits[0,*] = r  & filt_bits[1,*] = g  & filt_bits[2,*] = b 
+
                 filt_int=1D/DOUBLE(filt_bits[*,1]-filt_bits[*,0]+1)
                 FOR i_filt=0,2 DO BEGIN
                   FOR i_filt2=filt_bits[i_filt,0],filt_bits[i_filt,1] DO filter[i_filt2,i_filt]=filt_int[i_filt]
