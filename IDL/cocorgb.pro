@@ -46,15 +46,15 @@ FUNCTION COCORGB, coco_datacube_in, filter, RGBTHRESH=rgbthresh, THRESHMETHOD=th
   dims=SIZE(coco_datacube)
   ; Thresholding: saturation at max and zero at min values
   IF (N_ELEMENTS(rgbthresh) GT 0) THEN BEGIN
+    datamin = MIN(coco_datacube, /NAN, MAX=datamax)
     CASE threshmethod OF
-      'fraction': BEGIN
-                    datamin=MIN(coco_datacube, /NAN)
-                    datamax=MAX(coco_datacube, /NAN)
-                    datarange=datamin+rgbthresh*(datamax-datamin)
-                  END
+      'fraction': datarange=datamin+rgbthresh*(datamax-datamin)
       'numeric':  datarange=rgbthresh
       'percentile': datarange=cgPercentiles(coco_datacube, PERCENTILES=rgbthresh)
-      ELSE: MESSAGE, "threshmethod not recognised. Should be 'fraction', 'numeric' or 'percentile'.", /INFO
+      ELSE: BEGIN
+              MESSAGE, "threshmethod not recognised. Should be 'fraction', 'numeric' or 'percentile'.", /INFO
+              datarange = [datamin, datamax]
+            END
     ENDCASE
     IF (MIN(FINITE(datarange)) EQ 0) THEN MESSAGE, "NAN or INFINTE data detected in requested range.", /INFO
     iw=WHERE(coco_datacube GT datarange[1], count)
