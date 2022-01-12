@@ -6,7 +6,7 @@ COlor COllapsed PLOTting quick-look and context image software is designed to co
 
 ## Citing this method
 These routines were developed as part of a publication by
-[M. Druett et al. (2022)].
+[M. Druett et al. (2022)](https://ui.adsabs.harvard.edu/abs/2021arXiv211110786D/abstract).
 Please if you use them in your project we would appreciate
 it if you cite our publication.
 
