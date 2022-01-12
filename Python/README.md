@@ -1,3 +1,3 @@
-Install with PIP by running 'pip install cocoplots'
 
-In python session import COCOpy to use library. 
+## Python
+A Python version of this script is available [here](https://github.com/AlexPietrow/COCO)
