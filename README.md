@@ -3,6 +3,8 @@ COlor COllapsed PLOTting quick-look and context image software is designed to co
 
 ## NOTE: This is an early, not fully complete release of the code. Please keep this in mind when using it. 
 
+## Python
+A Python version of this script is available [here](https://github.com/AlexPietrow/COCO)
 
 ## Citing this method
 These routines were developed as part of a publication by
