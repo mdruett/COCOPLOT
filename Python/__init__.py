@@ -6,45 +6,52 @@ import astropy.io.fits as f
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-def filter(wavelengths, filtername, rgb_pos ='default', plot=0):
+def filter(wavelengths, filtername, rgb_pos ='default', plot=False):
     '''
     Make filters for cocoplot
-    INPUT:
-    wavelengths     : a set of wavelengths or an np.arange() array if spacing is equidistant.
-    filtername      : name of desired filter type. Chose from.
     
-    'single' :  single wavelength points uses keyword rgb_pos[r,g,b]
-    r,g,b should be array elements not array values!
-    default values are [n,n/2,0] for an array of length n
+    Parameters
+    ----------
+    wavelengths : array
+        a set of wavelengths or an np.arange() array if spacing is equidistant.
+    filtername  : string
+        name of desired filter type. Choose from the following options:
     
+        'single' :
+            single wavelength points uses keyword rgb_pos[r,g,b]
+            r,g,b should be array elements not array values!
+            default values are [n,n/2,0] for an array of length n
+        'band'   :
+            bands of wavelength points uses keyword rgb_pos[r,g,b]
+            specify which wavength points are wanted to start the bands with r,g,b
+            Give a two number list for each color to indicate the begining and end wavelength.
+            These should be array elenents and not array values!
+            note that the end wavelength is not included!
+            e.g. [[0, 3], [3, 4], [6, 7]]
+        'normal' :
+            exponential filters, like the cones of the eye
+            uses keyword rgb_pos[r,g,b], this takes the array values not elements!
+            Give a two number list for each color
+            to indicate the mean and std of each Gaussian.
+            e.g. [[wavelength[index], std], [5, 3], [11, 3]]
+    rgb_pos     : array
+        input list with desired filter locations. See filtername keyword for default values
+    plot        : bool
+        plots filters. Default = False
     
-    'band'   :  bands of wavelength points uses keyword rgb_pos[r,g,b]
-    specify which wavength points are wanted to start the bands with r,g,b
-    Give a two number list for each color to indicate the begining and end wavelength. These should be array elenents and not array values!
-    note that the end wavelength is not included!
-    e.g. [[0, 3], [3, 4], [6, 7]]
+    Returns
+    -------
+    filter      : array
+        3 channel cube with length (wavelengths, 3) with applied filter
     
-    'normal' :  exponential filters, like the cones of the eye
-    uses keyword rgb_pos[r,g,b], this takes the array values not elements!
-    Give a two number list for each color
-    to indicate the mean and std of each Gaussian.
-    e.g. [[wavelength[index], std], [5, 3], [11, 3]]
-    
-    rgb_pos         : input list with desired filter locations. See filtername keyword for default values
-    plot            : plots filters. Default = 0
-    
-    OUTPUT:
-    filter          : 3 channel cube with length (wavelengths, 3) with applied filter
-    
-    HISTORY:
-    Based on coco.pro:COCOFILTERS by M. Druett, Python version by A.G.M. Pietrow, May 2019
-    Added default values and minor updates, A Pietrow, Jul 2019
-    
-    EXAMPLE:
+    Example
+    --------
+    import COCOpy as cp
     wavelengths = np.arange(10)
-    filter(wavelengths, 'band', [[2,4], [4,8], [9,9]])
+    filt = cp.filter(wavelengths, 'band', [[2,4], [4,8], [9,9]])
     
-    >>>array([  [ 0.  ,  0.  ,  0.  ],
+    Returns:
+    array([  [ 0.  ,  0.  ,  0.  ],
     [ 0.  ,  0.  ,  0.  ],
     [ 0.5 ,  0.  ,  0.  ],
     [ 0.5 ,  0.  ,  0.  ],
@@ -54,6 +61,13 @@ def filter(wavelengths, filtername, rgb_pos ='default', plot=0):
     [ 0.  ,  0.25,  0.  ],
     [ 0.  ,  0.  ,  0.  ],
     [ 0.  ,  0.  ,  1.  ]])
+    
+    :Authors:
+        Based on coco.pro:COCOFILTERS by M. Druett, Python version by A Pietrow, May 2019
+        Added default values and minor updates, A Pietrow, Jul 2019
+        Updated to Python3, A Pietrow, Okt 2021
+    
+
     '''
     
     #make empty filter of correct length
@@ -67,7 +81,7 @@ def filter(wavelengths, filtername, rgb_pos ='default', plot=0):
             print('Applying "single" filter. No positions were given for rgb_pos, assuming default values of R={0}, G={1}, B={2}.'.format(nL-1,nL//2, 0))
             rgb_pos = [nL-1,nL//2,0]
         
-        if len(rgb_pos) <> 3:
+        if len(rgb_pos) != 3:
             raise ValueError("rgb_pos should have 3 values!")
         
         filter[rgb_pos[0],0] = 1.
@@ -81,10 +95,10 @@ def filter(wavelengths, filtername, rgb_pos ='default', plot=0):
             
             rgb_pos = [[int(np.ceil(2.*nL/3)), nL],[int(np.ceil(nL//3.)), int(np.floor(2.*nL//3))],[0, int(np.floor(nL//3.))]]
         
-        if len(rgb_pos) <> 3:
+        if len(rgb_pos) != 3:
             raise ValueError("rgb_pos should have 3 values!")
         
-        if len(rgb_pos[0]) <> 2 or len(rgb_pos[1]) <> 2 or len(rgb_pos[2]) <> 2:
+        if len(rgb_pos[0]) != 2 or len(rgb_pos[1]) != 2 or len(rgb_pos[2]) != 2:
             raise TypeError("Check rgb_pos, it should be im the shape of [[a,b],[c,d],[e,f]]")
         
         for i in range(3):
@@ -107,10 +121,10 @@ def filter(wavelengths, filtername, rgb_pos ='default', plot=0):
                 
             rgb_pos = [[mR,sR],[mG,sG],[mB,sB]]
             
-            if len(rgb_pos) <> 3:
+            if len(rgb_pos) != 3:
                 raise ValueError("rgb_pos should have 3 values!")
             try:
-                len(rgb_pos[0]) <> 2
+                len(rgb_pos[0]) != 2
             except TypeError:
                 raise TypeError("Check rgb_pos, it should be im the shape of [[a,b],[c,d],[e,f]]")
         
@@ -142,19 +156,30 @@ def filter(wavelengths, filtername, rgb_pos ='default', plot=0):
 def RGB(datacube, filters, threshold=0, thresmethod='percentile'):
     '''
     Color Convolves a 3D cube with an RGB filter.
-    INPUT:
-    datacube    : 3D or 4D cube of shape [lambda,x,y] or [t,lambda,x,y]
-    filters     : output from filter()
-    threshold   : 2 element array that saturates all values below and above the provided values.
-    thresmethod : set method of thesholding. Default: 'numeric'
-    numeric  - allows to give a min and max value in counts
-    fraction - give threshold value in fractional numbers between 0 and 1.
-    percentile - give threshold value in percentiles between 0 and 100 inclusive.
     
-    OUTPUT:
-    data_rgb    : 3d cube of size [x,y,3] to make images.
+    Parameters
+    ----------
+    datacube    : array
+        3D or 4D cube of shape [lambda,x,y] or [t,lambda,x,y]
+    filters     : array
+        output from filter()
+    threshold   : array
+        2 element array that saturates all values below and above the provided values.
+    thresmethod : string
+        set method of thesholding. Default: 'numeric'
     
-    Based on coco.pro:COCORGB by M. Druett, Python version by A.G.M. Pietrow, may 2019
+        numeric  - allows to give a min and max value in counts
+        fraction - give threshold value in fractional numbers between 0 and 1.
+        percentile - give threshold value in percentiles between 0 and 100 inclusive.
+    
+    Returns
+    -------
+    data_rgb    : array
+        3d cube of size [x,y,3] to make images.
+    
+    :Authors:
+        Based on coco.pro:COCORGB by M. Druett, Python version by A.G.M. Pietrow, may 2019
+        Updated to Python3, A Pietrow, Okt 2021
     '''
     #datacbe = 3d, numerical, filters have len n
     if len(datacube.shape) < 3 or  len(datacube.shape) > 4:
@@ -175,7 +200,7 @@ def RGB(datacube, filters, threshold=0, thresmethod='percentile'):
     
     if threshold:
         try:
-            len(threshold) <> 2
+            len(threshold) != 2
         except TypeError:
             raise TypeError("threshold should be given as a 2 element list. e.g. [0,110]")
         
@@ -204,12 +229,19 @@ def norm(data):
     '''
     Normalises data to value between 0 and 255.
     
-    INPUT:
-        data        : datacube of shape [x,y,3], usually the output of the RGB function.
-    OUTPUT:
-        data_norm   : datacube of shape [x,y,3] normalised to values between 0 and 255
-        
+    Parameters
+    ----------
+        data        : array
+            datacube of shape [x,y,3], usually the output of the RGB function.
+    
+    Returns
+    ----------
+        data_norm   : RGB array
+            datacube of shape [x,y,3] normalised to values between 0 and 255
+    
+    :Authors:
         Based on coco.pro:coconorm by M.Druett.
+        Updated to Python3, A Pietrow, Okt 2021
     '''
     return np.uint8(np.round(data*255./np.max(data)))
 
@@ -218,22 +250,43 @@ def plot(datacube, filter, threshold=0, thresmethod='numeric', show=True, name=F
     '''
     Color Convolves a 3D cube with an RGB filter and normalizes.
     
-    INPUT:
-    datacube    : 3D cube of shape [lambda,x,y]
-    filters     : output from filter()
-    threshold   : 2 element array that saturates all values below and above the provided values.
-    thresmethod : set method of thesholding. Default: 'numeric'
-    numeric  - allows to give a min and max value in counts
-    fraction - give threshold value in fractional numbers between 0 and 1.
-    name        : Saves cocoplot to disk if name is set Default: False
-    show        : Show resulting image. Default: True.
-    path        : path to save image. Default: ''
+    Parameters
+    ----------
+    datacube    : array
+        3D cube of shape [lambda,x,y]
+    filters     : array
+        output from filter()
+    threshold   : array
+        2 element array that saturates all values below and above the provided values.
+    thresmethod : string
+        set method of thesholding. Default: 'numeric'
+        
+        numeric  - allows to give a min and max value in counts
+        fraction - give threshold value in fractional numbers between 0 and 1.
+    name        : string
+        Saves cocoplot to disk if name is set Default: False
+    show        : bool
+        Show resulting image. Default: True.
+    path        : string
+        path to save image. Default: ''
     
-    OUTPUT:
-    data_rgb    : 3d cube of size [x,y,3] to make images.
+    Returns
+    -------
+    data_rgb    : RGB array
+        3d cube of size [x,y,3] to make images.
+        
+    Example
+    -------
+    import COCOpy as cp
+    import numpy as np
+    wavelengths = np.arange(40)
+    filt = cp.filter(wavelengths, 'band', [[2,4], [4,8], [9,9]])
+    a = np.random.random([40,100,100])
+    coco = cp.plot(a,filt)
     
-    Based on coco.pro:COCOPLOT by M. Druett, Python version by A.G.M. Pietrow
-    
+    :Authors:
+        Based on coco.pro:COCOPLOT by M. Druett, Python version by A.G.M. Pietrow
+        Updated to Python3, A Pietrow, Okt 2021
     '''
     
     data_float = RGB(datacube, filter, threshold=threshold, thresmethod=thresmethod)
@@ -252,23 +305,37 @@ def video(datacube, filter, fps=3, threshold=0, thresmethod='numeric', show=True
     '''
     Color Convolves a 4D cube with an RGB filter, normalizes and then makes a video.
     
-    INPUT:
-    datacube    : 4D cube of shape [t,lambda,x,y]
-    filters     : output from filter()
-    fps         : frames per second. Default:3
-    threshold   : 2 element array that saturates all values below and above the provided values.
-    thresmethod : set method of thesholding. Default: 'numeric'
-    numeric  - allows to give a min and max value in counts
-    fraction - give threshold value in fractional numbers between 0 and 1.
-    show        : Will show animation if True. Default: True
-    name        : Saves plot to disk if name is set Default: False
-    path        : path to save image. Default: ''
+    Parameters
+    ----------
+    datacube    : array
+        4D cube of shape [t,lambda,x,y]
+    filters     : array
+        output from filter()
+    fps         : int
+        frames per second. Default:3
+    threshold   : array
+        2 element array that saturates all values below and above the provided values.
+    thresmethod : string
+        set method of thesholding. Default: 'numeric'
+        
+        numeric  - allows to give a min and max value in counts
+        fraction - give threshold value in fractional numbers between 0 and 1.
+        
+    show        : bool
+        Will show animation if True. Default: True
+    name        : string
+        Saves plot to disk if name is set Default: False
+    path        : string
+        path to save image. Default: ''
     
-    OUTPUT:
-    data_rgb    : 4d cube of size [t,x,y,3] to make videos.
+    Returns
+    ----------
+    data_rgb    : array
+        4d cube of size [t,x,y,3] to make videos.
     
-    Based on CRISpy:animate_cube by A.G.M. Pietrow
-    
+    :Authors:
+        Based on CRISpy:animate_cube by A.G.M. Pietrow
+        Updated to Python3, A Pietrow, Okt 2021
     '''
     if not show and not name:
         raise ValueError("Save and show are both set to False, so this function does nothing.")
@@ -299,18 +366,30 @@ def video(datacube, filter, fps=3, threshold=0, thresmethod='numeric', show=True
 def filtplot(line,filter,color=True, xlabel='Wavelengths', ylabel='Arbitrary Units', title=''):
     '''
     Convolve profile with filters to see result.
-    INPUT:
-    line:   1d profile
-    filter: filter from cocofilter
-    color:  If True the color of the profile will have the RGB value
-    that the filter would give it. Otherwise profile is black.
-    Defealt: True
-    xlabel: text on xlabel. Default: 'Wavelengths'
-    ylabel: text on ylabel. Default: 'Arbitrary Units'
-    title:  title of plot. Deleault: ''
     
-    OUTPUT:
+    Parameters
+    ----------
+    line    : array
+        1d profile
+    filter  : array
+        filter from cocofilter
+    color   : bool
+        If True the color of the profile will have the RGB value
+        that the filter would give it. Otherwise profile is black.
+        Defealt = True
+    xlabel  : string
+        text on xlabel. Default: 'Wavelengths'
+    ylabel  : string
+        text on ylabel. Default: 'Arbitrary Units'
+    title   : string
+        title of plot. Deleault: ''
+    
+    Returns
+    ----------
     Image with filters, input profile and convolved results.
+    
+    :Authors:
+        Updated to Python3, A Pietrow, Okt 2021
     '''
     RGB = np.sum(filter*line[:,np.newaxis],axis=0)
     RGB = np.uint8(np.round(RGB*255/np.max(RGB)))
