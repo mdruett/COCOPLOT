@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cocopy package &mdash; COCOPLOT 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="cocopy" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> COCOPLOT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">cocopy</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">cocopy package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">COCOPLOT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">cocopy</a> &raquo;</li>
+      <li>cocopy package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cocopy.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cocopy-package">
+<h1>cocopy package<a class="headerlink" href="#cocopy-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-cocopy.cocoplot">
+<span id="cocopy-cocoplot-module"></span><h2>cocopy.cocoplot module<a class="headerlink" href="#module-cocopy.cocoplot" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="cocopy.cocoplot.RGB">
+<span class="sig-prename descclassname"><span class="pre">cocopy.cocoplot.</span></span><span class="sig-name descname"><span class="pre">RGB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datacube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresmethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'percentile'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cocopy.cocoplot.RGB" title="Permalink to this definition"></a></dt>
+<dd><p>Color Convolves a 3D cube with an RGB filter.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul>
+<li><p><strong>datacube</strong> (<em>array</em>) – 3D or 4D cube of shape [lambda,x,y] or [t,lambda,x,y]</p></li>
+<li><p><strong>filters</strong> (<em>array</em>) – output from filter()</p></li>
+<li><p><strong>threshold</strong> (<em>array</em>) – 2 element array that saturates all values below and above the provided values.</p></li>
+<li><p><strong>thresmethod</strong> (<em>string</em>) – set method of thesholding. Default: ‘numeric’</p>
+<p>numeric  - allows to give a min and max value in counts
+fraction - give threshold value in fractional numbers between 0 and 1.
+percentile - give threshold value in percentiles between 0 and 100 inclusive.</p>
+</li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>data_rgb</strong> (<em>array</em>) – 3d cube of size [x,y,3] to make images.</p></li>
+<li><p><em>Authors:</em> – Based on coco.pro:COCORGB by M. Druett, Python version by A.G.M. Pietrow, may 2019
+Updated to Python3, A Pietrow, Okt 2021</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cocopy.cocoplot.filter">
+<span class="sig-prename descclassname"><span class="pre">cocopy.cocoplot.</span></span><span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wavelengths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filtername</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rgb_pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cocopy.cocoplot.filter" title="Permalink to this definition"></a></dt>
+<dd><p>Make filters for cocoplot</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul>
+<li><p><strong>wavelengths</strong> (<em>array</em>) – a set of wavelengths or an np.arange() array if spacing is equidistant.</p></li>
+<li><p><strong>filtername</strong> (<em>string</em>) – name of desired filter type. Choose from the following options:</p>
+<dl class="simple">
+<dt>‘single’ :</dt><dd><p>single wavelength points uses keyword rgb_pos[r,g,b]
+r,g,b should be array elements not array values!
+default values are [n,n/2,0] for an array of length n</p>
+</dd>
+<dt>‘band’   :</dt><dd><p>bands of wavelength points uses keyword rgb_pos[r,g,b]
+specify which wavength points are wanted to start the bands with r,g,b
+Give a two number list for each color to indicate the begining and end wavelength.
+These should be array elenents and not array values!
+note that the end wavelength is not included!
+e.g. [[0, 3], [3, 4], [6, 7]]</p>
+</dd>
+<dt>‘normal’ :</dt><dd><p>exponential filters, like the cones of the eye
+uses keyword rgb_pos[r,g,b], this takes the array values not elements!
+Give a two number list for each color
+to indicate the mean and std of each Gaussian.
+e.g. [[wavelength[index], std], [5, 3], [11, 3]]</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>rgb_pos</strong> (<em>array</em>) – input list with desired filter locations. See filtername keyword for default values</p></li>
+<li><p><strong>plot</strong> (<em>bool</em>) – plots filters. Default = False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>filter</strong> – 3 channel cube with length (wavelengths, 3) with applied filter</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>import COCOpy as cp
+wavelengths = np.arange(10)
+filt = cp.filter(wavelengths, ‘band’, [[2,4], [4,8], [9,9]])</p>
+<p>Returns:
+array([  [ 0.  ,  0.  ,  0.  ],
+[ 0.  ,  0.  ,  0.  ],
+[ 0.5 ,  0.  ,  0.  ],
+[ 0.5 ,  0.  ,  0.  ],
+[ 0.  ,  0.25,  0.  ],
+[ 0.  ,  0.25,  0.  ],
+[ 0.  ,  0.25,  0.  ],
+[ 0.  ,  0.25,  0.  ],
+[ 0.  ,  0.  ,  0.  ],
+[ 0.  ,  0.  ,  1.  ]])</p>
+<dl class="field-list simple">
+<dt class="field-odd">Authors</dt>
+<dd class="field-odd"><p>Based on coco.pro:COCOFILTERS by M. Druett, Python version by A Pietrow, May 2019
+Added default values and minor updates, A Pietrow, Jul 2019
+Updated to Python3, A Pietrow, Okt 2021</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cocopy.cocoplot.filtplot">
+<span class="sig-prename descclassname"><span class="pre">cocopy.cocoplot.</span></span><span class="sig-name descname"><span class="pre">filtplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Wavelengths'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Arbitrary</span> <span class="pre">Units'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cocopy.cocoplot.filtplot" title="Permalink to this definition"></a></dt>
+<dd><p>Convolve profile with filters to see result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>line</strong> (<em>array</em>) – 1d profile</p></li>
+<li><p><strong>filter</strong> (<em>array</em>) – filter from cocofilter</p></li>
+<li><p><strong>color</strong> (<em>bool</em>) – If True the color of the profile will have the RGB value
+that the filter would give it. Otherwise profile is black.
+Defealt = True</p></li>
+<li><p><strong>xlabel</strong> (<em>string</em>) – text on xlabel. Default: ‘Wavelengths’</p></li>
+<li><p><strong>ylabel</strong> (<em>string</em>) – text on ylabel. Default: ‘Arbitrary Units’</p></li>
+<li><p><strong>title</strong> (<em>string</em>) – title of plot. Deleault: ‘’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>Image with filters, input profile and convolved results.</em></p></li>
+<li><p><em>Authors:</em> – Updated to Python3, A Pietrow, Okt 2021</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cocopy.cocoplot.norm">
+<span class="sig-prename descclassname"><span class="pre">cocopy.cocoplot.</span></span><span class="sig-name descname"><span class="pre">norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cocopy.cocoplot.norm" title="Permalink to this definition"></a></dt>
+<dd><p>Normalises data to value between 0 and 255.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>array</em>) – datacube of shape [x,y,3], usually the output of the RGB function.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>data_norm</strong> – datacube of shape [x,y,3] normalised to values between 0 and 255</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>RGB array</p>
+</dd>
+<dt class="field-even">Authors</dt>
+<dd class="field-even"><p>Based on coco.pro:coconorm by M.Druett.
+Updated to Python3, A Pietrow, Okt 2021</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cocopy.cocoplot.plot">
+<span class="sig-prename descclassname"><span class="pre">cocopy.cocoplot.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datacube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresmethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'numeric'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cocopy.cocoplot.plot" title="Permalink to this definition"></a></dt>
+<dd><p>Color Convolves a 3D cube with an RGB filter and normalizes.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul>
+<li><p><strong>datacube</strong> (<em>array</em>) – 3D cube of shape [lambda,x,y]</p></li>
+<li><p><strong>filters</strong> (<em>array</em>) – output from filter()</p></li>
+<li><p><strong>threshold</strong> (<em>array</em>) – 2 element array that saturates all values below and above the provided values.</p></li>
+<li><p><strong>thresmethod</strong> (<em>string</em>) – set method of thesholding. Default: ‘numeric’</p>
+<p>numeric  - allows to give a min and max value in counts
+fraction - give threshold value in fractional numbers between 0 and 1.</p>
+</li>
+<li><p><strong>name</strong> (<em>string</em>) – Saves cocoplot to disk if name is set Default: False</p></li>
+<li><p><strong>show</strong> (<em>bool</em>) – Show resulting image. Default: True.</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – path to save image. Default: ‘’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>data_rgb</strong> – 3d cube of size [x,y,3] to make images.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>RGB array</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>import COCOpy as cp
+import numpy as np
+wavelengths = np.arange(40)
+filt = cp.filter(wavelengths, ‘band’, [[2,4], [4,8], [9,9]])
+a = np.random.random([40,100,100])
+coco = cp.plot(a,filt)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Authors</dt>
+<dd class="field-odd"><p>Based on coco.pro:COCOPLOT by M. Druett, Python version by A.G.M. Pietrow
+Updated to Python3, A Pietrow, Okt 2021</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cocopy.cocoplot.video">
+<span class="sig-prename descclassname"><span class="pre">cocopy.cocoplot.</span></span><span class="sig-name descname"><span class="pre">video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datacube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresmethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'numeric'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cocopy.cocoplot.video" title="Permalink to this definition"></a></dt>
+<dd><p>Color Convolves a 4D cube with an RGB filter, normalizes and then makes a video.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul>
+<li><p><strong>datacube</strong> (<em>array</em>) – 4D cube of shape [t,lambda,x,y]</p></li>
+<li><p><strong>filters</strong> (<em>array</em>) – output from filter()</p></li>
+<li><p><strong>fps</strong> (<em>int</em>) – frames per second. Default:3</p></li>
+<li><p><strong>threshold</strong> (<em>array</em>) – 2 element array that saturates all values below and above the provided values.</p></li>
+<li><p><strong>thresmethod</strong> (<em>string</em>) – set method of thesholding. Default: ‘numeric’</p>
+<p>numeric  - allows to give a min and max value in counts
+fraction - give threshold value in fractional numbers between 0 and 1.</p>
+</li>
+<li><p><strong>show</strong> (<em>bool</em>) – Will show animation if True. Default: True</p></li>
+<li><p><strong>name</strong> (<em>string</em>) – Saves plot to disk if name is set Default: False</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – path to save image. Default: ‘’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>data_rgb</strong> (<em>array</em>) – 4d cube of size [t,x,y,3] to make videos.</p></li>
+<li><p><em>Authors:</em> – Based on CRISpy:animate_cube by A.G.M. Pietrow
+Updated to Python3, A Pietrow, Okt 2021</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-cocopy">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cocopy" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="cocopy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Malcolm Druett, Alexander Pietrow, Gregal Vissers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
