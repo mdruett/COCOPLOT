@@ -1,0 +1,28 @@
+
+# https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
+# pip install sphinx 
+
+name: build-doc
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+jobs:
+  build:
+    name: build-doc
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Installing dependencies
+      run: |
+        pip install git+https://github.com/sphinx-doc/sphinx
+        pip install sphinx-rtd-theme Pallets-Sphinx-Themes
+    - name: Build
+      run: bash Python/docs/compile.sh
+      
+    - name: Deploy
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: Python/docs/build/html/
