@@ -1,0 +1,16 @@
+# Temporary files
+*~
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+MANIFEST
+
+# Sphinx documentation
+docs/_build/
