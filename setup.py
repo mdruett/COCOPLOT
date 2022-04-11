@@ -7,13 +7,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-<<<<<<< Updated upstream
-   name             = 'COCOPLOT',
-   version          = '0.1.0',
-=======
    name             = 'COCOPLOTS',
    version          = '1.0.8',
->>>>>>> Stashed changes
    description      = 'COlor COllapsed PLOTting quick-look and context image software',
    long_description=long_description,
    long_description_content_type="text/markdown",

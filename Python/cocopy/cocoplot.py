@@ -94,9 +94,9 @@ def filter(wavelengths, filtername, rgb_pos ='default', plot=False):
     
     elif filtername == 'band':
         if rgb_pos == 'default':
-            print('Applying "band" filter. No positions were given for rgb_pos, assuming default values of R=[{4},{5}], G=[{2},{3}], B=[{0},{1}].'.format(0, int(np.floor(nL//3)), int(np.ceil(nL//3)), int(np.floor(2*nL//3)), int(np.ceil(2*nL//3)), nL))
+            print('Applying "band" filter. No positions were given for rgb_pos, assuming default values of R=[{4},{5}], G=[{2},{3}], B=[{0},{1}].'.format(0, int(np.floor((nL-1)/3.))+1, int(np.ceil((nL-1)/3.)), int(np.floor(2.*(nL-1)/3.))+1, int(np.ceil(2.*(nL-1)/3.)), nL))
             
-            rgb_pos = [[int(np.ceil(2.*nL/3)), nL],[int(np.ceil(nL//3.)), int(np.floor(2.*nL//3))],[0, int(np.floor(nL//3.))]]
+            rgb_pos = [[int(np.ceil(2.*(nL-1)/3.)), nL],[int(np.ceil((nL-1)/3.)), int(np.floor(2.*(nL-1)/3.))+1],[0, int(np.floor((nL-1)/3.))+1]]
         
         if len(rgb_pos) != 3:
             raise ValueError("rgb_pos should have 3 values!")
