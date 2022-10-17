@@ -121,7 +121,7 @@ def filter(wavelengths, filtername, rgb_pos ='default', plot=False):
             mG = (w[-1] + w[0])/2.
             mB = w[0]
             print('Applying "normal" filter. No positions were given for rgb_pos, assuming default values of R=[{0},{1}], G=[{2},{3}], B=[{4},{5}].'.format(mR,sR,mG,sG,mB,sB))
-                
+        else:        
             rgb_pos = [[mR,sR],[mG,sG],[mB,sB]]
             
             if len(rgb_pos) != 3:
