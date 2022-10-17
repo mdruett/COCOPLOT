@@ -120,27 +120,26 @@ def filter(wavelengths, filtername, rgb_pos ='default', plot=False):
             sG /= 2. #B and R are on the edge, so green would get twice the intensity if we don't divide by 2.
             mG = (w[-1] + w[0])/2.
             mB = w[0]
-            print('Applying "normal" filter. No positions were given for rgb_pos, assuming default values of R=[{0},{1}], G=[{2},{3}], B=[{4},{5}].'.format(mR,sR,mG,sG,mB,sB))
-        else:        
+            print('Applying "normal" filter. No positions were given for rgb_pos, assuming default values of R=[{0},{1}], G=[{2},{3}], B=[{4},{5}].'.format(mR,sR,mG,sG,mB,sB))        
             rgb_pos = [[mR,sR],[mG,sG],[mB,sB]]
             
-            if len(rgb_pos) != 3:
-                raise ValueError("rgb_pos should have 3 values!")
-            try:
-                len(rgb_pos[0]) != 2
-            except TypeError:
-                raise TypeError("Check rgb_pos, it should be im the shape of [[a,b],[c,d],[e,f]]")
-        
-            #mean, sigma
-            for i in range(3):
-                std = np.float(rgb_pos[i][1])
-                mn  = np.float(rgb_pos[i][0])
-                c = 1./(std * np.sqrt(2*np.pi))
-                
-                num = np.arange(len(filter[:,0]))
-                num = wavelengths
-                
-                filter[:,i] =   (c*  np.e**(-0.5 * ( ( num - mn)/std )**2 ) )
+        if len(rgb_pos) != 3:
+            raise ValueError("rgb_pos should have 3 values!")
+        try:
+            len(rgb_pos[0]) != 2
+        except TypeError:
+            raise TypeError("Check rgb_pos, it should be im the shape of [[a,b],[c,d],[e,f]]")
+
+        #mean, sigma
+        for i in range(3):
+            std = np.float(rgb_pos[i][1])
+            mn  = np.float(rgb_pos[i][0])
+            c = 1./(std * np.sqrt(2*np.pi))
+
+            num = np.arange(len(filter[:,0]))
+            num = wavelengths
+
+            filter[:,i] =   (c*  np.e**(-0.5 * ( ( num - mn)/std )**2 ) )
 
     else:
         raise ValueError("filtername not recognised. Check help(filter) for available filter types.")
