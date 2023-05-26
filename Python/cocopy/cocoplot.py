@@ -132,8 +132,7 @@ def filter(wavelengths, filtername, rgb_pos ='default', plot=False):
 
         #mean, sigma
         for i in range(3):
-            std = 
-            (rgb_pos[i][1])
+            std = float(rgb_pos[i][1])
             mn  = float(rgb_pos[i][0])
             c = 1./(std * np.sqrt(2*np.pi))
 
