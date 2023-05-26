@@ -8,12 +8,12 @@ with open("README.md", "r") as fh:
 
 setup(
    name             = 'COCOPLOTS',
-   version          = '1.0.8',
+   version          = '1.0.9',
    description      = 'COlor COllapsed PLOTting quick-look and context image software',
    long_description=long_description,
    long_description_content_type="text/markdown",
    author           = 'A.G.M. Pietrow, G.J.M. Vissers, C. Robustini, M.K. Druett',
-   author_email     = 'alex.pietrow@astro.su.se',
+   author_email     = 'apietrow@aip.de',
    classifiers      = [
        # How mature is this project? Common values are
        #   3 - Alpha
