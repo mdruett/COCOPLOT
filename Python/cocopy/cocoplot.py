@@ -214,7 +214,7 @@ def RGB(datacube, filters, threshold=0, thresmethod='percentile'):
             datacube -= pmn
         else:
             raise ValueError("thresmethod not recognised. Should be 'numeric', 'fraction' or 'percentile'.")
-        if data_collapsed.size == 0:
+        if datacube.size == 0:
             raise TypeError("Array empty after thresholding!")
     
 
