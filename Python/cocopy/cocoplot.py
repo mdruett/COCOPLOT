@@ -192,14 +192,6 @@ def RGB(datacube, filters, threshold=0, thresmethod='percentile'):
         raise ValueError("Array must be float")
     ##filters correct len
     
-    
-    #apply filter to cube and collapse cube int x,y,RGB
-    if len(datacube.shape) == 3:
-        data_collapsed = np.tensordot(datacube,filters,axes=(0,0))
-    
-    if len(datacube.shape) == 4:
-        data_collapsed = np.tensordot(datacube,filters,axes=(1,0))
-    
     if threshold:
         try:
             len(threshold) != 2
@@ -207,25 +199,36 @@ def RGB(datacube, filters, threshold=0, thresmethod='percentile'):
             raise TypeError("threshold should be given as a 2 element list. e.g. [0,110]")
         
         if thresmethod == 'numeric':
-            data_collapsed.clip(threshold[0], threshold[1])
+            datacube.clip(threshold[0], threshold[1])
         elif thresmethod == 'fraction':
             mx = np.max(datacube)
             mn = np.min(datacube)
             pmn = mn + threshold[0] * (mx - mn)
             pmx = mn + threshold[1] * (mx -mn)
-            data_collapsed.clip(pmn, pmx)
-            data_collapsed -= pmn
+            datacube.clip(pmn, pmx)
+            datacube -= pmn
         elif thresmethod == 'percentile':
             pmn = np.percentile(datacube,threshold[0])
             pmx = np.percentile(datacube,threshold[1])
-            data_collapsed.clip(pmn, pmx)
-            data_collapsed -= pmn
+            datacube.clip(pmn, pmx)
+            datacube -= pmn
         else:
             raise ValueError("thresmethod not recognised. Should be 'numeric', 'fraction' or 'percentile'.")
         if data_collapsed.size == 0:
             raise TypeError("Array empty after thresholding!")
     
-    return data_collapsed
+
+    
+    
+    #apply filter to cube and collapse cube int x,y,RGB
+    if len(datacube.shape) == 3:
+        data_collapsed = np.tensordot(datacube,filters,axes=(0,0))
+    
+    if len(datacube.shape) == 4:
+        data_collapsed = np.tensordot(datacube,filters,axes=(1,0))
+        
+    return data_collapsed    
+
 
 def norm(data):
     '''
