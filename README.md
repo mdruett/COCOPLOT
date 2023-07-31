@@ -3,6 +3,9 @@ COlor COllapsed PLOTting software (COCOPLOT) generates quick-look and context im
 
 Although applicable to any 3D datacube, this software was inspired by a single thought: what would the Sun look like if we could only see light from one spectral line? In an absorption line, with low emission in the central wavelengths, and high wings on either side, the blue and red cone receptors of our thought experiment would be triggered, making the Sun appear purple. For a strong, narrow emission line the converse is true, and so the line would appear green. A red or blue Doppler-shifted emission would appear in those colours respectively.
 
+## Installation
+The Python package can be installed by running 'pip install git+https://github.com/mdruett/COCOPLOT/'
+
 ## Citing this method
 These routines were developed as part of a publication by
 [M. Druett et al. (2022)](https://ui.adsabs.harvard.edu/abs/2021arXiv211110786D/abstract).
